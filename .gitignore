@@ -1,0 +1,83 @@
+# Node.js
+/node_modules
+/.pnp
+.pnp.js
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# MongoDB
+dump/
+*.seed
+
+# Dependency directories
+client/node_modules/
+server/node_modules/
+
+# Build outputs
+/build
+/dist
+out/
+*.tsbuildinfo
+.cache/
+
+# Production files
+server.js
+package-lock.json
+yarn.lock
+
+# React / Vite
+build/
+public/static/
+.cache/
+*.css.map
+
+# Coverage directory used by testing tools like jest
+coverage/
+*.lcov
+
+# Miscellaneous
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Miscellaneous backup files
+*.bak
+*.tmp
+
+# Deployment directories (if deploying on services like Heroku or Firebase)
+/firebase-debug.log
+/.firebase/
+.husky/_
+
+# Debugger or runtime files
+*.pid
+*.pid.lock
