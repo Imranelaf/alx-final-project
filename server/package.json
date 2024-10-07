@@ -1,0 +1,41 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Backend API for PropertyHub, a property management platform",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Imranelaf/alx-final-project.git"
+  },
+  "keywords": [
+    "property",
+    "management",
+    "real",
+    "estate",
+    "backend",
+    "api",
+    "nodejs",
+    "express",
+    "mongodb",
+    "propertyhub"
+  ],
+  "contributors": [
+    {
+      "name": "Abdessamad HADDOUCHE"
+    },
+    {
+      "name": "Imrane ALI LAFKIH"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Imranelaf/alx-final-project/issues"
+  },
+  "homepage": "https://github.com/Imranelaf/alx-final-project#readme",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
