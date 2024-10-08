@@ -1,11 +1,19 @@
 import express from 'express';
 import connectDB from './config/db.js';
+import applyGlobalMiddleware from './middleware/globalMiddlewares.js';
+import errorHandler from './middleware/errorMiddleware.js';  
 
 // Connect to the database
 connectDB();
 
 // Initialize the app
 const app = express();
+
+// Apply global middlewares (e.g., JSON parsing, CORS)
+applyGlobalMiddleware(app);
+
+// Error handling middleware
+app.use(errorHandler);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
