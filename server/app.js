@@ -2,6 +2,7 @@ import express from 'express';
 import connectDB from './config/db.js';
 import applyGlobalMiddleware from './middleware/globalMiddlewares.js';
 import errorHandler from './middleware/errorMiddleware.js';  
+import initRoutes from './routes/initRoutes.js';
 
 // Connect to the database
 connectDB();
@@ -11,6 +12,9 @@ const app = express();
 
 // Apply global middlewares (e.g., JSON parsing, CORS)
 applyGlobalMiddleware(app);
+
+// Initialize all routes
+initRoutes(app);
 
 // Error handling middleware
 app.use(errorHandler);
