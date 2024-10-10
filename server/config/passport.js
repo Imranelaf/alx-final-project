@@ -1,7 +1,9 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js'; // Import the User model
+import User from '../models/User.js'; 
+import generateUniqueUsername from '../utils/generateUniqueUsername.js'; 
+
 
 passport.use(
   new GoogleStrategy(
@@ -11,31 +13,37 @@ passport.use(
       callbackURL: process.env.GOOGLE_OAUTH_REDIRECT_URI,
     },
     async (accessToken, refreshToken, profile, done) => {
-      const { id, displayName, emails, photos } = profile;
+      const {
+        id,                             // Google user ID
+        name: { givenName: firstName = '', familyName: lastName = '' },
+        emails: [{ value: email = '' } = {}],
+        photos: [{ value: avatar = '' } = {}],
+      } = profile;
 
       try {
-        // Check if the user already exists in the database
         let user = await User.findOne({ googleId: id });
 
         if (!user) {
-          // Create a new user if they don't exist
+          const username = await generateUniqueUsername(firstName, lastName, email);
+
           user = new User({
-            username: displayName,
-            email: emails[0].value,
-            avatar: photos[0].value,
+            firstName,
+            lastName,
+            email,
+            avatar,
             googleId: id,
+            username,
+            isUsernameCustomized: false, // Flag to indicate if the username is auto-generated
           });
           await user.save();
         }
-
-        // Generate JWT token
+        
         const token = jwt.sign(
           { id: user._id, username: user.username, email: user.email },
-          process.env.JWT_SECRET, // Secure secret key from .env
-          { expiresIn: '1h' } // Token expires in 1 hour
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
         );
 
-        // Pass the token to the next middleware
         return done(null, { user, token });
       } catch (error) {
         return done(error, null);
