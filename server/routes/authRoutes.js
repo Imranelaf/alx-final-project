@@ -17,9 +17,7 @@ const router = express.Router();
 // Initiate Google OAuth login
 router.get(
   '/google',
-  passport.authenticate('google', {
-    scope: ['profile', 'email'], // Request user's profile and email from Google
-  })
+  passport.authenticate('google')
 );
 
 // Google OAuth callback URL
@@ -27,16 +25,28 @@ router.get(
   '/google/callback',
   passport.authenticate('google', { session: false, failureRedirect: '/login' }),
   (req, res) => {
-    const token = req.user.token;
+    try {
+      const { token, user } = req.user;
 
-    // Set the token as an HTTP-only cookie (for backend security reasons)
-    res.cookie('token', token, {
-      httpOnly: true, // Prevent access via JavaScript
-      maxAge: 3600000, // 1 hour
-    });
+      if (!user) {
+        // Handle case where user object is undefined
+        console.error('Error: User information not received');
+        res.status(500).json({ message: 'Error processing Google login' });
+        return;
+      }
 
-    // Correcting the URL interpolation issue with proper backticks
-    res.redirect(`http://localhost:5173?token=${token}`); // Redirect to frontend
+      // Set the token as an HTTP-only cookie (for backend security reasons)
+      res.cookie('token', token, {
+        httpOnly: true, // Prevent access via JavaScript
+        maxAge: 3600000, // 1 hour
+      });
+
+      // Correcting the URL interpolation issue with proper backticks
+      res.redirect(`http://localhost:5173?token=${token}`); // Redirect to frontend
+    } catch (error) {
+      console.error('Error during Google OAuth callback:', error);
+      res.status(500).json({ message: 'Error processing Google login' });
+    }
   }
 );
 
@@ -66,7 +76,6 @@ router.post('/register', registerUser); // Controller to handle user registratio
 
 // Logout route (invalidate JWT on client side)
 router.get('/logout', (req, res) => {
-  // Clear the token cookie on logout
   res.clearCookie('token');
   res.json({ message: 'Logged out successfully' });
 });
