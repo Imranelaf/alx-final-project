@@ -3,9 +3,18 @@ import bcrypt from 'bcrypt';
 
 // Create the schema of the database
 const userSchema = new mongoose.Schema({
+    firstName: {
+        type: String,
+        required: true,
+    },
+    lastName: {
+        type: String,
+        required: true,
+    },
     username: {
         type: String,
         required: true,
+        unique: true, // Ensure username is unique
     },
     email: {
         type: String,
@@ -32,9 +41,13 @@ const userSchema = new mongoose.Schema({
     googleId: {
         type: String,
         required: false, // This will store Google user ID for OAuth users
+    },
+    isUsernameCustomized: {
+        type: Boolean,   // Field to indicate if the username was customized by the user
+        default: false,  // Default value is false (automatically generated username)
     }
 }, 
-    { timestamps: true } // Save the date of creation/update
+{ timestamps: true } // Save the date of creation/update
 );
 
 // Hash the password before saving it to the database
