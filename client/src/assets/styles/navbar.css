@@ -1,0 +1,29 @@
+.container{
+    height: fit-content;
+    min-height: 5rem;
+    width: 100%;
+    display: flex;
+    padding: .5rem;
+    background-color: var(--primary-color) ;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.link{
+    text-decoration: none;
+    margin-left: .75rem;
+    width: fit-content;
+    padding: .75rem;
+    border-radius: 5%;
+    color: var(--font-color);
+    
+}
+
+.active{
+    background-color: var(--box--color);
+    color: var(--secodary-color);
+}
+
+.text{
+    margin: 1.75rem;
+}

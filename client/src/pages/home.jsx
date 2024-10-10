@@ -1,13 +1,14 @@
-import React from 'react'
-import Header from '../components/header'
+import React from "react";
+import Navbar from "../components/navbar";
+import Search from "../components/search";
+import Card from "../components/card";
 
-function Home() {
-  return (
-    <>
-    <Header />
-    <div>This is the Home page</div>
-    </>
-  )
+
+
+export default function Home(){
+   return( <>
+    <Navbar />
+    <Search />
+    <Card /> 
+   </>)
 }
-
-export default Home

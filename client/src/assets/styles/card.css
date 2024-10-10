@@ -1,0 +1,47 @@
+.cardsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    margin: 4rem; /* Space between cards */
+    padding: 1rem;
+    gap: 1rem;
+    
+}
+
+.card {
+    background-color: #fff;
+    box-shadow: 1px 1px 1px black;
+    height: fit-content;
+    overflow: hidden;
+}
+
+.setImage {
+    width: 100%;
+    height: 12rem;
+    background-image: url('https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_960_720.jpg');
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.information{
+    margin: 2rem;
+}
+
+.information p{
+    margin: .75rem 0;
+    color: grey;
+}
+.information h3{
+   
+    color: var(--primary-color);
+}
+.information h2{
+    margin: .75rem 0;
+    color: var(--sale-color);
+}
+
+.setImage:hover{
+    
+    transform: scale(1.1);
+}

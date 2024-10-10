@@ -1,0 +1,116 @@
+.about {
+    width: 100%;
+    height: max-content;
+    padding: 2rem;
+    margin: 2rem 0;
+}
+
+.about h1 {
+    text-align: center;
+}
+
+.ourCompany {
+    width: 90%;
+    height: 20rem;
+    display: flex;
+    animation: slideIn 0.8s ease-out forwards;
+    margin: 5% 10% 5% 5%;
+}
+
+.image {
+    height: 20rem;
+    width: 100%;
+}
+
+.info {
+
+    margin-left: 5%;
+}
+
+.info p {
+    margin-top: 2%;
+}
+
+@keyframes slideIn {
+    from {
+        margin-top: 10%;
+    }
+
+    to {
+        margin-top: 5%;
+    }
+}
+
+/*agents cards */
+.agents {
+    margin-top: 5rem;
+
+
+}
+
+.card {
+    border-radius: 5px;
+}
+
+.agent {
+    width: 100%;
+    height: 25rem;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+
+
+}
+
+.agents h2 {
+    text-align: center;
+}
+
+/* frequent questions */
+.Fquestion {
+    width: 80%;
+    height: fit-content;
+    margin: 10%;
+
+}
+
+.question {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin: .75rem 10%;
+    border: 1px solid rgb(15, 12, 12);
+    padding: .75rem;
+
+}
+
+.Qfreq h1 {
+    text-align: center;
+}
+
+.question h4 {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: .5rem;
+}
+
+.question button {
+    border-style: none;
+    padding: .25rem;
+    width: 7rem;
+    cursor: pointer;
+}
+
+/*key frames */
+
+@media (max-width: 820px) {
+    .ourCompany {
+        flex-direction: column;
+
+    }
+
+    .agents {
+        margin-top: 80%;
+    }
+}
