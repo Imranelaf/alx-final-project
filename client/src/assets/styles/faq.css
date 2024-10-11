@@ -14,7 +14,7 @@
 /* FAQ title styling */
 h2 {
     color: #1a73e8;
-    font-size: 36px;
+    font-size: 2rem;
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
@@ -66,4 +66,12 @@ h2 {
     border-radius: 5px;
     font-size: 12px;
     margin-right: 5px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .faq-container {
+        padding: 5%;
+    }
+
 }

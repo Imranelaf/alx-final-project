@@ -10,7 +10,7 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     /* Slightly more rounded for a modern feel */
-    margin: auto;
+    margin: 2% auto;
 }
 
 /* Header */
@@ -131,6 +131,7 @@ h1 {
 @media (max-width: 768px) {
     .register-container {
         max-width: 90%;
+        margin: 5% auto;
     }
 
     h1 {

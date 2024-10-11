@@ -148,6 +148,7 @@
         width: 8rem;
         /* Slightly larger logo for mobile */
         max-height: 3.5rem;
+        margin-right: 1rem;
     }
 
     .profile-menu,
@@ -157,9 +158,14 @@
 
     .right-icons {
         font-size: 1.3rem;
+        size: 2rem;
     }
 
     .profile-button {
         padding: 0.75rem;
+    }
+    .navbar{
+        padding: 1rem 1rem;
+        height: 4.5rem;
     }
 }

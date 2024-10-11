@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import '../assets/styles/faq.css';
+import Navbar from '../components/navbar';
 
 const FAQ = () => {
   const [faqs, setFaqs] = useState([]);
@@ -10,15 +12,11 @@ const FAQ = () => {
   useEffect(() => {
     const fetchFaqs = async () => {
       try {
-        const response = await fetch('/api/faqs');
-        if (!response.ok) {
-          throw new Error("Failed to fetch FAQs");
-        }
-        const data = await response.json();
-        setFaqs(data);
+        const response = await axios.get('/api/faqs');
+        setFaqs(response.data);
         setLoading(false);
       } catch (err) {
-        setError(err.message);
+        setError(err.response?.data?.message || 'Failed to fetch FAQs');
         setLoading(false);
       }
     };
@@ -31,6 +29,8 @@ const FAQ = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="faq-page">
       {/* FAQ Section */}
       <div className="faq-container">
@@ -66,6 +66,7 @@ const FAQ = () => {
         )}
       </div>
     </div>
+    </>
   );
 };
 

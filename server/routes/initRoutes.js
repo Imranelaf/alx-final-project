@@ -14,7 +14,8 @@ const initRoutes = (app) => {
   app.use('/api/transactions', transactionRoutes); // Transaction routes (buy, rent)
   app.use('/api/admin', adminRoutes);           // Admin-specific routes
   app.use('/api/agents', agentRoutes);          // Agent-specific routes
-  app.use('/api/faqs', faqRoutes);              // FAQ routes
+  app.use('/api/faqs', faqRoutes);
+  app.use('/api/agents', );             // FAQ routes
 };
 
 export default initRoutes;

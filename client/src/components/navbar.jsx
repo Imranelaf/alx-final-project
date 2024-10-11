@@ -38,11 +38,13 @@ export default function Navbar() {
 
       {/* Center Logo - Replaced text with image */}
       <div className="logo">
+      <NavLink to="/">
         <img 
           src="https://i.ibb.co/mv6JJbL/Property-Hub-Logo-White.png" 
           alt="PropertyHub Logo" 
           className="logo-img"
         />
+        </NavLink>
       </div>
 
       {/* Right-side Icons */}

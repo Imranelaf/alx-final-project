@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';  // For making API requests
 import '../assets/styles/signup.css';  // Ensure correct path
+import Navbar from '../components/navbar';
 
 const Register = () => {
   // Handle Google login by redirecting the user to the backend
@@ -14,6 +15,8 @@ const Register = () => {
   };
 
   return (
+    <>
+    <Navbar />
     <div className="register-container">
       <h1>Create an Account</h1>
       <form>
@@ -42,6 +45,7 @@ const Register = () => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 

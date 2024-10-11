@@ -1,8 +1,11 @@
 import React from 'react';
 import '../assets/styles/signin.css'; // Ensure the correct path to the styles
+import Navbar from '../components/navbar';
 
 const Login = () => {
   return (
+    <>
+    <Navbar />
     <div className="login-container">
       <h1>Welcome back</h1>
       <form>
@@ -30,6 +33,7 @@ const Login = () => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 
