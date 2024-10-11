@@ -1,0 +1,148 @@
+/* Center the container in the middle of the page */
+.login-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 30px;
+    text-align: center;
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: white;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+    /* Deeper shadow for premium look */
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Add this for vertical and horizontal centering */
+    margin: auto;
+}
+
+/* Header */
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: var(--primary-color);
+    /* Using primary color from your theme */
+    line-height: 1.4;
+}
+
+/* Input Styling */
+.input-email {
+    width: 100%;
+    padding: 15px;
+    margin: 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.input-email:focus {
+    border-color: #76b5c5;
+    /* Blue border on focus */
+}
+
+/* Continue Button */
+.continue-button {
+    width: 100%;
+    padding: 15px;
+    background-color: #76b5c5;
+    /* Blue color for consistency */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.continue-button:hover {
+    background-color: #639ba7;
+    /* Darker shade on hover */
+}
+
+/* Sign Up Link */
+.signup-link {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+.signup-link a {
+    color: var(--primary-color);
+    /* Consistent with primary theme */
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+/* Divider Styling */
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.divider hr {
+    flex: 1;
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.divider span {
+    margin: 0 10px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Social Login Buttons */
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Larger gap for a cleaner look */
+    width: 100%;
+}
+
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.social-button img {
+    width: 20px;
+    height: 20px;
+}
+
+.social-button:hover {
+    background-color: #f1f1f1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-container {
+        max-width: 90%;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .continue-button {
+        padding: 12px;
+    }
+}
