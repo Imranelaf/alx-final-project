@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Flag from 'react-world-flags';
-import '../assets/styles/navbar.css';
-import { FaBars, FaTimes, FaUser, FaGlobe, FaQuestionCircle } from 'react-icons/fa';  // Added FaQuestionCircle
+import '../assets/styles/navbar.css';  // Your existing navbar styles
+import { FaBars, FaTimes, FaUser, FaGlobe, FaQuestionCircle } from 'react-icons/fa';
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -36,8 +36,14 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* Center Logo */}
-      <div className="logo">propertyHUB</div>
+      {/* Center Logo - Replaced text with image */}
+      <div className="logo">
+        <img 
+          src="https://i.ibb.co/mv6JJbL/Property-Hub-Logo-White.png" 
+          alt="PropertyHub Logo" 
+          className="logo-img"
+        />
+      </div>
 
       {/* Right-side Icons */}
       <div className="right-icons">
