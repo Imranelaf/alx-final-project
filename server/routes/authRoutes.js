@@ -1,9 +1,8 @@
 import express from 'express';
-import passport from 'passport'; // Passport only imported here
-import '../config/passport.js';  // Load the Passport strategy configuration here
-
-// Import your authentication controllers (if any)
-import { authenticateUser, registerUser, forgotPassword, resetPassword } from '../controllers/authController.js';
+import passport from 'passport';
+import '../config/passport.js'; // Ensure Passport configuration is loaded
+import { authenticateUser, registerUser, forgotPassword, resetPassword } from '../controllers/localAuthController.js';
+import { googleOAuthSignupCallback, googleOAuthSigninCallback } from '../controllers/googleOAuthController.js';
 import authenticateJWT from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -14,53 +13,26 @@ const router = express.Router();
  * ============================
  */
 
-// Initiate Google OAuth login
+// Google OAuth Sign-Up Route
+router.get('/google/signup', passport.authenticate('google-signup'));
+
+// Google OAuth Sign-In Route
+router.get('/google/signin', passport.authenticate('google-signin'));
+
+// Handle Google OAuth callback for Sign Up
 router.get(
-  '/google',
-  passport.authenticate('google')
+  '/google/signup/callback',
+  passport.authenticate('google-signup', { session: false, failureRedirect: '/signup' }),
+  googleOAuthSignupCallback
 );
 
-// Google OAuth callback URL
+// Handle Google OAuth callback for Sign In
 router.get(
-  '/google/callback',
-  passport.authenticate('google', { session: false, failureRedirect: '/login' }),
-  (req, res) => {
-    try {
-      const { token, user } = req.user;
-
-      if (!user) {
-        // Handle case where user object is undefined
-        console.error('Error: User information not received');
-        res.status(500).json({ message: 'Error processing Google login' });
-        return;
-      }
-
-      // Set the token as an HTTP-only cookie (for backend security reasons)
-      res.cookie('token', token, {
-        httpOnly: true, // Prevent access via JavaScript
-        maxAge: 3600000, // 1 hour
-      });
-
-      // Correcting the URL interpolation issue with proper backticks
-      res.redirect(`http://localhost:5173?token=${token}`); // Redirect to frontend
-    } catch (error) {
-      console.error('Error during Google OAuth callback:', error);
-      res.status(500).json({ message: 'Error processing Google login' });
-    }
-  }
+  '/google/signin/callback',
+  passport.authenticate('google-signin', { session: false, failureRedirect: '/signin' }),
+  googleOAuthSigninCallback
 );
 
-router.get('/google/callback',
-  passport.authenticate('google', { session: false, failureRedirect: '/login' }),
-  (req, res) => {
-    const { token, user } = req.user;
-
-    const frontendURL = process.env.CLIENT_URI || 'http://localhost:5173';
-    
-    // Redirect to frontend with token and user info
-    res.redirect(`${frontendURL}/oauth-callback?token=${token}&userId=${user._id}`);
-  }
-);
 
 /**
  * ============================
@@ -69,10 +41,10 @@ router.get('/google/callback',
  */
 
 // User login with email/password
-router.post('/login', authenticateUser); // Controller to handle email/password login
+router.post('/login', authenticateUser);
 
 // Register a new user (non-OAuth)
-router.post('/register', registerUser); // Controller to handle user registration
+router.post('/register', registerUser);
 
 // Logout route (invalidate JWT on client side)
 router.get('/logout', (req, res) => {
