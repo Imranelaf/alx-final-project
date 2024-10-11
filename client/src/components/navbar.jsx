@@ -74,19 +74,19 @@ export default function Navbar() {
             <Flag code="US" className="flag-icon" /> <span>English</span>
           </div>
           <div className="language-option">
-            <Flag code="MA" className="flag-icon" /> <span>Arabic</span>
+            <Flag code="MA" className="flag-icon" /> <span>العربية</span>
           </div>
           <div className="language-option">
-            <Flag code="FR" className="flag-icon" /> <span>French</span>
+            <Flag code="FR" className="flag-icon" /> <span>Français</span>
           </div>
           <div className="language-option">
-            <Flag code="ES" className="flag-icon" /> <span>Spanish</span>
+            <Flag code="ES" className="flag-icon" /> <span>Español</span>
           </div>
           <div className="language-option">
-            <Flag code="DE" className="flag-icon" /> <span>German</span>
+            <Flag code="DE" className="flag-icon" /> <span>Deutsch</span>
           </div>
           <div className="language-option">
-            <Flag code="BR" className="flag-icon" /> <span>Portuguese</span>
+            <Flag code="BR" className="flag-icon" /> <span>Português</span>
           </div>
         </div>
       )}
