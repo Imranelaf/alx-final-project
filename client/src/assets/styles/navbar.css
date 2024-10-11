@@ -1,29 +1,148 @@
-.container{
-    height: fit-content;
-    min-height: 5rem;
-    width: 100%;
+/* Navbar Container */
+.navbar {
     display: flex;
-    padding: .5rem;
-    background-color: var(--primary-color) ;
-    justify-content: space-around;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #364e68;
+    color: white;
+    position: relative;
+}
+
+/* Hamburger Menu */
+.hamburger-menu {
+    display: flex;
     align-items: center;
 }
 
-.link{
+.icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+/* Logo in the center */
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Right-side icons (Language & Profile) */
+.right-icons {
+    display: flex;
+    align-items: center;
+}
+
+.profile-icon {
+    margin-left: 1rem;
+}
+
+/* Mobile Menu Styling */
+.mobile-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 25%;
+    /* Occupy only 25% of the screen */
+    background-color: #364e68;
+    /* Background same as navbar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+    z-index: 1000;
+}
+
+.menu-link {
+    display: block;
+    padding: 1rem;
+    color: white;
+    text-align: center;
     text-decoration: none;
-    margin-left: .75rem;
-    width: fit-content;
-    padding: .75rem;
-    border-radius: 5%;
-    color: var(--font-color);
-    
+    font-size: 1.2rem;
 }
 
-.active{
-    background-color: var(--box--color);
-    color: var(--secodary-color);
+.menu-link:hover {
+    background-color: #2a3c51;
 }
 
-.text{
-    margin: 1.75rem;
+/* Profile Menu Styling */
+.profile-menu {
+    position: absolute;
+    top: 100%;
+    right: 2rem;
+    background-color: white;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-button {
+    display: block;
+    background-color: #364e68;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+.profile-button:hover {
+    background-color: #2a3c51;
+}
+
+/* Language Menu Styling */
+.language-menu {
+    position: absolute;
+    top: 100%;
+    right: 2rem;
+    background-color: #364e68;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 0;
+    cursor: pointer;
+}
+
+.language-option .flag-icon {
+    width: 24px;
+    /* Adjusted flag size */
+    height: auto;
+    /* Maintain aspect ratio */
+    margin-right: 0.5rem;
+}
+
+.language-option span {
+    margin-left: 0.5rem;
+}
+
+.language-option:hover {
+    background-color: #2a3c51;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .logo {
+        font-size: 1.5rem;
+    }
+
+    .profile-menu,
+    .language-menu {
+        right: 1rem;
+    }
+
+    .right-icons {
+        font-size: 1.2rem;
+    }
+
+    .profile-button {
+        padding: 0.75rem;
+    }
 }
