@@ -1,4 +1,4 @@
-import FAQ from '../models/FAQ.js';
+import FAQ from '../models/Faq.js';
 
 // Get all FAQs Controller
 export const getAllFaqs = async (req, res) => {
