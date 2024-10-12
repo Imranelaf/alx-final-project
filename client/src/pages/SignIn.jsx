@@ -1,32 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';  // Import useNavigate for redirecting
 import '../assets/styles/signin.css';
 import Navbar from '../components/navbar';
 
-const googleSignIn = () => {
-  const [searchParams] = useSearchParams(); // To get query parameters from the URL
-  const navigate = useNavigate(); // To handle redirection after success
-  const [error, setError] = useState(null); // Error state for Google sign-in
-  const [successMessage, setSuccessMessage] = useState(''); // Success message state
-
-  // Handle the response from Google OAuth (success or failure)
-  useEffect(() => {
-    const message = searchParams.get('message');
-
-    // If the user is redirected back after successful Google sign-in
-    if (window.location.pathname === '/signin/success') {
-      setSuccessMessage(message || 'Sign-in successful!');
-    }
-
-    // If the user is redirected back after Google sign-in failure
-    if (window.location.pathname === '/signin/failure') {
-      setError(message || 'Failed to sign in. Please try again.');
-    }
-  }, [searchParams, navigate]);
+const googleOAuthSignIn = () => {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();  // Initialize navigate for redirection
 
   // Handle Google OAuth login redirection
   const redirectToGoogleSignin = () => {
     window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google/signin`;
+  };
+
+  const handleEmailSignIn = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      // Placeholder API call for email sign-in (replace with your API call)
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        { email },
+        { withCredentials: true }
+      );
+
+      // On successful sign-in, redirect to the success page
+      if (response.data.success) {
+        navigate('/signin/success');  // Redirect to SignIn Success page
+      }
+    } catch (err) {
+      // Redirect to the failure page and pass the error message as a query param
+      const errorMessage = err.response?.data?.message || 'Something went wrong. Please try again.';
+      navigate(`/signin/failure?message=${encodeURIComponent(errorMessage)}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -35,10 +44,19 @@ const googleSignIn = () => {
       <div className="login-container">
         <h1>Welcome back</h1>
 
-        {/* Sign-in using email (keep this unchanged) */}
-        <form>
-          <input type="email" placeholder="Email address*" required className="input-email" />
-          <button type="submit" className="continue-button">Continue</button>
+        {/* Sign-in using email */}
+        <form onSubmit={handleEmailSignIn}>
+          <input
+            type="email"
+            placeholder="Email address*"
+            required
+            className="input-email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <button type="submit" className="continue-button" disabled={loading}>
+            {loading ? 'Signing in...' : 'Continue'}
+          </button>
         </form>
 
         <p className="signup-link">
@@ -49,12 +67,8 @@ const googleSignIn = () => {
           <hr /> <span>OR</span> <hr />
         </div>
 
-        {/* Display success or error messages for Google sign-in */}
-        {successMessage && <p className="success-message">{successMessage}</p>}
-        {error && <p className="error-message">{error}</p>}
-
+        {/* Google OAuth sign-in */}
         <div className="social-login">
-          {/* Google OAuth sign-in */}
           <button className="social-button google" onClick={redirectToGoogleSignin}>
             <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo" />
             Continue with Google
@@ -76,5 +90,5 @@ const googleSignIn = () => {
   );
 };
 
-export default googleSignIn;
+export default googleOAuthSignIn;
 

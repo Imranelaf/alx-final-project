@@ -5,10 +5,7 @@ import Home from "./pages/Home";
 import FAQ from "./pages/FAQ";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
-import SignupSuccess from "./pages/SignupSuccess";
-import SignupFailure from "./pages/SignupFailure";
-import SignInSuccess from "./pages/SignInSuccess";
-import SignInFailure from "./pages/SignInFailure";
+import { AuthSuccess, AuthFailure } from "./pages/AuthStatus";
 
 function App() {
   return (
@@ -16,11 +13,11 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/faq" element={<FAQ />} />
       <Route path="/signup" element={<SignUp />} />
-      <Route path="/signup/success" element={<SignupSuccess />} />
-      <Route path="/signup/failure" element={<SignupFailure />} />
+      <Route path="/signup/success" element={<AuthSuccess type="SignUp" />} /> {/* Centralized */}
+      <Route path="/signup/failure" element={<AuthFailure type="SignUp" />} /> {/* Centralized */}
       <Route path="/signin" element={<SignIn />} />
-      <Route path="/signin/success" element={<SignInSuccess />} />
-      <Route path="/signin/failure" element={<SignInFailure />} />
+      <Route path="/signin/success" element={<AuthSuccess type="SignIn" />} /> {/* Centralized */}
+      <Route path="/signin/failure" element={<AuthFailure type="SignIn" />} /> {/* Centralized */}
     </Routes>
   );
 }
