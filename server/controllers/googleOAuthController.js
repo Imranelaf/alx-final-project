@@ -8,15 +8,17 @@ export const googleOAuthSignupCallback = async (req, res) => {
     const userProfile = req.user;
 
     if (!userProfile) {
-      // Redirect to frontend with error message
-      return res.redirect(`${process.env.CLIENT_URI}/signup/failure?message=Google%20OAuth%20failed`);
+      // Encode the message before redirecting
+      const errorMessage = encodeURIComponent('Google OAuth failed');
+      return res.redirect(`${process.env.CLIENT_URI}/signup/failure?message=${errorMessage}`);
     }
 
     // Check if the user already exists
     const existingUser = await User.findOne({ googleId: userProfile.googleId });
     if (existingUser) {
-      // Redirect to frontend with error message
-      return res.redirect(`${process.env.CLIENT_URI}/signup/failure?message=User%20already%20exists`);
+      // Encode the message before redirecting
+      const errorMessage = encodeURIComponent('User already exists, please sign in');
+      return res.redirect(`${process.env.CLIENT_URI}/signin?message=${errorMessage}`);
     }
 
     // Create a new user in the database
@@ -36,11 +38,13 @@ export const googleOAuthSignupCallback = async (req, res) => {
     setTokenCookie(res, token);
 
     // Redirect to frontend with success message
-    return res.redirect(`${process.env.CLIENT_URI}/signup/success`);
+    const successMessage = encodeURIComponent('Signup successful');
+    return res.redirect(`${process.env.CLIENT_URI}/signup/success?message=${successMessage}`);
   } catch (error) {
     console.error('Error during Google OAuth sign-up callback:', error);
-    // Redirect to frontend with error message
-    return res.redirect(`${process.env.CLIENT_URI}/signup/failure?message=Error%20processing%20signup`);
+    // Encode the message before redirecting
+    const errorMessage = encodeURIComponent('Error processing signup');
+    return res.redirect(`${process.env.CLIENT_URI}/signup/failure?message=${errorMessage}`);
   }
 };
 
@@ -50,15 +54,17 @@ export const googleOAuthSigninCallback = async (req, res) => {
     const userProfile = req.user;
 
     if (!userProfile) {
-      // Redirect to frontend with error message
-      return res.redirect(`${process.env.CLIENT_URI}/signin/failure?message=Google%20OAuth%20failed`);
+      // Encode the message before redirecting
+      const errorMessage = encodeURIComponent('Google OAuth failed');
+      return res.redirect(`${process.env.CLIENT_URI}/signin/failure?message=${errorMessage}`);
     }
 
     // Check if the user exists in the database
     const existingUser = await User.findOne({ googleId: userProfile.googleId });
     if (!existingUser) {
-      // Redirect to frontend with error message
-      return res.redirect(`${process.env.CLIENT_URI}/signin/failure?message=User%20not%20found`);
+      // Encode the message before redirecting
+      const errorMessage = encodeURIComponent('User not found, please sign up');
+      return res.redirect(`${process.env.CLIENT_URI}/signup/failure?message=${errorMessage}`);
     }
 
     // Generate JWT token for the existing user and set it as a cookie
@@ -66,10 +72,12 @@ export const googleOAuthSigninCallback = async (req, res) => {
     setTokenCookie(res, token);
 
     // Redirect to frontend with success message
-    return res.redirect(`${process.env.CLIENT_URI}/signin/success`);
+    const successMessage = encodeURIComponent('Signin successful');
+    return res.redirect(`${process.env.CLIENT_URI}/signin/success?message=${successMessage}`);
   } catch (error) {
     console.error('Error during Google OAuth sign-in callback:', error);
-    // Redirect to frontend with error message
-    return res.redirect(`${process.env.CLIENT_URI}/signin/failure?message=Error%20processing%20signin`);
+    // Encode the message before redirecting
+    const errorMessage = encodeURIComponent('Error processing signin');
+    return res.redirect(`${process.env.CLIENT_URI}/signin/failure?message=${errorMessage}`);
   }
 };
