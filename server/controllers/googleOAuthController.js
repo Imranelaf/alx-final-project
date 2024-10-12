@@ -16,9 +16,9 @@ export const googleOAuthSignupCallback = async (req, res) => {
     // Check if the user already exists
     const existingUser = await User.findOne({ googleId: userProfile.googleId });
     if (existingUser) {
-      // Encode the message before redirecting
+      // Redirect to the signup failure page with a message
       const errorMessage = encodeURIComponent('User already exists, please sign in');
-      return res.redirect(`${process.env.CLIENT_URI}/signin?message=${errorMessage}`);
+      return res.redirect(`${process.env.CLIENT_URI}/signup/failure?message=${errorMessage}`);
     }
 
     // Create a new user in the database
