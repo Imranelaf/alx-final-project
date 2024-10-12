@@ -5,11 +5,9 @@
     padding: 30px;
     text-align: center;
     font-family: 'Nunito Sans', sans-serif;
-    /* Matching your website's font */
     background-color: white;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    /* Slightly more rounded for a modern feel */
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
     margin: 2% auto;
 }
 
@@ -19,38 +17,48 @@ h1 {
     margin-bottom: 20px;
     font-weight: 600;
     color: var(--primary-color);
-    /* Using primary color from your theme */
     line-height: 1.4;
 }
 
-/* Input Styling */
-.input-email {
+/* Input Styling - Email and Password with consistent space */
+.input-email,
+.input-password {
     width: 100%;
-    padding: 15px;
-    margin: 15px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 14px;
+    margin-bottom: 12px;
+    /* Reduced margin for tighter spacing */
+    border: 1px solid #d1d1d1;
+    border-radius: 6px;
     font-size: 1rem;
     outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Focus effect for inputs */
+.input-email:focus,
+.input-password:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(54, 78, 104, 0.2);
 }
 
 /* Continue Button */
 .continue-button {
     width: 100%;
-    padding: 15px;
+    padding: 14px;
     background-color: #76b5c5;
-    /* New blue color */
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 12px;
+    /* Same as the margin between "OR" and Google button */
 }
 
 .continue-button:hover {
     background-color: #639ba7;
-    /* Slightly darker blue on hover */
+    box-shadow: 0px 4px 8px rgba(99, 155, 167, 0.2);
 }
 
 /* Login Link */
@@ -61,7 +69,6 @@ h1 {
 
 .login-link a {
     color: var(--primary-color);
-    /* Matching your site's primary color */
     text-decoration: none;
 }
 
@@ -94,7 +101,8 @@ h1 {
 .social-login {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
+    /* Adjusted gap to match the form's spacing */
 }
 
 .social-button {
@@ -104,11 +112,11 @@ h1 {
     gap: 10px;
     padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 6px;
     background-color: white;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .social-button img {
@@ -118,13 +126,7 @@ h1 {
 
 .social-button:hover {
     background-color: #f1f1f1;
-}
-
-/* Adjusting for Google, Microsoft, and Apple buttons */
-.google,
-.microsoft,
-.apple {
-    border-color: #ccc;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive Design */

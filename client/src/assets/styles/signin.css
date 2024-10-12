@@ -1,4 +1,4 @@
-/* Center the container in the middle of the page */
+/* Sign In Form Container */
 .login-container {
     max-width: 400px;
     width: 100%;
@@ -6,14 +6,8 @@
     text-align: center;
     font-family: 'Nunito Sans', sans-serif;
     background-color: white;
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
-    /* Deeper shadow for premium look */
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* Add this for vertical and horizontal centering */
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
     margin: 2% auto;
 }
 
@@ -23,44 +17,48 @@ h1 {
     margin-bottom: 20px;
     font-weight: 600;
     color: var(--primary-color);
-    /* Using primary color from your theme */
     line-height: 1.4;
 }
 
-/* Input Styling */
-.input-email {
+/* Input Styling - Email and Password with consistent space */
+.input-email,
+.input-password {
     width: 100%;
-    padding: 15px;
-    margin: 15px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    padding: 14px;
+    margin-bottom: 12px;
+    /* Same consistent spacing */
+    border: 1px solid #d1d1d1;
+    border-radius: 6px;
     font-size: 1rem;
     outline: none;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.input-email:focus {
-    border-color: #76b5c5;
-    /* Blue border on focus */
+/* Focus effect for inputs */
+.input-email:focus,
+.input-password:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(54, 78, 104, 0.2);
 }
 
 /* Continue Button */
 .continue-button {
     width: 100%;
-    padding: 15px;
+    padding: 14px;
     background-color: #76b5c5;
-    /* Blue color for consistency */
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 12px;
+    /* Consistent margin as in Sign Up */
 }
 
 .continue-button:hover {
     background-color: #639ba7;
-    /* Darker shade on hover */
+    box-shadow: 0px 4px 8px rgba(99, 155, 167, 0.2);
 }
 
 /* Sign Up Link */
@@ -71,7 +69,6 @@ h1 {
 
 .signup-link a {
     color: var(--primary-color);
-    /* Consistent with primary theme */
     text-decoration: none;
 }
 
@@ -104,9 +101,8 @@ h1 {
 .social-login {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    /* Larger gap for a cleaner look */
-    width: 100%;
+    gap: 12px;
+    /* Consistent gap */
 }
 
 .social-button {
@@ -116,11 +112,11 @@ h1 {
     gap: 10px;
     padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 6px;
     background-color: white;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .social-button img {
@@ -130,6 +126,7 @@ h1 {
 
 .social-button:hover {
     background-color: #f1f1f1;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive Design */
