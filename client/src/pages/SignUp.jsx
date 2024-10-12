@@ -3,18 +3,18 @@ import axios from 'axios';
 import '../assets/styles/signup.css';
 import Navbar from '../components/navbar';
 
-const GoogleSignUp = () => {
+const googleOAuthSignUp = () => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
-  const handleGoogleLogin = () => {
+  const redirectToGoogleSignup = () => {
     // Redirect to Google OAuth route in the backend
     window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google/signup`;
   };
 
-  const handleEmailSignup = async (e) => {
+  const handleGoogleSignUp = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -44,7 +44,7 @@ const GoogleSignUp = () => {
         {error && <p className="error-message">{error}</p>} {/* Display error if any */}
         {successMessage && <p className="success-message">{successMessage}</p>} {/* Display success message */}
 
-        <form onSubmit={handleEmailSignup}>
+        <form onSubmit={handleGoogleSignUp}>
           <input
             type="email"
             placeholder="Email Address*"
@@ -68,7 +68,7 @@ const GoogleSignUp = () => {
 
         <div className="social-login">
           {/* Google OAuth signup */}
-          <button className="social-button google" onClick={handleGoogleLogin}>
+          <button className="social-button google" onClick={redirectToGoogleSignup}>
             <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo" />
             Continue with Google
           </button>
@@ -88,5 +88,5 @@ const GoogleSignUp = () => {
   );
 };
 
-export default GoogleSignUp;
+export default googleOAuthSignUp;
 
