@@ -1,36 +1,36 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // Import useNavigate for redirecting
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';  // Don't forget to import axios if you're making API requests.
 import '../assets/styles/signin.css';
 import Navbar from '../components/navbar';
 
-const googleOAuthSignIn = () => {
+const SignIn = () => {
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');  // State for password
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();  // Initialize navigate for redirection
+  const navigate = useNavigate();
 
   // Handle Google OAuth login redirection
   const redirectToGoogleSignin = () => {
     window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google/signin`;
   };
 
+  // Handle Email and Password Sign-In
   const handleEmailSignIn = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // Placeholder API call for email sign-in (replace with your API call)
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/login`,
-        { email },
+        { email, password },  // Pass email and password
         { withCredentials: true }
       );
 
-      // On successful sign-in, redirect to the success page
       if (response.data.success) {
-        navigate('/signin/success');  // Redirect to SignIn Success page
+        navigate('/signin/success');  // Redirect on success
       }
     } catch (err) {
-      // Redirect to the failure page and pass the error message as a query param
       const errorMessage = err.response?.data?.message || 'Something went wrong. Please try again.';
       navigate(`/signin/failure?message=${encodeURIComponent(errorMessage)}`);
     } finally {
@@ -44,7 +44,7 @@ const googleOAuthSignIn = () => {
       <div className="login-container">
         <h1>Welcome back</h1>
 
-        {/* Sign-in using email */}
+        {/* Sign-in using email and password */}
         <form onSubmit={handleEmailSignIn}>
           <input
             type="email"
@@ -53,6 +53,14 @@ const googleOAuthSignIn = () => {
             className="input-email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password*"
+            required
+            className="input-password"  // New input for password
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <button type="submit" className="continue-button" disabled={loading}>
             {loading ? 'Signing in...' : 'Continue'}
@@ -90,5 +98,5 @@ const googleOAuthSignIn = () => {
   );
 };
 
-export default googleOAuthSignIn;
+export default SignIn;
 
