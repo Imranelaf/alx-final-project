@@ -1,6 +1,5 @@
-// routes/faqRoutes.js
 import express from 'express';
-import { getAllFaqs, createFaq, updateFaq, deleteFaq } from '../controllers/faqController.js';
+import { getAllFaqs, createFaq, updateFaq, deleteFaq } from '../controllers/faq/faqController.js';
 
 const router = express.Router();
 

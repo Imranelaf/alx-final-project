@@ -12,7 +12,7 @@ export const generateJWT = (user) => {
 
 // Helper function to set the JWT token as a cookie
 export const setTokenCookie = (res, token) => {
-  res.cookie('token', token, {
+  res.cookie('propertyHubAuthToken', token, {
     httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
     secure: false, // Set to true if served over HTTPS
     maxAge: 3600000, // 1 hour expiration
