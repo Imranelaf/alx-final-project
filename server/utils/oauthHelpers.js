@@ -13,23 +13,9 @@ export const generateJWT = (user) => {
 // Helper function to set the JWT token as a cookie
 export const setTokenCookie = (res, token) => {
   res.cookie('token', token, {
-    httpOnly: true,
-    secure: false,
+    httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
+    secure: false, // Set to true if served over HTTPS
     maxAge: 3600000, // 1 hour expiration
-    sameSite: 'strict',
-  });
-};
-
-// Helper function to send user data as JSON response
-export const sendUserResponse = (res, user, message, statusCode = 200) => {
-  res.status(statusCode).json({
-    success: true,
-    message,
-    user: {
-      id: user._id,
-      username: user.username,
-      email: user.email,
-      avatar: user.avatar,
-    },
+    sameSite: 'strict', // Ensures cookies are only sent in first-party contexts
   });
 };

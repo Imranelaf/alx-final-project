@@ -1,7 +1,6 @@
-// controllers/googleOAuthController.js
 import User from '../models/User.js';
 import generateUniqueUsername from '../utils/generateUniqueUsername.js';
-import { generateJWT, setTokenCookie, sendUserResponse } from '../utils/oauthHelpers.js';
+import { generateJWT, setTokenCookie } from '../utils/oauthHelpers.js';
 
 // Google OAuth Sign-Up Callback
 export const googleOAuthSignupCallback = async (req, res) => {
@@ -9,13 +8,17 @@ export const googleOAuthSignupCallback = async (req, res) => {
     const userProfile = req.user;
 
     if (!userProfile) {
-      return res.status(500).json({ message: 'Google OAuth failed. No user info received.' });
+      // Encode the message before redirecting
+      const errorMessage = encodeURIComponent('Google OAuth failed');
+      return res.redirect(`${process.env.CLIENT_URI}/signup/failure?message=${errorMessage}`);
     }
 
     // Check if the user already exists
     const existingUser = await User.findOne({ googleId: userProfile.googleId });
     if (existingUser) {
-      return res.status(400).json({ message: 'User already exists. Please sign in.' });
+      // Encode the message before redirecting
+      const errorMessage = encodeURIComponent('User already exists, please sign in');
+      return res.redirect(`${process.env.CLIENT_URI}/signin?message=${errorMessage}`);
     }
 
     // Create a new user in the database
@@ -34,11 +37,14 @@ export const googleOAuthSignupCallback = async (req, res) => {
     const token = generateJWT(newUser);
     setTokenCookie(res, token);
 
-    // Send user response
-    sendUserResponse(res, newUser, 'Signup successful', 201);
+    // Redirect to frontend with success message
+    const successMessage = encodeURIComponent('Signup successful');
+    return res.redirect(`${process.env.CLIENT_URI}/signup/success?message=${successMessage}`);
   } catch (error) {
     console.error('Error during Google OAuth sign-up callback:', error);
-    res.status(500).json({ message: 'Error processing Google OAuth sign-up' });
+    // Encode the message before redirecting
+    const errorMessage = encodeURIComponent('Error processing signup');
+    return res.redirect(`${process.env.CLIENT_URI}/signup/failure?message=${errorMessage}`);
   }
 };
 
@@ -48,23 +54,30 @@ export const googleOAuthSigninCallback = async (req, res) => {
     const userProfile = req.user;
 
     if (!userProfile) {
-      return res.status(500).json({ message: 'Google OAuth failed. No user info received.' });
+      // Encode the message before redirecting
+      const errorMessage = encodeURIComponent('Google OAuth failed');
+      return res.redirect(`${process.env.CLIENT_URI}/signin/failure?message=${errorMessage}`);
     }
 
     // Check if the user exists in the database
     const existingUser = await User.findOne({ googleId: userProfile.googleId });
     if (!existingUser) {
-      return res.status(401).json({ message: 'User not found. Please sign up first.' });
+      // Encode the message before redirecting
+      const errorMessage = encodeURIComponent('User not found, please sign up');
+      return res.redirect(`${process.env.CLIENT_URI}/signup/failure?message=${errorMessage}`);
     }
 
     // Generate JWT token for the existing user and set it as a cookie
     const token = generateJWT(existingUser);
     setTokenCookie(res, token);
 
-    // Send user response
-    sendUserResponse(res, existingUser, 'Signin successful');
+    // Redirect to frontend with success message
+    const successMessage = encodeURIComponent('Signin successful');
+    return res.redirect(`${process.env.CLIENT_URI}/signin/success?message=${successMessage}`);
   } catch (error) {
     console.error('Error during Google OAuth sign-in callback:', error);
-    res.status(500).json({ message: 'Error processing Google OAuth sign-in' });
+    // Encode the message before redirecting
+    const errorMessage = encodeURIComponent('Error processing signin');
+    return res.redirect(`${process.env.CLIENT_URI}/signin/failure?message=${errorMessage}`);
   }
 };

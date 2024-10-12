@@ -20,16 +20,17 @@ router.get('/google/signup', passport.authenticate('google-signup'));
 router.get('/google/signin', passport.authenticate('google-signin'));
 
 // Handle Google OAuth callback for Sign Up
+// Handle Google OAuth callback for Sign Up
 router.get(
   '/google/signup/callback',
-  passport.authenticate('google-signup', { session: false, failureRedirect: '/signup' }),
+  passport.authenticate('google-signup', { session: false, failureRedirect: `${process.env.CLIENT_URI}/signup` }),
   googleOAuthSignupCallback
 );
 
 // Handle Google OAuth callback for Sign In
 router.get(
   '/google/signin/callback',
-  passport.authenticate('google-signin', { session: false, failureRedirect: '/signin' }),
+  passport.authenticate('google-signin', { session: false, failureRedirect: `${process.env.CLIENT_URI}/signin` }),
   googleOAuthSigninCallback
 );
 
