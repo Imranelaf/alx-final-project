@@ -7,6 +7,8 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import SignupSuccess from "./pages/SignupSuccess";
 import SignupFailure from "./pages/SignupFailure";
+import SignInSuccess from "./pages/SignInSuccess";
+import SignInFailure from "./pages/SignInFailure";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
       <Route path="/signup/success" element={<SignupSuccess />} />
       <Route path="/signup/failure" element={<SignupFailure />} />
       <Route path="/signin" element={<SignIn />} />
+      <Route path="/signin/success" element={<SignInSuccess />} />
+      <Route path="/signin/failure" element={<SignInFailure />} />
     </Routes>
   );
 }

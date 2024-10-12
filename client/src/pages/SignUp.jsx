@@ -9,7 +9,7 @@ const googleOAuthSignUp = () => {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
-  const redirectToGoogleSignup = () => {
+  const redirectToGoogleSignUp = () => {
     // Redirect to Google OAuth route in the backend
     window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google/signup`;
   };
@@ -68,7 +68,7 @@ const googleOAuthSignUp = () => {
 
         <div className="social-login">
           {/* Google OAuth signup */}
-          <button className="social-button google" onClick={redirectToGoogleSignup}>
+          <button className="social-button google" onClick={redirectToGoogleSignUp}>
             <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo" />
             Continue with Google
           </button>
