@@ -1,6 +1,6 @@
-import User from '../models/User.js';
-import generateUniqueUsername from '../utils/generateUniqueUsername.js';
-import { generateJWT, setTokenCookie } from '../utils/oauthHelpers.js';
+import User from '../../models/User.js';
+import generateUniqueUsername from '../../utils/generateUniqueUsername.js';
+import { generateJWT, setTokenCookie } from '../../utils/authHelpers.js';
 
 // Google OAuth Sign-Up Callback
 export const googleOAuthSignupCallback = async (req, res) => {
