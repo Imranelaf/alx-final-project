@@ -1,36 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../assets/styles/signup.css';
 import Navbar from '../components/navbar';
 
-const GoogleSignUp = () => {
+const googleOAuthSignUp = () => {
   const [email, setEmail] = useState('');
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
+  const [searchParams] = useSearchParams();  // To read the query parameters
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
-  const handleGoogleLogin = () => {
-    // Redirect to Google OAuth route in the backend
+  useEffect(() => {
+    // Check if the backend has redirected with an error message
+    const message = searchParams.get('message');
+    if (message) {
+      setErrorMessage(message);  // Set the error message in the state
+    }
+  }, [searchParams]);
+
+  const redirectToGoogleSignUp = () => {
     window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/google/signup`;
   };
 
-  const handleEmailSignup = async (e) => {
+  const handleGoogleSignUp = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
-  
+
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/auth/google/signup`,
         { email },
         { withCredentials: true }
       );
-  
+
+      // If signup is successful, redirect to the success page
       if (response.data.success) {
-        setSuccessMessage('Signup successful! Redirecting...');
+        navigate('/signup/success');  // Redirect to Signup Success page
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong. Please try again.');
+      const errorMessage = err.response?.data?.message || 'Something went wrong. Please try again.';
+      
+      // Check if the error is "User already exists" and redirect
+      if (errorMessage === 'User already exists, please sign in') {
+        navigate(`/signin?message=${encodeURIComponent(errorMessage)}`);
+      } else {
+        navigate(`/signup/failure?message=${encodeURIComponent(errorMessage)}`);
+      }
     } finally {
       setLoading(false);
     }
@@ -41,10 +57,11 @@ const GoogleSignUp = () => {
       <Navbar />
       <div className="register-container">
         <h1>Create an Account</h1>
-        {error && <p className="error-message">{error}</p>} {/* Display error if any */}
-        {successMessage && <p className="success-message">{successMessage}</p>} {/* Display success message */}
 
-        <form onSubmit={handleEmailSignup}>
+        {/* Show the error message (if exists) */}
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+
+        <form onSubmit={handleGoogleSignUp}>
           <input
             type="email"
             placeholder="Email Address*"
@@ -67,8 +84,7 @@ const GoogleSignUp = () => {
         </div>
 
         <div className="social-login">
-          {/* Google OAuth signup */}
-          <button className="social-button google" onClick={handleGoogleLogin}>
+          <button className="social-button google" onClick={redirectToGoogleSignUp}>
             <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo" />
             Continue with Google
           </button>
@@ -88,5 +104,5 @@ const GoogleSignUp = () => {
   );
 };
 
-export default GoogleSignUp;
+export default googleOAuthSignUp;
 

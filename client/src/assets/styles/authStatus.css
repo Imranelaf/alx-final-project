@@ -1,3 +1,4 @@
+.success-container,
 .error-container {
     display: flex;
     flex-direction: column;
@@ -10,13 +11,23 @@
     box-sizing: border-box;
 }
 
+.success-icon,
 .error-icon {
     font-size: 4rem;
-    color: #ff4d4d;
     margin-bottom: 1.5rem;
+}
+
+.success-icon {
+    color: #4BB543;
+    animation: popIn 0.5s ease-in-out;
+}
+
+.error-icon {
+    color: #ff4d4d;
     animation: shake 0.5s ease-in-out;
 }
 
+.success-title,
 .error-title {
     font-size: 2.5rem;
     color: #333;
@@ -25,21 +36,28 @@
     font-family: 'Poppins', sans-serif;
 }
 
-.error-message {
+.error-message,
+.redirect-message {
     font-size: 1.2rem;
     color: #666;
-    margin-bottom: 2rem;
     line-height: 1.6;
     font-family: 'Nunito Sans', sans-serif;
 }
 
-.redirect-message {
-    font-size: 1rem;
-    color: #888;
-    font-family: 'Nunito Sans', sans-serif;
+/* Success animation */
+@keyframes popIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
-/* Animation for error icon */
+/* Error animation */
 @keyframes shake {
     0% {
         transform: translate(0, 0);
@@ -62,17 +80,23 @@
     }
 }
 
-/* Responsive design */
+/* Responsive styles */
 @media (max-width: 768px) {
+
+    .success-container,
+    .error-container {
+        padding: 30px;
+        /* More padding on mobile to avoid cramped look */
+    }
+
+    .success-title,
     .error-title {
         font-size: 2rem;
     }
 
+    .redirect-message,
     .error-message {
-        font-size: 1rem;
-    }
-
-    .redirect-message {
         font-size: 0.9rem;
+        /* Slightly smaller font for better readability */
     }
 }
