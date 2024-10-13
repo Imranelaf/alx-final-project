@@ -18,7 +18,6 @@ import {
   // verifyToken
 } from '../controllers/auth/localAuthController.js';
 import { validateSignUpFields } from '../middleware/validation/signupValidation.js';
-import { handleValidationErrors } from '../middleware/validation/handleValidationErrors.js';
 
 import authenticateJWT from '../middleware/auth/authMiddleware.js';
 
@@ -57,13 +56,13 @@ router.get(
  */
 
 // Sign-up route with validation
-router.post('/signup', validateSignUpFields, handleValidationErrors, signupUser);
+router.post('/signup', validateSignUpFields, signupUser);
 
 // Check if username is available (with validation middleware)
-router.get('/check-username/:username', handleValidationErrors, checkUsername);
+router.get('/check-username/:username', checkUsername);
 
 // Check if email is already registered (with validation middleware)
-router.get('/check-email/:email', handleValidationErrors, checkEmail);
+router.get('/check-email/:email', checkEmail);
 
 // User login with email and password (Local Authentication)
 router.post('/signin', (req, res, next) => {
