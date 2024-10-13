@@ -27,6 +27,19 @@ const SignUpForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
+  // Clear the error message on input change
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+    setUsernameError('');  // Clear error when user types
+    setUsernameStatus(null); // Reset status when user types
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setEmailError('');  // Clear error when user types
+    setEmailStatus(null); // Reset status when user types
+  };
+
   // Handle validation for email
   const handleEmailBlur = () =>
     validateField('email', email, setEmailLoading, setEmailStatus, setEmailError, checkEmailAvailability);
@@ -85,14 +98,14 @@ const SignUpForm = () => {
           type="text"
           placeholder="Username*"
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          onBlur={handleUsernameBlur} // Trigger validation on blur
-          status={usernameStatus}     // 'valid' or 'invalid'
-          loading={usernameLoading}    // Show loading icon while checking
+          onChange={handleUsernameChange}  // Handle username change to clear errors
+          onBlur={handleUsernameBlur}      // Trigger validation on blur
+          status={usernameStatus}          // 'valid' or 'invalid'
+          loading={usernameLoading}        // Show loading icon while checking
         />
         {/* Error message when username is invalid */}
         {!usernameLoading && usernameStatus === 'invalid' && (
-          <p className="error-message">{usernameError}</p>
+          <p className="error-message">{usernameError}</p>  // Show only if username is invalid
         )}
 
         {/* Email Input Field with validation */}
@@ -100,14 +113,14 @@ const SignUpForm = () => {
           type="email"
           placeholder="Email Address*"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onBlur={handleEmailBlur} // Trigger validation on blur
-          status={emailStatus}     // 'valid' or 'invalid'
-          loading={emailLoading}    // Show loading icon while checking
+          onChange={handleEmailChange}     // Handle email change to clear errors
+          onBlur={handleEmailBlur}         // Trigger validation on blur
+          status={emailStatus}             // 'valid' or 'invalid'
+          loading={emailLoading}           // Show loading icon while checking
         />
         {/* Error message when email is invalid */}
         {!emailLoading && emailStatus === 'invalid' && (
-          <p className="error-message">{emailError}</p>
+          <p className="error-message">{emailError}</p>  // Show only if email is invalid
         )}
 
         {/* Password Input */}
