@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';  // Don't forget to import axios if you're making API requests.
+import { loginUser } from '../services/authServices';  // Import the login function from authServices
 import '../assets/styles/signin.css';
 import Navbar from '../components/navbar';
 
@@ -21,11 +21,8 @@ const SignIn = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/auth/login`,
-        { email, password },  // Pass email and password
-        { withCredentials: true }
-      );
+      // Call loginUser function from authServices
+      const response = await loginUser({ email, password });
 
       if (response.data.success) {
         navigate('/signin/success');  // Redirect on success
@@ -100,3 +97,4 @@ const SignIn = () => {
 
 export default SignIn;
 
+// Integrated SignIn
