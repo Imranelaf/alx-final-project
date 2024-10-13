@@ -18,8 +18,8 @@ import {
   // verifyToken
 } from '../controllers/auth/localAuthController.js';
 import { validateSignUpFields } from '../middleware/validation/signupValidation.js';
-import { validateUsernameParam, validateEmailParam } from '../middleware/validation/checkUsernameEmailValidation.js';
 import { handleValidationErrors } from '../middleware/validation/handleValidationErrors.js';
+
 import authenticateJWT from '../middleware/auth/authMiddleware.js';
 
 const router = express.Router();
@@ -60,10 +60,10 @@ router.get(
 router.post('/signup', validateSignUpFields, handleValidationErrors, signupUser);
 
 // Check if username is available (with validation middleware)
-router.get('/check-username/:username', validateUsernameParam, handleValidationErrors, checkUsername);
+router.get('/check-username/:username', handleValidationErrors, checkUsername);
 
 // Check if email is already registered (with validation middleware)
-router.get('/check-email/:email', validateEmailParam, handleValidationErrors, checkEmail);
+router.get('/check-email/:email', handleValidationErrors, checkEmail);
 
 // User login with email and password (Local Authentication)
 router.post('/signin', (req, res, next) => {
