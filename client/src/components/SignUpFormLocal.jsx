@@ -24,45 +24,74 @@ const SignUpForm = () => {
   const [usernameStatus, setUsernameStatus] = useState(null); // 'valid', 'invalid', or 'error'
   const [usernameError, setUsernameError] = useState('');
 
-  const [errorMessage, setErrorMessage] = useState('');
+  // Error and Success Messages
+  const [errorMessages, setErrorMessages] = useState([]); // List of error messages
+  const [successMessage, setSuccessMessage] = useState(''); // Success message
+
   const navigate = useNavigate();
 
-  // Clear the error message on input change
+  // Clear the error message on input change for username
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
     setUsernameError('');  // Clear error when user types
     setUsernameStatus(null); // Reset status when user types
   };
 
+  // Clear the error message on input change for email
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     setEmailError('');  // Clear error when user types
     setEmailStatus(null); // Reset status when user types
   };
 
-  // Handle validation for email
+  // Handle validation for email on blur
   const handleEmailBlur = () =>
     validateField('email', email, setEmailLoading, setEmailStatus, setEmailError, checkEmailAvailability);
 
-  // Handle validation for username
+  // Handle validation for username on blur
   const handleUsernameBlur = () =>
     validateField('username', username, setUsernameLoading, setUsernameStatus, setUsernameError, checkUsernameAvailability);
 
+  // Handle form submission
   const handleSignUp = async (e) => {
     e.preventDefault();
+    console.log('Sign Up button clicked'); // Debug log
+
+    // Check if the button is disabled
+    if (loading || emailStatus === 'invalid' || usernameStatus === 'invalid' || !emailStatus || !usernameStatus) {
+      console.log('Button is disabled, form submission prevented');
+      return;
+    }
+
     setLoading(true);
+    setErrorMessages([]);  // Clear previous error messages
+    setSuccessMessage(''); // Clear previous success message
+
+    console.log('Attempting to register user with:', { firstName, lastName, username, email, password }); // Debug log
 
     try {
+      console.log('Calling registerUser function'); // Debug log
       const response = await registerUser({ firstName, lastName, username, email, password });
-      if (response.data.success) {
-        navigate('/verify-email');
+      console.log('Received response:', response); // Debug log
+      
+      if (response.data.message === "User registered successfully!") {
+        setSuccessMessage("Registration successful! Redirecting to home page...");
+        setTimeout(() => navigate('/'), 2000); // Redirect to home page after 2 seconds
+      } else {
+        setErrorMessages(["An unexpected error occurred. Please try again."]);
       }
     } catch (err) {
-      const errorMessage = err.response?.data?.message || 'Something went wrong. Please try again.';
-      if (errorMessage === 'User already exists, please sign in') {
-        navigate(`/signin?message=${encodeURIComponent(errorMessage)}`);
+      console.error('Error during registration:', err); // Debug log
+      if (err.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        setErrorMessages([`Server error: ${err.response.data.message || err.message}`]);
+      } else if (err.request) {
+        // The request was made but no response was received
+        setErrorMessages(["No response received from server. Please try again."]);
       } else {
-        setErrorMessage(errorMessage);
+        // Something happened in setting up the request that triggered an Error
+        setErrorMessages([`Error: ${err.message}`]);
       }
     } finally {
       setLoading(false);
@@ -73,7 +102,17 @@ const SignUpForm = () => {
     <div className="register-container">
       <h1>Create an Account</h1>
 
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {/* Display success message */}
+      {successMessage && <p className="success-message">{successMessage}</p>}
+
+      {/* Display error messages */}
+      {errorMessages.length > 0 && (
+        <div className="error-messages">
+          {errorMessages.map((message, index) => (
+            <p key={index} className="error-message">{message}</p>
+          ))}
+        </div>
+      )}
 
       <form onSubmit={handleSignUp}>
         <div className="name-fields">
@@ -146,5 +185,4 @@ const SignUpForm = () => {
 };
 
 export default SignUpForm;
-
 
