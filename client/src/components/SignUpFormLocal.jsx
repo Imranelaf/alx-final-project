@@ -6,6 +6,8 @@ import { validateField } from '../services/validationHelper';
 import { useNavigate } from 'react-router-dom';
 import '../assets/styles/signupLocalForm.css';
 
+// I
+
 const SignUpForm = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
