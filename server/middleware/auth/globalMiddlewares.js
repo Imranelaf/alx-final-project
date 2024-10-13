@@ -12,7 +12,10 @@ const applyGlobalMiddleware = (app) => {
   app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
 
   // CORS middleware
-  app.use(cors()); // Enable cross-origin requests
+  app.use(cors({
+    origin: process.env.CLIENT_URI, // Your frontend URL
+    credentials: true // Allow credentials (cookies, authorization headers, etc.)
+  }));
 
   // Security middleware
   app.use(helmet()); // Secure app by setting various HTTP headers

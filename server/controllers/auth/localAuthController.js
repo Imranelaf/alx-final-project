@@ -1,38 +1,44 @@
 import User from '../../models/User.js';
-import { validationResult } from 'express-validator';
 import { generateJWT, setTokenCookie } from '../../utils/authHelpers.js';
-import { formatError } from '../../utils/errorFormatter.js';  // Import the formatError utility
+import { validationResult } from 'express-validator';
 
 export const signupUser = async (req, res, next) => {
   // Extract validation errors
-  const errors = validationResult(req);
+  const validationErrors = validationResult(req);
+  let errors = [];
 
-  if (!errors.isEmpty()) {
-    // Use formatError to pass validation errors to the global error handler
-    // Format the error to respect the errorFormatter utility format
-    const formattedErrors = errors.array().map(err => ({
+  // Collect validation errors
+  if (!validationErrors.isEmpty()) {
+    errors = validationErrors.array().map(err => ({
       field: err.param,
       message: err.msg,
     }));
-    return next(formatError('Validation failed', formattedErrors, 400));
   }
 
   const { firstName, lastName, username, email, password } = req.body;
 
   try {
-    // Check if the email or username is already taken
+    // Check if email or username already exists in the database
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
 
     if (existingUser) {
-      const errorMessage = existingUser.email === email
-        ? 'Email is already registered.'
-        : 'Username is already taken.';
-
-      // Use formatError to standardize the error format
-      return next(formatError(errorMessage, [], 400));
+      if (existingUser.email === email) {
+        errors.push({ field: 'email', message: 'Email is already registered.' });
+      }
+      if (existingUser.username === username) {
+        errors.push({ field: 'username', message: 'Username is already taken.' });
+      }
     }
 
-    // Create the new user
+    // Step 4: If there are any errors (validation or business logic), pass them to the global error handler
+    if (errors.length > 0) {
+      const error = new Error('Validation failed');
+      error.statusCode = 400;
+      error.errors = errors;
+      return next(error);  // Forward errors to the global error handler
+    }
+
+    // Step 5: Proceed with creating the new user if no errors
     const newUser = new User({
       firstName,
       lastName,
@@ -63,8 +69,8 @@ export const signupUser = async (req, res, next) => {
     });
 
   } catch (error) {
-    // Catch any server errors and pass them to the global error handler
-    return next(formatError('Server error during registration', [], 500));
+    // Step 6: Catch any server errors and pass them to the global error handler
+    return next(error);
   }
 };
 
@@ -74,7 +80,9 @@ export const authenticateUser = async (req, res, next) => {
     const user = req.user; 
 
     if (!user) {
-      return next(formatError('Authentication failed. No user found.', [], 401));
+      const error = new Error('Authentication failed. No user found.');
+      error.statusCode = 401;
+      return next(error);
     }
 
     // Generate a JWT token for the authenticated user
@@ -94,7 +102,9 @@ export const authenticateUser = async (req, res, next) => {
       }
     });
   } catch (error) {
-    // Pass any error to the global error handler using the formatError utility
-    return next(formatError('Server error during authentication', [], 500));
+    // Pass any server error to the global error handler
+    error.statusCode = 500;
+    error.message = 'Server error during authentication';
+    return next(error);
   }
 };
