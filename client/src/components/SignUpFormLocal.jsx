@@ -4,6 +4,7 @@ import FormInput from './FormInput';
 import { registerUser, checkEmailAvailability, checkUsernameAvailability } from '../services/authServices';
 import { validateField } from '../services/validationHelper';
 import { useNavigate } from 'react-router-dom';
+import ErrorDisplay from './ErrorDisplay'; // Import the ErrorDisplay component
 import '../assets/styles/signupLocalForm.css';
 
 const SignUpForm = () => {
@@ -25,8 +26,9 @@ const SignUpForm = () => {
   const [usernameError, setUsernameError] = useState('');
 
   // Error and Success Messages
-  const [errorMessages, setErrorMessages] = useState([]); // List of error messages
+  const [errorMessages, setErrorMessages] = useState([]); // List of general error messages
   const [successMessage, setSuccessMessage] = useState(''); // Success message
+  const [errors, setErrors] = useState([]); // Validation errors from the API
 
   const navigate = useNavigate();
 
@@ -53,47 +55,47 @@ const SignUpForm = () => {
     validateField('username', username, setUsernameLoading, setUsernameStatus, setUsernameError, checkUsernameAvailability);
 
   // Handle form submission
-  // Updated handleSignUp function in SignUp.jsx
-const handleSignUp = async (e) => {
-  e.preventDefault();
-  console.log('Sign Up button clicked'); // Debug log
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    console.log('Sign Up button clicked'); // Debug log
 
-  // Check if the button is disabled
-  if (loading || emailStatus === 'invalid' || usernameStatus === 'invalid' || !emailStatus || !usernameStatus) {
-    console.log('Button is disabled, form submission prevented');
-    return;
-  }
-
-  setLoading(true);
-  setErrorMessages([]);  // Clear previous error messages
-  setSuccessMessage(''); // Clear previous success message
-
-  console.log('Attempting to register user with:', { firstName, lastName, username, email, password }); // Debug log
-
-  try {
-    console.log('Calling registerUser function'); // Debug log
-    const response = await registerUser({ firstName, lastName, username, email, password });
-    console.log('Received response:', response); // Debug log
-    
-    if (response.data.message === "User registered successfully!") {
-      // Redirect to the success page on successful registration
-      navigate('/signup/success'); // Redirect to AuthSuccess page
-    } else {
-      setErrorMessages(["An unexpected error occurred. Please try again."]);
+    // Check if the button is disabled
+    if (loading || emailStatus === 'invalid' || usernameStatus === 'invalid' || !emailStatus || !usernameStatus) {
+      console.log('Button is disabled, form submission prevented');
+      return;
     }
-  } catch (err) {
-    console.error('Error during registration:', err); // Debug log
-    if (err.response) {
-      setErrorMessages([`Server error: ${err.response.data.message || err.message}`]);
-    } else if (err.request) {
-      setErrorMessages(["No response received from server. Please try again."]);
-    } else {
-      setErrorMessages([`Error: ${err.message}`]);
+
+    setLoading(true);
+    setErrorMessages([]);  // Clear previous error messages
+    setSuccessMessage(''); // Clear previous success message
+
+    console.log('Attempting to register user with:', { firstName, lastName, username, email, password }); // Debug log
+
+    try {
+      console.log('Calling registerUser function'); // Debug log
+      const response = await registerUser({ firstName, lastName, username, email, password });
+      console.log('Received response:', response); // Debug log
+      
+      if (response.data.message === "User registered successfully!") {
+        // Redirect to the success page on successful registration
+        navigate('/signup/success'); // Redirect to AuthSuccess page
+      } else {
+        setErrorMessages(["An unexpected error occurred. Please try again."]);
+      }
+    } catch (err) {
+      console.error('Error during registration:', err); // Debug log
+      if (err.response && err.response.data && err.response.data.error) {
+        const validationErrors = err.response.data.error.errors || [];
+        setErrors(validationErrors); // Set validation errors from the server response
+      } else if (err.request) {
+        setErrorMessages(["No response received from server. Please try again."]);
+      } else {
+        setErrorMessages([`Error: ${err.message}`]);
+      }
+    } finally {
+      setLoading(false);
     }
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   return (
     <div className="register-container">
@@ -102,7 +104,7 @@ const handleSignUp = async (e) => {
       {/* Display success message */}
       {successMessage && <p className="success-message">{successMessage}</p>}
 
-      {/* Display error messages */}
+      {/* Display general error messages */}
       {errorMessages.length > 0 && (
         <div className="error-messages">
           {errorMessages.map((message, index) => (
@@ -168,6 +170,9 @@ const handleSignUp = async (e) => {
           className="input-password"
         />
 
+        {/* Display validation errors */}
+        <ErrorDisplay errors={errors} />
+
         {/* Submit Button */}
         <button
           type="submit"
@@ -183,4 +188,3 @@ const handleSignUp = async (e) => {
 
 export default SignUpForm;
 
-// contains redirection
