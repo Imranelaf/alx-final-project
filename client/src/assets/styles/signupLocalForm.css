@@ -1,3 +1,4 @@
+/* Main Container */
 .register-container {
     font-family: 'Poppins', sans-serif;
     max-width: 450px;
@@ -22,37 +23,72 @@
     letter-spacing: 1px;
 }
 
-.error-message {
-    display: flex;
-    align-items: center;
-    background-color: #ffe5e5;
-    color: #e53e3e;
-    padding: 0.5rem 1rem;
+/* Error Display Styling */
+.error-display {
+    background-color: #fef7f7;
+    border: 1px solid #f7d4d4;
     border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 0.95rem;
+}
+
+.error-category {
+    margin-bottom: 1rem;
+    /* Add more spacing between categories */
+}
+
+.error-category h4 {
+    color: #e53e3e;
+    /* Softer error title color */
     margin-bottom: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    border: 1px solid #e53e3e;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 0.3s ease-in-out;
+    font-size: 1rem;
+    /* Slightly larger for readability */
+    font-weight: 600;
+    /* Bolder title for emphasis */
+}
+
+.error-category ul {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.error-category li {
+    color: #4a5568;
+    /* Softer, readable color for error messages */
+    font-size: 0.9rem;
+    /* Comfortable size */
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+    text-align: left;
+    /* Left-align the text */
+}
+
+.error-category li::before {
+    content: '•';
+    /* Bullet point */
+    color: #e53e3e;
+    position: absolute;
+    left: 0;
 }
 
 .error-message:before {
     content: '⚠';
     margin-right: 0.5rem;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    /* Slightly larger warning icon */
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+/* Adjust hover and focus states */
+.error-display:hover {
+    background-color: #fff0f0;
+    /* Lighter hover effect */
+    border-color: #f7bfbf;
 }
 
+/* Form Styling */
 form {
     display: flex;
     flex-direction: column;
@@ -82,6 +118,7 @@ input:focus {
     /* Softer shadow */
 }
 
+/* Button Styling */
 .continue-button {
     background-color: #4299e1;
     color: white;
@@ -106,6 +143,7 @@ input:focus {
     /* Remove shadow when button is disabled */
 }
 
+/* Link Styling */
 .login-link {
     text-align: center;
     margin-top: 1.5rem;
@@ -142,7 +180,7 @@ input:focus {
     font-size: 0.875rem;
 }
 
-/* Premium style for mobile responsiveness */
+/* Mobile Responsiveness */
 @media (max-width: 480px) {
     .register-container {
         padding: 1.5rem;
@@ -164,5 +202,21 @@ input:focus {
     .divider span {
         font-size: 0.8rem;
     }
+
+    .error-display {
+        font-size: 0.85rem;
+        /* Adjust for smaller screens */
+    }
+
+    .error-category h4 {
+        font-size: 0.9rem;
+        /* Adjust title size */
+    }
+
+    .error-category li {
+        font-size: 0.85rem;
+        /* Adjust error message size */
+    }
 }
 
+// Display error
