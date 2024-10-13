@@ -1,7 +1,14 @@
 import express from 'express';
 import passport from 'passport';
 import '../config/passport.js'; // Ensure Passport configuration is loaded
-import { validateSignUpFields } from '../middleware/validation/signUpValidation.js';
+import {
+  googleOAuthSignupCallback,
+  googleOAuthSigninCallback
+} from '../controllers/auth/googleOAuthController.js';
+import {
+  checkUsername,
+  checkEmail,
+} from '../controllers/validation/validationController.js'; // Controllers for username and email checks
 import {
   signupUser,
   authenticateUser,
@@ -10,14 +17,9 @@ import {
   // resetPassword,
   // verifyToken
 } from '../controllers/auth/localAuthController.js';
-import {
-  googleOAuthSignupCallback,
-  googleOAuthSigninCallback
-} from '../controllers/auth/googleOAuthController.js';
-import {
-  checkUsername,
-  checkEmail
-} from '../controllers/validation/validationController.js'; // Controllers for username and email checks
+import { validateSignUpFields } from '../middleware/validation/signupValidation.js';
+import { validateUsernameParam, validateEmailParam } from '../middleware/validation/checkUsernameEmailValidation.js';
+import { handleValidationErrors } from '../middleware/validation/handleValidationErrors.js';
 import authenticateJWT from '../middleware/auth/authMiddleware.js';
 
 const router = express.Router();
@@ -54,14 +56,14 @@ router.get(
  * ============================
  */
 
-// Register a new user (Local Registration) with validation
-router.post('/signup', validateSignUpFields, signupUser);
+// Sign-up route with validation
+router.post('/signup', validateSignUpFields, handleValidationErrors, signupUser);
 
-// Check if username is available
-router.get('/check-username/:username', checkUsername);
+// Check if username is available (with validation middleware)
+router.get('/check-username/:username', validateUsernameParam, handleValidationErrors, checkUsername);
 
-// Check if email is already registered
-router.get('/check-email/:email', checkEmail);
+// Check if email is already registered (with validation middleware)
+router.get('/check-email/:email', validateEmailParam, handleValidationErrors, checkEmail);
 
 // User login with email and password (Local Authentication)
 router.post('/signin', (req, res, next) => {

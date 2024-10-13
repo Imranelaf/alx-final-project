@@ -1,7 +1,7 @@
 import express from 'express';
 import connectDB from './config/db.js';
 import applyGlobalMiddleware from './middleware/auth/globalMiddlewares.js';
-import errorHandler from './middleware/error/errorMiddleware.js';  
+import errorHandler from './middleware/error/globalErrorMiddleware.js';  
 import initRoutes from './routes/initRoutes.js';
 
 // Connect to the database
