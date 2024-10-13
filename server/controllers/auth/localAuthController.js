@@ -45,6 +45,7 @@ export const signupUser = async (req, res, next) => {
       username,
       email,
       password, // Password will be hashed in the User model
+      isUsernameCustomized: true,
     });
 
     // Save the user to the database
