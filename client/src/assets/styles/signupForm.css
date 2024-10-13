@@ -5,7 +5,12 @@
     padding: 2rem;
     background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.register-container:hover {
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
 
 .register-container h1 {
@@ -14,44 +19,80 @@
     font-weight: 600;
     margin-bottom: 1.5rem;
     text-align: center;
+    letter-spacing: 1px;
 }
 
 .error-message {
-    background-color: #fff5f5;
+    display: flex;
+    align-items: center;
+    background-color: #ffe5e5;
     color: #e53e3e;
-    padding: 0.75rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
     font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid #e53e3e;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.error-message:before {
+    content: '⚠';
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 form {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
+    /* More spacing between form elements */
 }
 
 .name-fields {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
+    /* More spacing between first and last name */
+}
+
+input {
+    padding: 0.85rem 1.25rem;
+    /* More padding for input fields */
+    font-size: 1rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
 input:focus {
     outline: none;
     border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+    box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.2);
+    /* Softer shadow */
 }
 
 .continue-button {
     background-color: #4299e1;
     color: white;
-    padding: 0.75rem;
+    padding: 0.85rem;
     border: none;
     border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(66, 153, 225, 0.3);
 }
 
 .continue-button:hover:not(:disabled) {
@@ -61,6 +102,8 @@ input:focus {
 .continue-button:disabled {
     background-color: #a0aec0;
     cursor: not-allowed;
+    box-shadow: none;
+    /* Remove shadow when button is disabled */
 }
 
 .login-link {
@@ -80,6 +123,7 @@ input:focus {
     text-decoration: underline;
 }
 
+/* Divider Style */
 .divider {
     display: flex;
     align-items: center;
@@ -98,36 +142,26 @@ input:focus {
     font-size: 0.875rem;
 }
 
-.social-login {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
+/* Premium style for mobile responsiveness */
+@media (max-width: 480px) {
+    .register-container {
+        padding: 1.5rem;
+    }
 
-.social-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
+    .name-fields {
+        flex-direction: column;
+        gap: 1.25rem;
+    }
 
-.social-button:not(:disabled):hover {
-    background-color: #f7fafc;
-}
+    input {
+        padding: 0.85rem 1rem;
+    }
 
-.social-button img {
-    width: 24px;
-    height: 24px;
-    margin-right: 0.75rem;
-}
+    .continue-button {
+        font-size: 1rem;
+    }
 
-.social-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+    .divider span {
+        font-size: 0.8rem;
+    }
 }
