@@ -56,3 +56,26 @@ export const checkUsernameAvailability = async (username) => {
     throw error;
   }
 };
+
+// Function to sign in a user (login)
+export const loginUser = async (userData) => {
+  console.log('loginUser called with:', userData);
+  try {
+    const response = await axiosInstance.post('/api/auth/signin', userData); // Use axiosInstance
+    console.log('Login API response:', response);
+    return response;
+  } catch (error) {
+    console.error('API error:', error);
+    if (error.response) {
+      console.error('Error response:', error.response.data);
+      console.error('Error status:', error.response.status);
+    } else if (error.request) {
+      console.error('Error request:', error.request);
+    } else {
+      console.error('Error message:', error.message);
+    }
+    throw error; // Re-throw the error to be handled by the caller
+  }
+};
+
+// Added login user
