@@ -4,7 +4,7 @@ const API_URL = import.meta.env.VITE_API_URL; // Use the environment variable
 
 // Function to register a new user
 export const registerUser = async (userData) => {
-  return await axios.post(`${API_URL}/api/auth/register`, userData, { withCredentials: true });
+  return await axios.post(`${API_URL}/api/auth/signup`, userData, { withCredentials: true });
 };
 
 // Function to validate email availability
@@ -16,4 +16,5 @@ export const checkEmailAvailability = async (email) => {
 export const checkUsernameAvailability = async (username) => {
   return await axios.get(`${API_URL}/api/auth/check-username/${username}`);
 };
+
 
