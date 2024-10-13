@@ -1,0 +1,79 @@
+/* OAuth Sign-Up Styling */
+
+/* Container for the OAuth buttons */
+.register-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 30px;
+    text-align: center;
+    font-family: 'Nunito Sans', sans-serif;
+    background-color: white;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    margin: 2% auto;
+}
+
+/* Divider Styling */
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.divider hr {
+    flex: 1;
+    border: none;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.divider span {
+    margin: 0 10px;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Social Login Buttons */
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* Adjusted gap to match the form's spacing */
+}
+
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.social-button img {
+    width: 20px;
+    height: 20px;
+}
+
+.social-button:hover {
+    background-color: #f1f1f1;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .register-container {
+        max-width: 90%;
+        margin: 5% auto;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+}

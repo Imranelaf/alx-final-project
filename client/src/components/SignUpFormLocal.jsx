@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import InputField from './InputField';
 import FormInput from './FormInput';
 import { registerUser, checkEmailAvailability, checkUsernameAvailability } from '../services/authServices';
-import { validateField } from '../services/validationHelper'; // Validation helper
+import { validateField } from '../services/validationHelper';
 import { useNavigate } from 'react-router-dom';
-import '../assets/styles/signupForm.css';
+import '../assets/styles/signupLocalForm.css';
 
 const SignUpForm = () => {
   const [firstName, setFirstName] = useState('');
@@ -146,4 +146,5 @@ const SignUpForm = () => {
 };
 
 export default SignUpForm;
+
 
