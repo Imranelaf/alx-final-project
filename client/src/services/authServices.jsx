@@ -56,4 +56,3 @@ export const checkUsernameAvailability = async (username) => {
     throw error;
   }
 };
-
