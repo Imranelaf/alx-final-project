@@ -6,8 +6,6 @@ import { validateField } from '../services/validationHelper';
 import { useNavigate } from 'react-router-dom';
 import '../assets/styles/signupLocalForm.css';
 
-// I
-
 const SignUpForm = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -55,50 +53,47 @@ const SignUpForm = () => {
     validateField('username', username, setUsernameLoading, setUsernameStatus, setUsernameError, checkUsernameAvailability);
 
   // Handle form submission
-  const handleSignUp = async (e) => {
-    e.preventDefault();
-    console.log('Sign Up button clicked'); // Debug log
+  // Updated handleSignUp function in SignUp.jsx
+const handleSignUp = async (e) => {
+  e.preventDefault();
+  console.log('Sign Up button clicked'); // Debug log
 
-    // Check if the button is disabled
-    if (loading || emailStatus === 'invalid' || usernameStatus === 'invalid' || !emailStatus || !usernameStatus) {
-      console.log('Button is disabled, form submission prevented');
-      return;
+  // Check if the button is disabled
+  if (loading || emailStatus === 'invalid' || usernameStatus === 'invalid' || !emailStatus || !usernameStatus) {
+    console.log('Button is disabled, form submission prevented');
+    return;
+  }
+
+  setLoading(true);
+  setErrorMessages([]);  // Clear previous error messages
+  setSuccessMessage(''); // Clear previous success message
+
+  console.log('Attempting to register user with:', { firstName, lastName, username, email, password }); // Debug log
+
+  try {
+    console.log('Calling registerUser function'); // Debug log
+    const response = await registerUser({ firstName, lastName, username, email, password });
+    console.log('Received response:', response); // Debug log
+    
+    if (response.data.message === "User registered successfully!") {
+      // Redirect to the success page on successful registration
+      navigate('/signup/success'); // Redirect to AuthSuccess page
+    } else {
+      setErrorMessages(["An unexpected error occurred. Please try again."]);
     }
-
-    setLoading(true);
-    setErrorMessages([]);  // Clear previous error messages
-    setSuccessMessage(''); // Clear previous success message
-
-    console.log('Attempting to register user with:', { firstName, lastName, username, email, password }); // Debug log
-
-    try {
-      console.log('Calling registerUser function'); // Debug log
-      const response = await registerUser({ firstName, lastName, username, email, password });
-      console.log('Received response:', response); // Debug log
-      
-      if (response.data.message === "User registered successfully!") {
-        setSuccessMessage("Registration successful! Redirecting to home page...");
-        setTimeout(() => navigate('/'), 2000); // Redirect to home page after 2 seconds
-      } else {
-        setErrorMessages(["An unexpected error occurred. Please try again."]);
-      }
-    } catch (err) {
-      console.error('Error during registration:', err); // Debug log
-      if (err.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        setErrorMessages([`Server error: ${err.response.data.message || err.message}`]);
-      } else if (err.request) {
-        // The request was made but no response was received
-        setErrorMessages(["No response received from server. Please try again."]);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        setErrorMessages([`Error: ${err.message}`]);
-      }
-    } finally {
-      setLoading(false);
+  } catch (err) {
+    console.error('Error during registration:', err); // Debug log
+    if (err.response) {
+      setErrorMessages([`Server error: ${err.response.data.message || err.message}`]);
+    } else if (err.request) {
+      setErrorMessages(["No response received from server. Please try again."]);
+    } else {
+      setErrorMessages([`Error: ${err.message}`]);
     }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="register-container">
@@ -187,3 +182,5 @@ const SignUpForm = () => {
 };
 
 export default SignUpForm;
+
+// contains redirection
