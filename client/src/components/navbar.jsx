@@ -4,96 +4,99 @@ import Flag from 'react-world-flags';
 import '../assets/styles/navbar.css';
 import { FaBars, FaTimes, FaUser, FaGlobe, FaQuestionCircle } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import { SignOut } from '../services/authServices';
 
 export default function Navbar() {
   const { currentUser } = useSelector((state) => state.user);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const [toggle, setToggle] = useState({
+    isMobileMenuOpen: false,
+    isProfileMenuOpen: false,
+    isLanguageMenuOpen: false,
+    isProfileOpen: false
+  });
+
   const navigate = useNavigate();
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+  const handleToggle = (menu) => {
+    setToggle((prevState) => ({
+      isMobileMenuOpen: menu === 'mobile' ? !prevState.isMobileMenuOpen : false,
+      isProfileMenuOpen: menu === 'profile' ? !prevState.isProfileMenuOpen : false,
+      isLanguageMenuOpen: menu === 'language' ? !prevState.isLanguageMenuOpen : false,
+      isProfileOpen: menu === 'profileLogged' ? !prevState.isProfileOpen : false,
+    }));
   };
 
-  const toggleProfileMenu = () => {
-    setIsProfileMenuOpen(!isProfileMenuOpen);
-  };
-
-  const toggleLanguageMenu = () => {
-    setIsLanguageMenuOpen(!isLanguageMenuOpen);
-  };
-
-  const toggleProfileMenuLogged = ()=>{
-    setIsProfileOpen(!isProfileOpen)
-  }
-  console.log('Value at navbar.jsx:26:', currentUser);
+  console.log('Value at navbar.jsx:26:', currentUser); //delete it in final version
 
   return (
     <header className="navbar">
       {/* Hamburger & FAQ Icon */}
       <div className="hamburger-menu">
-        {isMobileMenuOpen ? (
-          <FaTimes onClick={toggleMobileMenu} className="icon" />
+        {toggle.isMobileMenuOpen ? (
+          <FaTimes onClick={() => handleToggle('mobile')} className="icon" />
         ) : (
           <>
-            <FaBars onClick={toggleMobileMenu} className="icon" />
+            <FaBars onClick={() => handleToggle('mobile')} className="icon" />
             <FaQuestionCircle onClick={() => navigate('/faq')} className="icon faq-icon" /> {/* FAQ Icon */}
           </>
         )}
       </div>
 
-      {/* Center Logo - Replaced text with image */}
+      {/* Center Logo */}
       <div className="logo">
-      <NavLink to="/">
-        <img 
-          src="https://i.ibb.co/mv6JJbL/Property-Hub-Logo-White.png" 
-          alt="PropertyHub Logo" 
-          className="logo-img"
-        />
+        <NavLink to="/">
+          <img 
+            src="https://i.ibb.co/mv6JJbL/Property-Hub-Logo-White.png" 
+            alt="PropertyHub Logo" 
+            className="logo-img"
+          />
         </NavLink>
       </div>
 
       {/* Right-side Icons */}
       <div className="right-icons">
-        {isLanguageMenuOpen ? (
-          <FaTimes onClick={toggleLanguageMenu} className="icon" /> // Close button for language menu
+        {toggle.isLanguageMenuOpen ? (
+          <FaTimes onClick={() => handleToggle('language')} className="icon" />
         ) : (
-          <FaGlobe onClick={toggleLanguageMenu} className="icon" /> // Language Icon
+          <FaGlobe onClick={() => handleToggle('language')} className="icon" />
         )}
-        {currentUser ? <div className="name-text profile-icon" onClick={toggleProfileMenuLogged}>{currentUser.username}
-        </div> : 
-        <FaUser onClick={toggleProfileMenu} className="icon profile-icon" /> 
-      }
-        </div>
+        {currentUser ? (
+          <div className="name-text profile-icon" onClick={() => handleToggle('profileLogged')}>
+            {currentUser.username}
+          </div>
+        ) : (
+          <FaUser onClick={() => handleToggle('profile')} className="icon profile-icon" />
+        )}
+      </div>
 
       {/* Mobile Menu - Buy, Rent, Sell, Agents */}
-      {isMobileMenuOpen && (
+      {toggle.isMobileMenuOpen && (
         <div className="mobile-menu">
-          <NavLink to="/buy" className="menu-link" onClick={toggleMobileMenu}>Buy</NavLink>
-          <NavLink to="/rent" className="menu-link" onClick={toggleMobileMenu}>Rent</NavLink>
-          <NavLink to="/sell" className="menu-link" onClick={toggleMobileMenu}>Sell</NavLink>
-          <NavLink to="/agents" className="menu-link" onClick={toggleMobileMenu}>Agents</NavLink>
+          <NavLink to="/buy" className="menu-link" onClick={() => handleToggle('mobile')}>Buy</NavLink>
+          <NavLink to="/rent" className="menu-link" onClick={() => handleToggle('mobile')}>Rent</NavLink>
+          <NavLink to="/sell" className="menu-link" onClick={() => handleToggle('mobile')}>Sell</NavLink>
+          <NavLink to="/agents" className="menu-link" onClick={() => handleToggle('mobile')}>Agents</NavLink>
         </div>
       )}
 
       {/* Profile Menu - Sign In & Sign Up */}
-      {isProfileMenuOpen && (
+      {toggle.isProfileMenuOpen && (
         <div className="profile-menu">
           <button onClick={() => navigate('/signin')} className="profile-button">Sign In</button>
           <button onClick={() => navigate('/signup')} className="profile-button">Sign Up</button>
         </div>
       )}
-       {isProfileOpen && (
+
+      {/* Logged-in Profile Menu */}
+      {toggle.isProfileOpen && (
         <div className="profile-menu">
           <button onClick={() => navigate('/profile')} className="profile-button">Profile</button>
-          <button onClick={() => navigate('/signout')} className="profile-button">Sign Out</button>
+          <button onClick={() => SignOut()} className="profile-button">Sign Out</button>
         </div>
       )}
 
       {/* Language Menu */}
-      {isLanguageMenuOpen && (
+      {toggle.isLanguageMenuOpen && (
         <div className="language-menu">
           <div className="language-option">
             <Flag code="US" className="flag-icon" /> <span>English</span>
@@ -118,4 +121,3 @@ export default function Navbar() {
     </header>
   );
 }
-

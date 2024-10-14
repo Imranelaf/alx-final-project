@@ -2,6 +2,7 @@ import axios from 'axios';
 import { setUser } from '../redux/userSlice';
 import Cookies from 'js-cookie';
 
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 // Create an Axios instance with a base URL and default options
@@ -78,3 +79,33 @@ export const checkUsernameAvailability = async (username) => {
     throw error;
   }
 };
+
+
+
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
+
+export const SignOut = () => {
+  const navigate = useNavigate(); // Using react-router-dom to navigate without full page reload
+
+  try {
+    axios.put(`${API_URL}/api/auth/signout`)
+      .then(() => {
+        // Clear cookies and local storage after successful sign-out
+        Cookies.remove('propertyHubAuthToken');
+        localStorage.clear();
+
+        // Navigate to the homepage
+        navigate('/');
+      })
+      .catch((error) => {
+        console.error('Sign out failed:', error);
+        setError('Failed to sign out. Please try again.');
+      });
+  } catch (error) {
+    console.error('Sign out failed:', error);
+    setError('Failed to sign out. Please try again.');
+  }
+};
+
