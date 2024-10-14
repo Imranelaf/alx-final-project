@@ -1,6 +1,20 @@
+/*
+Middleware for authenticating users via JWT, checking tokens in the Authorization header or cookies.
+If valid, attaches user info to the request; otherwise, returns an error.
+*/
+
 import jwt from 'jsonwebtoken';
 import { formatError } from '../../utils/errorFormatter.js';
 
+/**
+ * @desc Authenticates the user using a JWT token.
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {void} - Calls the next middleware if authentication is successful.
+ * @throws {Error} - Returns 401 Unauthorized if the token is missing.
+ * @throws {Error} - Returns 403 Forbidden if the token is invalid or expired.
+ */
 const authenticateJWT = (req, res, next) => {
   // Check if the token is sent in the Authorization header
   let token = req.header('Authorization')?.replace('Bearer ', '');
