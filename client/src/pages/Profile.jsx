@@ -1,27 +1,34 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import '../assets/styles/profile.css';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import Navbar from "../components/navbar";
 import { SignOut } from "../services/authServices";
 
-export default function Protect() {
-
+export default function Profile() {
     const { currentUser } = useSelector((state) => state.user);
-    console.log(currentUser)
-    const [updateData, setUpdateData] = useState({
-        id: currentUser.id,
-        username: currentUser.username,
-        email: currentUser.email,
-        password: '', // Empty initially, filled when user enters a new password
-    });
-    const [error, setError]= useState('');
+    const navigate = useNavigate(); // useNavigate hook for navigation
 
+    const [updateData, setUpdateData] = useState({
+        id: currentUser ? currentUser.id : '',
+        username: currentUser ? currentUser.username : '',
+        email: currentUser ? currentUser.email : '',
+        password: '', // Initially empty, filled when user enters a new password
+    });
+    
+    const [error, setError] = useState('');
     const imageUpdate = useRef(null);
+
+    useEffect(() => {
+        // Redirect to home if currentUser is not set
+        if (!currentUser) {
+            navigate("/signin");
+        }
+    }, [currentUser, navigate]);
 
     const handleUpdate = (e) => {
         const { name, value } = e.target;
-        setError('')
+        setError('');
 
         // Prevent updating with an empty value
         if (value.trim() === '') return;
@@ -31,8 +38,6 @@ export default function Protect() {
             [name]: value,
         }));
     };
-   
-    
 
     const handleSubmit = () => {
         // Check if any required field is empty
@@ -41,79 +46,81 @@ export default function Protect() {
             return;
         }
 
-        // You can also add a check here for passwords matching, etc.
+        // Add a check here for passwords matching, etc.
         if (updateData.password && updateData.password !== updateData.confirmPassword) {
             setError('Passwords do not match.');
             return;
         }
 
-        console.log('Send the updated info') // here we need handle with send of the infos
+        console.log('Send the updated info'); // This is where you handle sending updated info
     };
 
-    const handleSignout = ()=>{
-        SignOut()
-    }
-
+    const handleSignout = () => {
+        SignOut(); // Call signout function
+        navigate("/"); // Redirect to home after sign out
+    };
 
     return (
         <>
-            <Navbar />
-            <div className="profile">
-                <img
-                    src={"data:image/png;base64,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"}
-                    alt="User Avatar"
-                    onClick={() => imageUpdate.current.click()}
-                />
-                <div className="setting">
-                    <input
-                        type="file"
-                        accept="image/*"
-                        name="avatar"
-                        style={{ display: 'none' }}
-                        ref={imageUpdate}
-                        onChange={handleUpdate} // Handle image upload
-                    />
-                    <h4>{error}</h4>
-                    <label htmlFor="username">Change Username</label>
-                    <input
-                        type="text"
-                        name="username"
-                        value={updateData.username}
-                        onChange={handleUpdate}
+            {currentUser && (
+                <>
+                    <Navbar />
+                    <div className="profile">
+                        <img
+                            src="data:image/png;base64,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" // Placeholder image for avatar
+                            alt="User Avatar"
+                            onClick={() => imageUpdate.current.click()}
+                        />
+                        <div className="setting">
+                            <input
+                                type="file"
+                                accept="image/*"
+                                name="avatar"
+                                style={{ display: 'none' }}
+                                ref={imageUpdate}
+                                onChange={handleUpdate} // Handle image upload
+                            />
+                            <h4>{error}</h4>
+                            <label htmlFor="username">Change Username</label>
+                            <input
+                                type="text"
+                                name="username"
+                                value={updateData.username}
+                                onChange={handleUpdate}
+                            />
+
+                            <label htmlFor="email">Change Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={updateData.email}
+                                onChange={handleUpdate}
+                            />
+
+                            <label htmlFor="password">Change Password</label>
+                            <input
+                                type="password"
+                                name="password"
+                                placeholder="New Password"
+                                onChange={handleUpdate}
+                            />
+                            <input
+                                type="password"
+                                name="confirmPassword"
+                                placeholder="Confirm Password"
+                                onChange={handleUpdate}
+                            />
+
+                            <button type="submit" onClick={handleSubmit}>Update Profile</button>
+                        </div>
                         
-                    />
-
-                    <label htmlFor="email">Change Email</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={updateData.email}
-                        onChange={handleUpdate}
-                        
-                    />
-
-                    <label htmlFor="password">Change Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="New Password"
-                        onChange={handleUpdate}
-                    />
-                    <input
-                        type="password"
-                        name="confirmPassword"
-                        placeholder="Confirm Password"
-                        onChange={handleUpdate}
-                    />
-
-                    <button type="submit" onClick={handleSubmit}>Update Profile</button>
-                </div>
-                
-                <Link to="/create" className='navlink'>
-                    <button className="create-btn">Create Listing</button>
-                </Link>
-                <button onClick={handleSignout}>Sign Out</button>
-            </div>
+                        <Link to="/create" className='navlink'>
+                            <button className="create-btn">Create Listing</button>
+                        </Link>
+                        <button onClick={handleSignout}>Sign Out</button>
+                    </div>
+                </>
+            )}
         </>
     );
 }

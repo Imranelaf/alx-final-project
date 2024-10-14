@@ -172,4 +172,8 @@
         padding: 1rem 1rem;
         height: 4.5rem;
     }
+    .name-text{
+        margin: 0;
+        font-size: small;
+    }
 }
