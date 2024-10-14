@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Flag from 'react-world-flags';
-import '../assets/styles/navbar.css';  // Your existing navbar styles
+import '../assets/styles/navbar.css';
 import { FaBars, FaTimes, FaUser, FaGlobe, FaQuestionCircle } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
@@ -10,6 +10,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
   const navigate = useNavigate();
 
   const toggleMobileMenu = () => {
@@ -23,6 +24,10 @@ export default function Navbar() {
   const toggleLanguageMenu = () => {
     setIsLanguageMenuOpen(!isLanguageMenuOpen);
   };
+
+  const toggleProfileMenuLogged = ()=>{
+    setIsProfileOpen(!isProfileOpen)
+  }
   console.log('Value at navbar.jsx:26:', currentUser);
 
   return (
@@ -57,8 +62,11 @@ export default function Navbar() {
         ) : (
           <FaGlobe onClick={toggleLanguageMenu} className="icon" /> // Language Icon
         )}
-        <FaUser onClick={toggleProfileMenu} className="icon profile-icon" /> {/* Profile Icon */}
-      </div>
+        {currentUser ? <div className="name-text profile-icon" onClick={toggleProfileMenuLogged}>{currentUser.username}
+        </div> : 
+        <FaUser onClick={toggleProfileMenu} className="icon profile-icon" /> 
+      }
+        </div>
 
       {/* Mobile Menu - Buy, Rent, Sell, Agents */}
       {isMobileMenuOpen && (
@@ -75,6 +83,12 @@ export default function Navbar() {
         <div className="profile-menu">
           <button onClick={() => navigate('/signin')} className="profile-button">Sign In</button>
           <button onClick={() => navigate('/signup')} className="profile-button">Sign Up</button>
+        </div>
+      )}
+       {isProfileOpen && (
+        <div className="profile-menu">
+          <button onClick={() => navigate('/profile')} className="profile-button">Profile</button>
+          <button onClick={() => navigate('/signout')} className="profile-button">Sign Out</button>
         </div>
       )}
 

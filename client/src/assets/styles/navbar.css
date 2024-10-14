@@ -80,6 +80,10 @@
     background-color: #2a3c51;
 }
 
+.name-text{
+    cursor: pointer;
+}
+
 /* Profile Menu Styling */
 .profile-menu {
     position: absolute;
