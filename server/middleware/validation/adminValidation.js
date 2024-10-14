@@ -7,21 +7,7 @@ required format and constraints.
 import { body } from 'express-validator';
 
 /**
- * @desc    Middleware array that validates the fields for Admin creation or updates.
- * 
- * @validations
- * - `firstName`: Must not be empty, limited to 50 characters, and only contain alphabetic characters.
- * - `lastName`: Must not be empty, limited to 50 characters, and only contain alphabetic characters.
- * - `email`: Must not be empty and should be a valid email address.
- * - `phoneNumber`: Must not be empty and should follow the E.164 format for phone numbers 
- *   (e.g., +212626532403).
- * - `password`: Must not be empty, should be at least 6 characters long, and contain at least one 
- *   uppercase letter, one lowercase letter, and one number.
- * - `role`: Optional, but if provided, must be either "admin" or "super-admin".
- * - `permissions`: Optional, but if provided, must be an array of valid permissions: "manage_users", 
- *   "manage_agents", "view_reports", "manage_admins".
- * - `profileImage`: Optional, but if provided, must be a valid URL that points to a supported image 
- *   format (jpg, jpeg, png, webp).
+ * @desc   Middleware array that validates the fields for creating a new admin. 
  * 
  * @returns {Array} An array of validation rules to be applied before handling admin requests.
  */

@@ -1,11 +1,25 @@
+/*
+This file configures the passport authentication middleware using JWT strategy 
+to verify tokens and authenticate admin users. It attaches the admin data 
+to the request object upon successful authentication.
+*/
+
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
 import User from '../models/User.js';
-import Admin from '../models/Admin.js';  // Import Admin model
+import Admin from '../models/Admin.js';
 import { formatError } from '../utils/errorFormatter.js'; // For consistent error formatting
 
-// Define the local strategy for email/password authentication
+/*
+ * Passport local strategy for authenticating users with an email and password.
+ * This strategy handles the verification of user credentials during login.
+ * 
+ * @param {String} email - The email provided by the user.
+ * @param {String} password - The password provided by the user.
+ * @param {Function} done - Callback function to indicate success or failure.
+ * @returns {Object} - Calls `done` with `null` and user data if successful or an error/info object otherwise.
+ */
 passport.use(
   'local',
   new LocalStrategy(
@@ -47,7 +61,15 @@ passport.use(
   )
 );
 
-// Define the local strategy for admin email/password authentication
+/*
+ * Passport local strategy for authenticating admins with an email and password.
+ * This strategy handles the verification of admin credentials during login.
+ * 
+ * @param {String} email - The email provided by the admin.
+ * @param {String} password - The password provided by the admin.
+ * @param {Function} done - Callback function to indicate success or failure.
+ * @returns {Object} - Calls `done` with `null` and admin data if successful or an error/info object otherwise.
+ */
 passport.use(
   'admin-local',
   new LocalStrategy(
@@ -89,7 +111,16 @@ passport.use(
   )
 );
 
-// Sign-up strategy
+/*
+ * Passport strategy for signing up users using Google OAuth 2.0.
+ * This strategy handles the Google sign-up flow, extracting user profile details like name, email, and avatar.
+ * 
+ * @param {String} accessToken - OAuth access token from Google.
+ * @param {String} refreshToken - OAuth refresh token from Google.
+ * @param {Object} profile - Google user profile object containing user data like email, name, and avatar.
+ * @param {Function} done - Callback function to indicate success or failure.
+ * @returns {Object} - Calls `done` with user profile data if successful or an error if something goes wrong.
+ */
 passport.use('google-signup',
   new GoogleStrategy(
     {
@@ -111,7 +142,16 @@ passport.use('google-signup',
   )
 );
 
-// Sign-in strategy
+/*
+ * Passport strategy for signing in users using Google OAuth 2.0.
+ * This strategy handles the Google sign-in flow, extracting user profile details like name, email, and avatar.
+ * 
+ * @param {String} accessToken - OAuth access token from Google.
+ * @param {String} refreshToken - OAuth refresh token from Google.
+ * @param {Object} profile - Google user profile object containing user data like email, name, and avatar.
+ * @param {Function} done - Callback function to indicate success or failure.
+ * @returns {Object} - Calls `done` with user profile data if successful or an error if something goes wrong.
+ */
 passport.use('google-signin',
   new GoogleStrategy(
     {

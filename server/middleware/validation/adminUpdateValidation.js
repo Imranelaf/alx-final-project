@@ -1,7 +1,9 @@
 import { body } from 'express-validator';
 
 /**
- * @desc    Middleware array that validates the fields for Admin updates (allows partial updates).
+ * @desc Middleware array that validates the fields for Admin updates (allows partial updates).
+ * 
+ * @returns {Array} An array of validation rules to be applied before handling admin update requests.
  */
 export const validateAdminFields = [
   // First name validation (optional for update)
