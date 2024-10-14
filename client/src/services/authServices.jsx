@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { setUser } from '../redux/userSlice';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -80,11 +81,6 @@ export const checkUsernameAvailability = async (username) => {
   }
 };
 
-
-
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
 
 export const SignOut = () => {
   const navigate = useNavigate(); // Using react-router-dom to navigate without full page reload
