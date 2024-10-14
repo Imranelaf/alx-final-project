@@ -3,8 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../services/authServices';  // Import the login function from authServices
 import '../assets/styles/signin.css';
 import Navbar from '../components/navbar';
+import { useDispatch } from 'react-redux';
 
 const SignIn = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');  // State for password
   const [loading, setLoading] = useState(false);
@@ -25,6 +27,7 @@ const SignIn = () => {
       const response = await loginUser({ email, password });
 
       if (response.data.success) {
+        dispatch(setUser(response.data.user)); 
         navigate('/signin/success');  // Redirect on success
       }
     } catch (err) {

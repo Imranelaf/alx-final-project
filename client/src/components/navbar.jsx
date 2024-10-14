@@ -3,8 +3,10 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import Flag from 'react-world-flags';
 import '../assets/styles/navbar.css';  // Your existing navbar styles
 import { FaBars, FaTimes, FaUser, FaGlobe, FaQuestionCircle } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 export default function Navbar() {
+  const { currentUser } = useSelector((state) => state.user);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
@@ -21,6 +23,7 @@ export default function Navbar() {
   const toggleLanguageMenu = () => {
     setIsLanguageMenuOpen(!isLanguageMenuOpen);
   };
+  console.log('Value at navbar.jsx:26:', currentUser);
 
   return (
     <header className="navbar">

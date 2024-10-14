@@ -1,12 +1,18 @@
-import { StrictMode } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App.jsx';
+import App from './App';
+import { store } from './redux/store';
+import { Provider } from 'react-redux';
+import { loadUserFromCookies } from './redux/userSlice'; // Correct import
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <BrowserRouter>  
+const root = createRoot(document.getElementById('root'));
+
+store.dispatch(loadUserFromCookies()); // Load user from cookies on app start
+
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
       <App />
-    </BrowserRouter>
-  </StrictMode>,
+    </Provider>
+  </React.StrictMode>
 );

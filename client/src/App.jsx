@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import "./App.css";
 import Home from "./pages/Home";
 import FAQ from "./pages/FAQ";
@@ -9,6 +9,7 @@ import { AuthSuccess, AuthFailure } from "./pages/AuthStatus";
 
 function App() {
   return (
+    <BrowserRouter>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/faq" element={<FAQ />} />
@@ -19,6 +20,7 @@ function App() {
       <Route path="/signin/success" element={<AuthSuccess type="SignIn" />} /> {/* Centralized */}
       <Route path="/signin/failure" element={<AuthFailure type="SignIn" />} /> {/* Centralized */}
     </Routes>
+    </BrowserRouter>
   );
 }
 
