@@ -1,0 +1,19 @@
+[33m9a0cdda[m[33m ([m[1;36mHEAD -> [m[1;32mimrane[m[33m)[m HEAD@{0}: reset: moving to HEAD~1
+[33m3ecfe6e[m[33m ([m[1;31morigin/imrane[m[33m)[m HEAD@{1}: checkout: moving from imrane to imrane
+[33m3ecfe6e[m[33m ([m[1;31morigin/imrane[m[33m)[m HEAD@{2}: commit: Add Create Listing page with form handling, Cloudinary image upload, and dynamic state management
+[33m9a0cdda[m[33m ([m[1;36mHEAD -> [m[1;32mimrane[m[33m)[m HEAD@{3}: pull origin master --no-rebase: Merge made by the 'ort' strategy.
+[33m39b586f[m HEAD@{4}: checkout: moving from imrane to imrane
+[33m39b586f[m HEAD@{5}: commit: Protect the profile page if user not signin
+[33m04098f0[m HEAD@{6}: checkout: moving from imrane to imrane
+[33m04098f0[m HEAD@{7}: commit: fix axios double importation
+[33mf86ea8e[m HEAD@{8}: commit: feat: Implement user profile update with sign-out and avatar upload functionality
+[33m8d3e590[m HEAD@{9}: checkout: moving from imrane to imrane
+[33m8d3e590[m HEAD@{10}: commit: feat: Persist user session across page refresh and display username in navbar
+[33mda4b03a[m HEAD@{11}: checkout: moving from imrane to imrane
+[33mda4b03a[m HEAD@{12}: commit: Redux configuration
+[33me0c79b7[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{13}: reset: moving to HEAD~1
+[33m19b98ad[m HEAD@{14}: checkout: moving from imrane to imrane
+[33m19b98ad[m HEAD@{15}: commit: Redux configuration
+[33me0c79b7[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{16}: checkout: moving from imrane to imrane
+[33me0c79b7[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{17}: checkout: moving from master to imrane
+[33me0c79b7[m[33m ([m[1;32mmaster[m[33m)[m HEAD@{18}: clone: from https://github.com/Imranelaf/alx-final-project.git

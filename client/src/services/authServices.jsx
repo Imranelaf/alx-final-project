@@ -104,4 +104,3 @@ export const SignOut = () => {
     setError('Failed to sign out. Please try again.');
   }
 };
-

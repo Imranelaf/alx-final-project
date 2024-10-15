@@ -26,8 +26,6 @@ export default function Navbar() {
     }));
   };
 
-  console.log('Value at navbar.jsx:26:', currentUser); //delete it in final version
-
   return (
     <header className="navbar">
       {/* Hamburger & FAQ Icon */}

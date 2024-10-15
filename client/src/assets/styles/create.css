@@ -1,0 +1,154 @@
+.creating {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    font-family: 'Arial', sans-serif;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Form Input Fields */
+.creating input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: border 0.3s;
+}
+
+/* Focus State for Inputs */
+.creating input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Checkbox Section */
+.check {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.creating input[type="checkbox"] {
+    margin-right: 6px;
+    transform: scale(0.8); /* Smaller checkboxes */
+}
+
+/* Label Styling */
+.creating label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 14px; /* Smaller label text */
+    color: #333;
+}
+
+/* Price Section */
+.price {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+
+.price input[type="number"] {
+    flex: 1;
+}
+
+.price p {
+    margin: 0;
+    padding-left: 8px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Button Styles */
+.creating button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.creating button:hover {
+    background-color: #0056b3;
+}
+
+/* Image Preview Section */
+.image-previews {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.image-previews img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Centered Heading */
+.creating-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 24px;
+    color: #007bff;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .creating {
+        padding: 15px;
+    }
+
+    .creating input,
+    .creating button {
+        width: calc(100% - 20px);
+    }
+
+    .price {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .price p {
+        padding-left: 0;
+        margin-top: 10px;
+    }
+
+    .check {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .image-previews {
+        justify-content: center;
+    }
+}
+
+/* Placeholder Color Customization */
+::placeholder {
+    color: #bbb;
+    font-style: italic;
+}

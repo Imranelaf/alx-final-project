@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import { AuthSuccess, AuthFailure } from "./pages/AuthStatus";
 import Profile from "./pages/Profile";
+import Create from "./pages/Create";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <Route path="/signin/success" element={<AuthSuccess type="SignIn" />} /> 
       <Route path="/signin/failure" element={<AuthFailure type="SignIn" />} /> 
       <Route path="/profile" element={<Profile/>} /> 
+      <Route path="/create" element={<Create/>} /> 
 
     </Routes>
     </BrowserRouter>
