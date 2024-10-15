@@ -4,19 +4,17 @@
 
 import express from 'express';
 import {
-  createAdmin,
-  loginAdmin,
   getAllAdmins,
   getAdminById,
   updateAdmin,
   deleteAdmin,
 } from '../controllers/admin/adminController.js';
 import authenticateJWT from '../middleware/auth/authMiddleware.js';  // JWT auth middleware for protected routes
-import { checkIsAdmin, checkIsSuperAdmin, checkIsAdminSelfOrSuperAdmin} from '../middleware/auth/roleMiddleware.js';
-import { validateAdminFields } from '../middleware/validation/adminValidation.js';
+import { checkIsAdmin,checkIsAdminSelfOrSuperAdmin} from '../middleware/auth/roleMiddleware.js';
 import { validateAdminUpdateFields } from '../middleware/validation/adminUpdateValidation.js';
 import { handleValidationErrors } from '../middleware/common/handleValidationErrors.js';
 import {validateObjectId} from '../middleware/validation/validateObjectId.js';
+
 
 const router = express.Router();
 
@@ -27,21 +25,6 @@ const router = express.Router();
  */
 
 // Admin Management
-
-// Create a new admin (super admin only)
-router.post(
-  '/', 
-  authenticateJWT, 
-  checkIsSuperAdmin,
-  validateAdminFields,
-  handleValidationErrors,  
-  createAdmin
-);
-
-// Admin Login
-router.post('/login',
-   loginAdmin
-);
 
 // Get all admins (admin-only route)
 router.get('/', 

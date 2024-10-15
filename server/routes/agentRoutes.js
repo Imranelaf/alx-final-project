@@ -4,8 +4,6 @@
 
 import express from 'express';
 import {
-  createAgent,
-  loginAgent,
   getAllAgents,
   getAgentById,
   updateAgentStatus,
@@ -14,10 +12,9 @@ import {
 } from '../controllers/agent/agentController.js';
 import authenticateJWT from '../middleware/auth/authMiddleware.js';
 import { checkIsAdmin, checkIsAdminSelfOrAgent} from '../middleware/auth/roleMiddleware.js';  // Role-based access control
-import { validateAgentFields } from '../middleware/validation/agentValidation.js';  // Input validation for agents
 import { validateUpdateAgentFields } from '../middleware/validation/agentUpdateValidation.js';  // Input validation for agents
-import { handleValidationErrors } from '../middleware/common/handleValidationErrors.js';
 import {validateObjectId} from '../middleware/validation/validateObjectId.js';
+
 
 const router = express.Router();
 
@@ -26,20 +23,6 @@ const router = express.Router();
  * Agent Routes
  * ============================
  */
-
-// Register a new agent (public route)
-router.post(
-  '/', 
-  validateAgentFields,
-  handleValidationErrors,  
-  createAgent
-);
-
-// Agent login route (public)
-router.post(
-  '/login', 
-  loginAgent
-);
 
 // Get all agents (public)
 router.get('/', getAllAgents);
