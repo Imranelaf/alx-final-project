@@ -5,6 +5,7 @@ import Navbar from "../components/navbar";
 import { useSelector } from "react-redux";
 import TextFieldsAndCheckbox from "../components/TextFieldsAndCheckbox";
 import ImageUpload from "../components/ImageUpload";
+import Footer from "../components/Footer";
 
 export default function Create() {
   const { currentUser } = useSelector((state) => state.user);
@@ -94,7 +95,7 @@ export default function Create() {
 
     // Sending the data to the backend
     try {
-      await axios.post("http://localhost:5000/create-listing", updatedData); // Update the API endpoint accordingly
+      await axios.post(`${API_URL}/create-listing`, updatedData); // Update the API endpoint accordingly
       console.log("Listing created successfully");
     } catch (error) {
       console.error("Error creating listing:", error);
@@ -129,6 +130,8 @@ export default function Create() {
           <button type="submit">Create</button>
         </form>
       </div>
+      
+      <Footer />
     </>
   );
 }

@@ -1,15 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import '../assets/styles/profile.css';
-import { Navigate, useNavigate } from "react-router-dom"; 
+import { Navigate, useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
-import axios from "axios"; 
+import axios from "axios";
 import { SignOut } from "../services/authServices";
+import Footer from "../components/Footer";
 
 
 export default function Profile() {
     const { currentUser } = useSelector((state) => state.user);
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     const [updateData, setUpdateData] = useState({
         id: currentUser ? currentUser.id : '',
@@ -17,7 +18,7 @@ export default function Profile() {
         email: currentUser ? currentUser.email : '',
         password: '', // Initially empty, filled when user enters a new password
     });
-    
+
     const [toggle, setToggle] = useState(false); // Toggle for expanding profile section
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -54,7 +55,7 @@ export default function Profile() {
         }
 
         try {
-            setError(''); 
+            setError('');
             setLoading(true);
 
             const response = await axios.put('/api/update-profile', updateData); // Example API call
@@ -67,20 +68,24 @@ export default function Profile() {
         }
     };
 
+    const navigateateToCreate = () => {
+        navigate('/create')
+    }
+
     const handleToggle = () => {
         setToggle(!toggle); // Toggle expand/collapse
     };
 
-    const handleSignout = async () => {
-            await SignOut()
-          .then(() => {
-            // Navigate to the homepage after successful sign-out
-            navigate("/");
-          })
-          .catch((error) => {
-            setError('Failed to sign out. Please try again.');
-          });
-      };
+    const handleSignout = () => {
+        SignOut()
+            .then(() => {
+                // Navigate to the homepage after successful sign-out
+                navigate("/");
+            })
+            .catch((error) => {
+                setError('Failed to sign out. Please try again.');
+            });
+    };
 
     return (
         <>
@@ -89,7 +94,7 @@ export default function Profile() {
                     <Navbar />
                     <div className="profile">
                         <img
-                            src="url" // Placeholder for avatar image
+                            src="https://cdn.pixabay.com/photo/2015/03/04/22/35/avatar-659651_640.png"
                             alt="User Avatar"
                             onClick={() => imageUpdate.current.click()}
                         />
@@ -141,24 +146,26 @@ export default function Profile() {
                                         placeholder="Confirm Password"
                                         onChange={handleUpdate}
                                     />
-                                    
+
                                     <button
-                                        className="upating-profile" 
-                                        type="submit" 
-                                        onClick={handleSubmit} 
+                                        className="upating-profile"
+                                        type="submit"
+                                        onClick={handleSubmit}
                                         disabled={loading}>
                                         {loading ? 'Updating...' : 'Update Profile'}
                                     </button>
                                 </div>
                             )}
                         </div>
-                        
-                        <button className="profile-toggle-btn">Create Listing</button>
+
+                        <button className="profile-toggle-btn" onClick={navigateateToCreate}>Create Listing</button>
                         <button className="profile-toggle-btn">Show My Listing</button>
                         <button className="profile-toggle-btn" onClick={handleSignout}>Sign Out</button>
                     </div>
                 </>
             )}
+
+            <Footer />
         </>
     );
 }

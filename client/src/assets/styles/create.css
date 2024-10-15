@@ -2,7 +2,7 @@
     width: 100%;
     max-width: 700px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 2rem;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
@@ -10,11 +10,21 @@
     transition: all 0.3s ease-in-out;
 }
 
+.creating-container{
+    margin: 2rem;
+}
+
+.cheking{
+    display: flex;
+    flex-direction: row;
+    font-size:12px;
+    
+}
+
 /* Form Input Fields */
 .creating input {
     width: calc(100% - 20px);
-    padding: 8px;
-    margin-bottom: 15px;
+    padding: .5rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
@@ -32,22 +42,18 @@
 /* Checkbox Section */
 .check {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin-bottom: 15px;
     align-items: center;
 }
 
-.creating input[type="checkbox"] {
-    margin-right: 6px;
-    transform: scale(0.8); /* Smaller checkboxes */
-}
 
 /* Label Styling */
 .creating label {
     display: block;
     font-weight: 600;
     margin-bottom: 5px;
-    font-size: 14px; /* Smaller label text */
+    font-size: 14px; 
     color: #333;
 }
 
@@ -55,8 +61,7 @@
 .price {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 15px;
+    
 }
 
 .price input[type="number"] {
@@ -115,6 +120,20 @@
     text-transform: uppercase;
     font-weight: bold;
 }
+
+/* Add a class to style the checkbox and label */
+.cheking {
+    display: inline-flex;  
+    align-items: center;   
+    font-size: 16px;
+        
+  }
+  
+  .cheking input[type="checkbox"] {
+    width: 20px;           /* Make the checkbox smaller */
+    height: 20px;          /* Adjust the height to match the width */
+    margin-left:4rem     /* Add some space between the checkbox and label text */
+  }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
