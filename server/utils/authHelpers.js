@@ -1,39 +1,72 @@
-/*
-Utility functions for generating JWT tokens and setting them as cookies for authentication and session management.
-*/
-
 import jwt from 'jsonwebtoken';
+import { ValidationError } from '../utils/customErrors.js';
 
-/**
- * @desc    Generates a JWT token for the authenticated user with their role.
- * @param   {Object} user - The user object from MongoDB.
- * @param   {string} role - The role of the user (default is 'user').
- * @returns {string} - A signed JWT token containing the user's ID, username, email, and role.
- */
-export const generateJWT = (user, role = 'user') => {
-  return jwt.sign(
-    { 
-      id: user._id, 
-      username: user.username, 
-      email: user.email, 
-      role // Include role in the payload
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: '1h' }
-  );
+export const generateJWT = (user) => {
+  console.log('User object received in generateJWT:', JSON.stringify(user, null, 2));
+  if (!user || !user._id || !user.username || !user.email || !user.role) {
+    throw new ValidationError('Invalid user object provided to generateJWT', [
+      { field: '_id', message: 'User ID is missing' },
+      { field: 'username', message: 'Username is missing' },
+      { field: 'email', message: 'Email is missing' },
+      { field: 'role', message: 'Role is missing' }
+    ].filter(error => !user || !user[error.field]));
+  }
+
+  const payload = {
+    id: user._id,
+    username: user.username,
+    email: user.email,
+    role: user.role,
+  };
+
+  const options = {
+    expiresIn: process.env.JWT_EXPIRES_IN || '3d',
+    issuer: process.env.JWT_ISSUER || 'propertyHub',
+    audience: process.env.JWT_AUDIENCE || 'propertyHubApp',
+  };
+
+  return jwt.sign(payload, process.env.JWT_SECRET, options);
 };
 
 /**
- * @desc    Sets the generated JWT token as an HTTP-only cookie.
- * @param   {Object} res - Express response object to set the cookie.
- * @param   {string} token - The JWT token to be set as a cookie.
- * @returns {void}
+ * Generate a token and cookie options for a user
+ * @param {Object} user - The user object
+ * @returns {Object} An object containing the token and cookie options
  */
-export const setTokenCookie = (res, token) => {
-  res.cookie('propertyHubAuthToken', token, {
-    httpOnly: true, // Prevents client-side JavaScript from accessing the cookie
-    secure: false, // Set to true if served over HTTPS
-    maxAge: 3600000, // 1 hour expiration
-    sameSite: 'strict', // Ensures cookies are only sent in first-party contexts
-  });
+export const generateTokenAndCookieOptions = (user) => {
+  const token = generateJWT(user);
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  };
+  return { token, cookieOptions };
+};
+
+/**
+ * Set the JWT token in a cookie
+ * @param {Object} res - The response object
+ * @param {string} token - The JWT token
+ * @param {Object} cookieOptions - The cookie options
+ */
+export const setTokenCookie = (res, token, cookieOptions) => {
+  if (!res || !token || !cookieOptions) {
+    throw new Error('Invalid parameters provided to setTokenCookie');
+  }
+  res.cookie('propertyHubAuthToken', token, cookieOptions);
+};
+
+/**
+ * Verify and decode a JWT token
+ * @param {string} token - The JWT token to verify
+ * @returns {Object} The decoded token payload
+ * @throws {Error} If the token is invalid or expired
+ */
+export const verifyJWT = (token) => {
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (error) {
+    throw new Error('Invalid or expired token');
+  }
 };

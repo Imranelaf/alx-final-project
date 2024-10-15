@@ -55,14 +55,14 @@ const adminSchema = new mongoose.Schema({
   role: {
     type: String,
     enum: ['admin', 'super-admin'],
-    default: 'admin',
+    default: 'admin',  // Default role is "admin"
   },
   permissions: {
     type: [String],
     default: function () {
       return this.role === 'super-admin'
         ? ['manage_users', 'manage_agents', 'view_reports', 'manage_admins']
-        : ['manage_users', 'manage_agents', 'view_reports'];
+        : ['manage_users', 'view_reports'];  // Default permissions for "admin"
     },
     validate: {
       validator: function (permissionsArray) {

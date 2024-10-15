@@ -1,52 +1,39 @@
-/**
- * This file contains middleware functions that check the role of the logged-in user
- * and restrict access to certain routes based on the user's role.
- */
-
-import { formatError } from '../../utils/errorFormatter.js';
+import { ForbiddenError } from '../../utils/customErrors.js';  // Import custom ForbiddenError
 
 /**
  * @desc - Check if the user is an admin
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  * @param {Function} next - The next middleware function
- * @returns {Object} - The response object
- * @throws {Error} - Returns 403 Forbidden if the user is not an admin
+ * @returns {void}
+ * @throws {ForbiddenError} - Throws 403 Forbidden if the user is not an admin
  */
 export const checkIsAdmin = (req, res, next) => {
-  // Check if the user is authenticated and has the role 'admin'
-  if (req.user && req.user.role === 'admin' || req.user.role === 'super-admin') {
-    return next(); // Proceed to the next middleware or controller
+  // Check if the user is authenticated and has the role 'admin' or 'super-admin'
+  if (req.user && (req.user.role === 'admin' || req.user.role === 'super-admin')) {
+    return next();  // Proceed if the user is an admin or super-admin
   }
 
-  // If the user is not an admin, return a 403 Forbidden error
-  return next({
-    message: 'Access forbidden: Admins only.',
-    statusCode: 403,
-  });
+  // If the user is not an admin, throw a ForbiddenError
+  return next(new ForbiddenError('Access forbidden: Admins only.'));
 };
 
 /**
- * 
  * @desc - Check if the user is a super admin
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  * @param {Function} next - The next middleware function
- * @returns {Object} - The response object
- * @throws {Error} - Returns 403 Forbidden if the user is not a super admin
+ * @returns {void}
+ * @throws {ForbiddenError} - Throws 403 Forbidden if the user is not a super admin
  */
 export const checkIsSuperAdmin = (req, res, next) => {
-  // Check if the user is authenticated and has the role 'superadmin'
+  // Check if the user is authenticated and has the role 'super-admin'
   if (req.user && req.user.role === 'super-admin') {
-    return next(); // Proceed to the next middleware or controller
+    return next();  // Proceed if the user is a super-admin
   }
 
-  // If the user is not a superadmin, return a 403 Forbidden error
-  return next(formatError(
-    'Access denied: You do not have the required permissions to perform this action.',
-    [],  // No additional details to pass
-    403  // Forbidden status
-  ));
+  // If the user is not a super-admin, throw a ForbiddenError
+  return next(new ForbiddenError('Access denied: You do not have the required permissions to perform this action.'));
 };
 
 /**
@@ -54,8 +41,8 @@ export const checkIsSuperAdmin = (req, res, next) => {
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  * @param {Function} next - The next middleware function
- * @returns {Object} - The response object
- * @throws {Error} - Returns 403 Forbidden if the user is neither the admin themselves nor a super admin
+ * @returns {void}
+ * @throws {ForbiddenError} - Throws 403 Forbidden if the user is neither the admin themselves nor a super admin
  */
 export const checkIsAdminSelfOrSuperAdmin = (req, res, next) => {
   const { id } = req.params;  // The ID of the admin being accessed (from URL param)
@@ -71,12 +58,8 @@ export const checkIsAdminSelfOrSuperAdmin = (req, res, next) => {
     return next();
   }
 
-  // If neither, deny access with a formatted error
-  return next(formatError(
-    'Access denied: You do not have the required permissions to perform this action.',
-    [],  // No additional details to pass
-    403  // Forbidden status
-  ));
+  // If neither, deny access with a ForbiddenError
+  return next(new ForbiddenError('Access denied: You do not have the required permissions to perform this action.'));
 };
 
 /**
@@ -84,16 +67,8 @@ export const checkIsAdminSelfOrSuperAdmin = (req, res, next) => {
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  * @param {Function} next - The next middleware function
- * @returns {void} - Calls the next middleware if the user is authorized
- * @throws {Error} - Returns 403 Forbidden if the user is neither the admin nor the agent
- */
-/**
- * @desc - Middleware to check if the user is either an admin or the agent themselves
- * @param {Object} req - The request object
- * @param {Object} res - The response object
- * @param {Function} next - The next middleware function
- * @returns {void} - Calls the next middleware if the user is authorized
- * @throws {Error} - Returns 403 Forbidden if the user is neither the admin nor the agent
+ * @returns {void}
+ * @throws {ForbiddenError} - Throws 403 Forbidden if the user is neither the admin nor the agent
  */
 export const checkIsAdminSelfOrAgent = (req, res, next) => {
   const { id } = req.params;  // The agent ID being accessed from the URL
@@ -109,10 +84,6 @@ export const checkIsAdminSelfOrAgent = (req, res, next) => {
     return next();
   }
 
-  // If neither condition is met, deny access with a 403 Forbidden error
-  return next(formatError(
-    'Access forbidden: You are not authorized to update this agent.',
-    [],
-    403
-  ));
+  // If neither condition is met, deny access with a ForbiddenError
+  return next(new ForbiddenError('Access forbidden: You are not authorized to update this agent.'));
 };

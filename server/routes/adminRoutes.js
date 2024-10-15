@@ -15,8 +15,8 @@ import authenticateJWT from '../middleware/auth/authMiddleware.js';  // JWT auth
 import { checkIsAdmin, checkIsSuperAdmin, checkIsAdminSelfOrSuperAdmin} from '../middleware/auth/roleMiddleware.js';
 import { validateAdminFields } from '../middleware/validation/adminValidation.js';
 import { validateAdminUpdateFields } from '../middleware/validation/adminUpdateValidation.js';
-import checkEmptyBody from '../middleware/common/checkEmptyBody.js';
-import checkRequiredFields from '../middleware/common/checkRequiredFields.js'; 
+import { handleValidationErrors } from '../middleware/common/handleValidationErrors.js';
+import {validateObjectId} from '../middleware/validation/validateObjectId.js';
 
 const router = express.Router();
 
@@ -31,20 +31,17 @@ const router = express.Router();
 // Create a new admin (super admin only)
 router.post(
   '/', 
-  checkEmptyBody('Request body is empty. Please provide agent data.'),
   authenticateJWT, 
   checkIsSuperAdmin,
-  checkRequiredFields({ 
-    body: ['firstName', 'lastName', 'username', 'email', 'phoneNumber', 'password']
-  }),
-  validateAdminFields, 
+  validateAdminFields,
+  handleValidationErrors,  
   createAdmin
 );
 
 // Admin Login
 router.post('/login',
    loginAdmin
-  );
+);
 
 // Get all admins (admin-only route)
 router.get('/', 
@@ -54,21 +51,26 @@ router.get('/',
 
 // Get a specific admin by ID (admin-only route)
 router.get('/:id', 
-  authenticateJWT, 
+  authenticateJWT,
+  validateObjectId,
   checkIsAdmin, 
   getAdminById);
 
 // Update admin information (admin-only route)
-router.put('/:id', 
-  authenticateJWT, 
-  checkIsAdminSelfOrSuperAdmin, 
-  validateAdminUpdateFields, 
-  updateAdmin);
+router.put('/:id',
+  authenticateJWT,
+  validateObjectId,  // Add this new middleware
+  checkIsAdminSelfOrSuperAdmin,
+  validateAdminUpdateFields,
+  handleValidationErrors,
+  updateAdmin
+);
 
 // Delete an admin (super admin only)
 router.delete('/:id',
-   authenticateJWT,
-    checkIsAdminSelfOrSuperAdmin,
-     deleteAdmin);
+  authenticateJWT,
+  validateObjectId,
+  checkIsAdminSelfOrSuperAdmin,
+  deleteAdmin);
 
 export default router;

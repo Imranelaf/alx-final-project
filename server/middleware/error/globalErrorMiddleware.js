@@ -1,55 +1,34 @@
-import { formatError } from '../../utils/errorFormatter.js';
+import { ValidationError, BusinessLogicError, NotFoundError, ServerError, CustomError } from '../../utils/customErrors.js';
 
-// Error handler middleware to catch all errors and format them
+/**
+ * Global error handler middleware
+ */
 const errorHandler = (err, req, res, next) => {
-  // If the error is already formatted, send it directly
-  if (err.success === false && err.error) {
-    return res.status(err.statusCode || 500).json(err);
-  }
+    let errorResponse;
 
-  // If the error is not formatted, apply custom logic
-  let statusCode = err.statusCode || 500; // Default to 500 (Internal Server Error)
-  let message = err.message || 'Internal Server Error';
-  let errors = err.errors || []; // Field-specific errors, if any
+    // Check if it's one of our custom errors
+    if (err instanceof CustomError) {
+        errorResponse = err.toJSON();  // Use the custom error's toJSON method
+    } else {
+        // If it's an unknown error, wrap it in a generic ServerError
+        const serverError = new ServerError('An unexpected error occurred');
+        errorResponse = serverError.toJSON();
 
-  // Handle specific error types and adjust message and status code
-  switch (err.name) {
-    case 'ValidationError':
-      statusCode = 400;
-      message = 'Validation failed';
-      if (!errors.length) {
-        errors = Object.values(err.errors).map(e => ({
-          field: e.path,
-          message: e.message,
-        }));
-      }
-      break;
+        // Optionally, log the original error in case it's unexpected
+        console.error('Unexpected Error:', err);
+    }
 
-    case 'CastError':  // MongoDB invalid ObjectId error
-      statusCode = 400;
-      message = `Invalid ${err.path}: ${err.value}`;
-      break;
+    // Log stack trace in development mode for easier debugging
+    if (process.env.NODE_ENV === 'development') {
+        console.error('Error Stack:', err.stack);
+        errorResponse.error.stack = err.stack;  // Include the stack trace in development mode
+    }
 
-    case 'UnauthorizedError':  // JWT or authentication errors
-      statusCode = 401;
-      message = 'Unauthorized access';
-      break;
+    // Ensure statusCode is set in case something went wrong
+    const statusCode = errorResponse.statusCode || 500;
 
-    default:
-      break;
-  }
-
-  // Use formatError utility to format the error consistently
-  const response = formatError(message, errors, statusCode);
-
-  // Log stack trace in development mode for debugging
-  if (process.env.NODE_ENV === 'development') {
-    console.error('Error Stack:', err.stack);
-    response.error.stack = err.stack; // Include the stack trace in development mode
-  }
-
-  // Send the formatted error response
-  return res.status(statusCode).json(response);
+    // Send the formatted error response to the client
+    return res.status(statusCode).json(errorResponse);
 };
 
 export default errorHandler;

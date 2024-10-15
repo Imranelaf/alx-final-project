@@ -8,9 +8,10 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
 import User from '../models/User.js';
-import Admin from '../models/Admin.js';
 import Agent from '../models/Agent.js';
 import { formatError } from '../utils/errorFormatter.js';
+import { authenticateAdmin, authenticateAgent } from '../services/authService.js';  // If singular, for example
+
 
 /*
  * Passport local strategy for authenticating users with an email and password.
@@ -62,102 +63,43 @@ passport.use(
   )
 );
 
-/*
- * Passport local strategy for authenticating admins with an email and password.
- * This strategy handles the verification of admin credentials during login.
- * 
- * @param {String} email - The email provided by the admin.
- * @param {String} password - The password provided by the admin.
- * @param {Function} done - Callback function to indicate success or failure.
- * @returns {Object} - Calls `done` with `null` and admin data if successful or an error/info object otherwise.
- */
+
 passport.use(
   'admin-local',
   new LocalStrategy(
     { usernameField: 'email', passwordField: 'password' },
     async (email, password, done) => {
       try {
-        // Find admin by email
-        const admin = await Admin.findOne({ email });
-
-        if (!admin) {
-          // Admin not found, propagate error using done()
-          const error = formatError(
-            'Invalid email or password.',
-            [],
-            401
-          );
-          return done(null, false, error);  // Passed as info to the next middleware
-        }
-
-        // Check if the password is valid
-        const isPasswordValid = await admin.comparePassword(password);
-        if (!isPasswordValid) {
-          const error = formatError(
-            'Invalid email or password.',
-            [],
-            401
-          );
-          return done(null, false, error);  // Passed as info to the next middleware
-        }
-
-        // Authentication successful, return admin
-        return done(null, admin);
+        const admin = await authenticateAdmin(email, password);
+        return done(null, admin);  // Pass the authenticated admin to the next middleware
       } catch (error) {
-        // Catch and propagate server errors
-        const serverError = formatError('Server error during authentication', [], 500);
-        return done(serverError);  // Passed as error to the next middleware
+        return done(null, false, { message: error.message });  // Pass the error to the controller
       }
     }
   )
 );
 
-/*
- * Passport local strategy for authenticating agents with an email and password.
- * This strategy handles the verification of agent credentials during login.
- * 
- * @param {String} email - The email provided by the agent.
- * @param {String} password - The password provided by the agent.
- * @param {Function} done - Callback function to indicate success or failure.
- * @returns {Object} - Calls `done` with `null` and agent data if successful or an error/info object otherwise.
- */
+// Passport strategy for agent-local authentication
+// Passport strategy for agent-local authentication
 passport.use(
   'agent-local',
   new LocalStrategy(
     { usernameField: 'email', passwordField: 'password' },
     async (email, password, done) => {
       try {
-        const agent = await Agent.findOne({ email });
+        // Call the service to handle agent authentication
+        const { agent } = await authenticateAgent(email, password);
 
-        if (!agent) {
-          const error = formatError(
-            'Invalid email or password.',
-            [],
-            401
-          );
-          return done(null, false, error); // Passed as info to the next middleware
-        }
-
-        const isPasswordValid = await agent.comparePassword(password);
-        if (!isPasswordValid) {
-          const error = formatError(
-            'Invalid email or password.',
-            [],
-            401
-          );
-          return done(null, false, error); // Passed as info to the next middleware
-        }
-
-        // Authentication successful, return agent
+        // Pass the authenticated agent to the next middleware
         return done(null, agent);
       } catch (error) {
-        // Catch and propagate server errors
-        const serverError = formatError('Server error during authentication', [], 500);
-        return done(serverError); // Passed as error to the next middleware
+        // Pass the error to the controller (since service now throws errors)
+        return done(null, false, error);
       }
     }
   )
 );
+
 
 /*
  * Passport strategy for signing up users using Google OAuth 2.0.
