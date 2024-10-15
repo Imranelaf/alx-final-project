@@ -1,7 +1,7 @@
-/*
-Controller functions for managing admin operations such as creating, updating, deleting admins, and
-handling admin authentication. Includes JWT generation and error handling.
-*/
+/**
+ * Controller functions for managing admin operations such as creating, updating, deleting admins, and
+ * handling admin authentication. Includes JWT generation and error handling.
+ */
 
 import Admin from '../../models/Admin.js';
 import { validationResult } from 'express-validator';
@@ -9,79 +9,86 @@ import { generateJWT, setTokenCookie } from '../../utils/authHelpers.js';
 import passport from 'passport';
 import '../../config/passport.js';
 import { formatError } from '../../utils/errorFormatter.js';
+import {isValidObjectId} from '../../utils/mongooseUtils.js';
 
 /**
- * @desc    Creates a new admin and saves it to the database. 
- *          If validation fails or the email/phone already exists, an error is returned.
- * @route   POST /api/admin
- * @access  Private (Super Admin)
- * @param   {Object} req - Express request object containing admin fields (firstName, lastName, email, etc.)
- * @param   {Object} res - Express response object for sending responses.
- * @param   {Function} next - Express next middleware function for error handling.
- * @returns {Object} - Success message with admin details and JWT token in a cookie.
- * @throws  {Error} - Validation error if the fields are incorrect or email/phone is already registered.
+ * @desc Create a new admin (super-admin only)
+ * @param {Object} req - Express request object containing admin's data.
+ * @param {Object} res - Express response object used to send the result.
+ * @param {Function} next - Express middleware function for error handling or passing control to the next middleware.
+ * @returns {JSON} - Success response with the new admin's data and a JWT token if creation is successful.
+ * @throws {Error} - If validation or business logic errors occur, returns a formatted error message.
  */
 export const createAdmin = async (req, res, next) => {
-  const validationErrors = validationResult(req);
   let errors = [];
 
+  const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
     errors = validationErrors.array().map(err => ({
-      field: err.path, 
+      field: err.param,
       message: err.msg,
     }));
   }
 
-  const { firstName, lastName, email, password, phoneNumber, role } = req.body;
+  const {
+    firstName,
+    lastName,
+    username,
+    email,
+    phoneNumber,
+    password,
+    role, // Optional, defaults to 'admin'
+    permissions, // Optional, defaults based on role
+    profileImage, // Optional field
+  } = req.body;
 
   try {
-    // Check if an admin with this email or phone number already exists
     const existingAdmin = await Admin.findOne({
-      $or: [{ email }, { phoneNumber }]
+      $or: [{ username }, { email }, { phoneNumber }]
     });
 
     if (existingAdmin) {
+      if (existingAdmin.username === username) {
+        errors.push({ field: 'username', message: 'Username is already in use' });
+      }
       if (existingAdmin.email === email) {
-        errors.push({ field: 'email', message: 'Email is already registered.' });
+        errors.push({ field: 'email', message: 'Email is already in use' });
       }
       if (existingAdmin.phoneNumber === phoneNumber) {
-        errors.push({ field: 'phoneNumber', message: 'Phone number is already registered.' });
+        errors.push({ field: 'phoneNumber', message: 'Phone number is already in use' });
       }
     }
 
     if (errors.length > 0) {
-      return next(formatError('Validation failed', errors, 400));
+      return next(formatError('Validation or business logic errors occurred.', errors, 400));
     }
 
-    // Create the new admin
+    // Create a new admin with the provided and default fields
     const newAdmin = new Admin({
       firstName,
       lastName,
+      username,
       email,
-      password, // Password will be hashed via the pre-save hook
       phoneNumber,
-      role, // Can be 'admin' or 'super-admin'
+      password,
+      role: role || 'admin', // Default role is 'admin'
+      permissions, // If permissions are provided, use them, otherwise default to role-based permissions
+      profileImage, // Include profileImage if provided
     });
 
     await newAdmin.save();
 
-    // Generate JWT for the new admin and set cookie
-    const token = generateJWT(newAdmin, role);
+    const token = generateJWT(newAdmin, newAdmin.role);
+
     setTokenCookie(res, token);
 
     return res.status(201).json({
       success: true,
-      message: 'Admin created successfully!',
-      data: {
-        id: newAdmin._id,
-        firstName: newAdmin.firstName,
-        lastName: newAdmin.lastName,
-        email: newAdmin.email,
-        role: newAdmin.role,
-      },
+      message: 'Admin created successfully.',
+      data: newAdmin,
     });
   } catch (error) {
-    return next(error);
+    return next(formatError('Server error while creating admin', [], 500));
   }
 };
 
@@ -106,11 +113,9 @@ export const loginAdmin = (req, res, next) => {
       return next(info);  // Pass Authentication Error to the global error handler
     }
 
-    // Generate JWT and set it as a cookie
     const token = generateJWT(admin, admin.role);  // Generate the JWT for the admin
-    setTokenCookie(res, token);  // Set the JWT as a cookie
+    setTokenCookie(res, token);
 
-    // Return success response with admin data
     return res.status(200).json({
       success: true,
       message: 'Admin logged in successfully!',
@@ -140,20 +145,17 @@ export const getAllAdmins = async (req, res, next) => {
   try {
     const admins = await Admin.find().select('-password'); // Exclude the password field
 
-    // Check if no admins were found
     if (!admins || admins.length === 0) {
       return next(formatError('No admins found', [], 404));
     }
 
-    // Return the list of admins if found
     return res.status(200).json({
       success: true,
       data: admins,
     });
 
   } catch (error) {
-    // Pass a formatted error using formatError
-    return next(formatError('Error retrieving admins from the database', [], 500, error));
+    return next(formatError('Server error while fetching admins', [], 500, error));
   }
 };
 
@@ -170,22 +172,25 @@ export const getAllAdmins = async (req, res, next) => {
  */
 export const getAdminById = async (req, res, next) => {
   try {
-    // Find admin by ID and exclude the password field
+    const { id } = req.params;
+
+    // Check if the ID is a valid MongoDB ObjectId
+    if (!isValidObjectId(id)) {
+      return next(formatError('Invalid agent ID', [], 400));
+    }
+
     const admin = await Admin.findById(req.params.id).select('-password');
 
-    // Check if admin is not found
     if (!admin) {
       return next(formatError('Admin not found', [], 404));
     }
 
-    // Return the admin data
     return res.status(200).json({
       success: true,
       data: admin,
     });
 
   } catch (error) {
-    // Pass a formatted error for any server issues
     return next(formatError('Error retrieving admin', [], 500, error));
   }
 };
@@ -206,11 +211,15 @@ export const updateAdmin = async (req, res, next) => {
     const { id } = req.params;
     const updates = req.body;
 
+    // Check if the ID is a valid MongoDB ObjectId
+    if (!isValidObjectId(id)) {
+      return next(formatError('Invalid admin ID', [], 400));
+    }
+
     // Extract the validation errors from the request
     const validationErrors = validationResult(req);
     let errors = [];
 
-    // Handle express-validator errors
     if (!validationErrors.isEmpty()) {
       errors = validationErrors.array().map(err => ({
         field: err.param,
@@ -238,12 +247,10 @@ export const updateAdmin = async (req, res, next) => {
       runValidators: true, // Apply schema validations for fields like email and phone number
     }).select('-password'); // Exclude password from the response
 
-    // If admin not found, return a 404 error
     if (!updatedAdmin) {
       return next(formatError('Admin not found', [], 404));
     }
 
-    // Return success response with the updated fields
     return res.status(200).json({
       success: true,
       message: 'Admin information updated successfully.',
@@ -280,18 +287,20 @@ export const deleteAdmin = async (req, res, next) => {
   try {
     const { id } = req.params;
 
+    // Check if the ID is a valid MongoDB ObjectId
+    if (!isValidObjectId(id)) {
+      return next(formatError('Invalid admin ID', [], 400));
+    }
+
     // Find the admin by the provided ID
     const adminToDelete = await Admin.findById(id);
 
-    // If admin not found, return a 404 error
     if (!adminToDelete) {
       return next(formatError('Admin not found', [], 404));
     }
 
-    // Perform the deletion
     await adminToDelete.deleteOne();
 
-    // Return success response
     return res.status(200).json({
       success: true,
       message: 'Admin deleted successfully!',

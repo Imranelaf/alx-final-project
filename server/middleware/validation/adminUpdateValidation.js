@@ -1,3 +1,7 @@
+/**
+ * This file contains middleware functions that validate the fields for updating an admin.
+ */
+
 import { body } from 'express-validator';
 
 /**
@@ -5,7 +9,7 @@ import { body } from 'express-validator';
  * 
  * @returns {Array} An array of validation rules to be applied before handling admin update requests.
  */
-export const validateAdminFields = [
+export const validateAdminUpdateFields = [
   // First name validation (optional for update)
   body('firstName')
     .optional()
@@ -45,19 +49,22 @@ export const validateAdminFields = [
       return true;
     }),
 
-  // Permissions validation (optional, must be an array of strings if provided)
-  body('permissions')
+    body('permissions')
     .optional()
     .isArray().withMessage('Permissions must be an array.')
-    .custom((permissions) => {
+    .custom((permissions, { req }) => {
       const validPermissions = ['manage_users', 'manage_agents', 'view_reports', 'manage_admins'];
-      for (const permission of permissions) {
-        if (!validPermissions.includes(permission)) {
-          throw new Error(`Invalid permission: ${permission}.`);
-        }
+
+      // Ensure all provided permissions are valid
+      const allValid = permissions.every(permission => validPermissions.includes(permission));
+
+      if (!allValid) {
+        throw new Error('Invalid permission. Valid options are: manage_users, manage_agents, view_reports, manage_admins.');
       }
+
       return true;
-    }),
+    })
+    .withMessage('Permissions must only contain valid values: manage_users, manage_agents, view_reports, manage_admins.'),
 
   // Profile image URL validation (optional)
   body('profileImage')

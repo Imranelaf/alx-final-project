@@ -1,8 +1,6 @@
-/*
-This file defines the schema for the Admin model in the database, which includes
-fields for personal information, authentication, role-based access, and permissions.
-It also includes pre-save middleware for password hashing and methods for authentication.
-*/
+/**
+ * This file contains the schema for the Admin model.
+ */
 
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
@@ -22,6 +20,14 @@ const adminSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Last name is required.'],
     maxlength: [50, 'Last name cannot exceed 50 characters.'],
+  },
+  username: {
+    type: String,
+    required: [true, 'Username is required.'],
+    unique: true,
+    minlength: [4, 'Username must be at least 4 characters long.'],
+    maxlength: [30, 'Username cannot exceed 30 characters.'],
+    match: [/^[a-zA-Z0-9_]+$/, 'Username can only contain alphanumeric characters and underscores.'],
   },
   email: {
     type: String,
@@ -110,7 +116,8 @@ adminSchema.virtual('fullName').get(function () {
 // Indexing important fields for performance
 adminSchema.index({ email: 1 });
 adminSchema.index({ phoneNumber: 1 });
-adminSchema.index({ role: 1 }); // Indexing role for faster querying on role-based access
+adminSchema.index({ role: 1 });
+adminSchema.index({ username: 1 });  // Index the username for performance
 
 // Compile the schema into a model
 const Admin = mongoose.model('Admin', adminSchema);

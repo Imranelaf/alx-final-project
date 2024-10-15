@@ -1,15 +1,16 @@
-/*
-This file configures the passport authentication middleware using JWT strategy 
-to verify tokens and authenticate admin users. It attaches the admin data 
-to the request object upon successful authentication.
-*/
+/**
+ * This file configures the passport authentication middleware using JWT strategy 
+ * to verify tokens and authenticate admin users. It attaches the admin data 
+ * to the request object upon successful authentication.
+ */
 
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
 import User from '../models/User.js';
 import Admin from '../models/Admin.js';
-import { formatError } from '../utils/errorFormatter.js'; // For consistent error formatting
+import Agent from '../models/Agent.js';
+import { formatError } from '../utils/errorFormatter.js';
 
 /*
  * Passport local strategy for authenticating users with an email and password.
@@ -33,7 +34,7 @@ passport.use(
           // User not found, propagate error using done()
           const error = formatError(
             'Invalid email or password.',
-            [{ field: 'email', message: 'User not found' }],
+            [{ field: 'email', message: 'Admin not found' }],
             401
           );
           return done(null, false, error); // Passed as info to the next middleware
@@ -83,7 +84,7 @@ passport.use(
           // Admin not found, propagate error using done()
           const error = formatError(
             'Invalid email or password.',
-            [{ field: 'email', message: 'Admin not found' }],
+            [],
             401
           );
           return done(null, false, error);  // Passed as info to the next middleware
@@ -94,7 +95,7 @@ passport.use(
         if (!isPasswordValid) {
           const error = formatError(
             'Invalid email or password.',
-            [{ field: 'password', message: 'Incorrect password' }],
+            [],
             401
           );
           return done(null, false, error);  // Passed as info to the next middleware
@@ -106,6 +107,53 @@ passport.use(
         // Catch and propagate server errors
         const serverError = formatError('Server error during authentication', [], 500);
         return done(serverError);  // Passed as error to the next middleware
+      }
+    }
+  )
+);
+
+/*
+ * Passport local strategy for authenticating agents with an email and password.
+ * This strategy handles the verification of agent credentials during login.
+ * 
+ * @param {String} email - The email provided by the agent.
+ * @param {String} password - The password provided by the agent.
+ * @param {Function} done - Callback function to indicate success or failure.
+ * @returns {Object} - Calls `done` with `null` and agent data if successful or an error/info object otherwise.
+ */
+passport.use(
+  'agent-local',
+  new LocalStrategy(
+    { usernameField: 'email', passwordField: 'password' },
+    async (email, password, done) => {
+      try {
+        const agent = await Agent.findOne({ email });
+
+        if (!agent) {
+          const error = formatError(
+            'Invalid email or password.',
+            [],
+            401
+          );
+          return done(null, false, error); // Passed as info to the next middleware
+        }
+
+        const isPasswordValid = await agent.comparePassword(password);
+        if (!isPasswordValid) {
+          const error = formatError(
+            'Invalid email or password.',
+            [],
+            401
+          );
+          return done(null, false, error); // Passed as info to the next middleware
+        }
+
+        // Authentication successful, return agent
+        return done(null, agent);
+      } catch (error) {
+        // Catch and propagate server errors
+        const serverError = formatError('Server error during authentication', [], 500);
+        return done(serverError); // Passed as error to the next middleware
       }
     }
   )

@@ -1,6 +1,6 @@
-/*
-Defines admin routes for management, login, and CRUD operations, with role-based access and JWT protection.
-*/
+/**
+ * This file contains the routes for admin management in the system.
+ */
 
 import express from 'express';
 import {
@@ -12,8 +12,11 @@ import {
   deleteAdmin,
 } from '../controllers/admin/adminController.js';
 import authenticateJWT from '../middleware/auth/authMiddleware.js';  // JWT auth middleware for protected routes
-import { checkIsAdmin, checkIsSuperAdmin, checkIsAdminSelfOrSuperAdmin} from '../middleware/auth/roleMiddleware.js';  // Role-based access control for admin/super-admin
-import { validateAdminFields } from '../middleware/validation/adminValidation.js';  // Input validation for admin
+import { checkIsAdmin, checkIsSuperAdmin, checkIsAdminSelfOrSuperAdmin} from '../middleware/auth/roleMiddleware.js';
+import { validateAdminFields } from '../middleware/validation/adminValidation.js';
+import { validateAdminUpdateFields } from '../middleware/validation/adminUpdateValidation.js';
+import checkEmptyBody from '../middleware/common/checkEmptyBody.js';
+import checkRequiredFields from '../middleware/common/checkRequiredFields.js'; 
 
 const router = express.Router();
 
@@ -25,11 +28,47 @@ const router = express.Router();
 
 // Admin Management
 
-router.post('/', authenticateJWT, checkIsSuperAdmin, validateAdminFields, createAdmin); // Create a new admin (super admin only)
-router.post('/login', loginAdmin); // Admin login route (public route)
-router.get('/', authenticateJWT, checkIsAdmin, getAllAdmins);        // Get all admins (admin-only route)
-router.get('/:id', authenticateJWT, checkIsAdmin, getAdminById);     // Get a specific admin by ID (admin-only)
-router.put('/:id', authenticateJWT, checkIsAdminSelfOrSuperAdmin, updateAdmin);      // Update admin information (admin-only)
-router.delete('/:id', authenticateJWT, checkIsAdminSelfOrSuperAdmin, deleteAdmin);  // Delete an admin (super admin only)
+// Create a new admin (super admin only)
+router.post(
+  '/', 
+  checkEmptyBody('Request body is empty. Please provide agent data.'),
+  authenticateJWT, 
+  checkIsSuperAdmin,
+  checkRequiredFields({ 
+    body: ['firstName', 'lastName', 'username', 'email', 'phoneNumber', 'password']
+  }),
+  validateAdminFields, 
+  createAdmin
+);
+
+// Admin Login
+router.post('/login',
+   loginAdmin
+  );
+
+// Get all admins (admin-only route)
+router.get('/', 
+  authenticateJWT,
+  checkIsAdmin, 
+  getAllAdmins);
+
+// Get a specific admin by ID (admin-only route)
+router.get('/:id', 
+  authenticateJWT, 
+  checkIsAdmin, 
+  getAdminById);
+
+// Update admin information (admin-only route)
+router.put('/:id', 
+  authenticateJWT, 
+  checkIsAdminSelfOrSuperAdmin, 
+  validateAdminUpdateFields, 
+  updateAdmin);
+
+// Delete an admin (super admin only)
+router.delete('/:id',
+   authenticateJWT,
+    checkIsAdminSelfOrSuperAdmin,
+     deleteAdmin);
 
 export default router;
