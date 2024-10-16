@@ -1,46 +1,42 @@
-import User from '../../models/User.js';
 
-// Controller to check if a username is available
+
+import { 
+  isUsernameAvailable, 
+  isEmailAvailable 
+} from '../../services/validationServices.js';
+
+/**
+ * Controller to check if a username is available.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express middleware for error handling.
+ */
 export const checkUsername = async (req, res, next) => {
-  const { username } = req.params; // Get the username from the request parameters
+  const { username } = req.params;
 
   try {
-    const existingUser = await User.findOne({ username });
+    await isUsernameAvailable(username); // Call the service layer
 
-    if (existingUser) {
-      const error = new Error('Username is already taken.');
-      error.statusCode = 400;
-      error.errors = [{ field: 'username', message: 'This username is unavailable.' }];
-      return next(error);  // handleValidationErros handler will catch and format this
-    }
-
-    // If username is available, return success
     return res.status(200).json({ success: true, message: 'Username is available.' });
   } catch (error) {
-    console.error('Error checking username availability:', error);
-    return next(error); // Pass any unexpected errors to the handleValidationErros handler
+    return next(error); // Forward errors to the global error handler
   }
 };
 
-
-// Controller to check if an email is already registered
+/**
+ * Controller to check if an email is already registered.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express middleware for error handling.
+ */
 export const checkEmail = async (req, res, next) => {
-  const { email } = req.params;  // Get the email from the request parameters
+  const { email } = req.params;
 
   try {
-    const existingUser = await User.findOne({ email });
+    await isEmailAvailable(email); // Call the service layer
 
-    if (existingUser) {
-      const error = new Error('Email is already taken.');
-      error.statusCode = 400;
-      error.errors = [{ field: 'email', message: 'This email is already taken.' }];
-      return next(error);  // handleValidationErros handler will catch and format this
-    }
-
-    // If email is available, return success
     return res.status(200).json({ success: true, message: 'Email is available.' });
   } catch (error) {
-    console.error('Error checking email availability:', error);
-    return next(error); // Pass any unexpected errors to the handleValidationErros handler
+    return next(error); // Forward errors to the global error handler
   }
 };

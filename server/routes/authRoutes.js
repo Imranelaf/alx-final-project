@@ -10,14 +10,14 @@ import {
   checkEmail,
 } from '../controllers/validation/validationController.js'; // Controllers for username and email checks
 import {
-  signupUser,
+  createUser,
   authenticateUser,
   // logoutUser,
   // forgotPassword,
   // resetPassword,
   // verifyToken
-} from '../controllers/auth/localAuthController.js';
-import { validateSignUpFields } from '../middleware/validation/signupValidation.js';
+} from '../controllers/auth/userAuthController.js';
+import { validateUserFields } from '../middleware/validation/userValidation.js';
 
 import authenticateJWT from '../middleware/auth/authMiddleware.js';
 
@@ -77,31 +77,29 @@ router.get(
  */
 
 // Sign-up route with validation
-router.post('/signup', validateSignUpFields, signupUser);
+router.post(
+  '/signup', 
+  validateUserFields,
+  handleValidationErrors,  
+  createUser
+);
 
 // Check if username is available (with validation middleware)
-router.get('/check-username/:username', checkUsername);
+router.get(
+  '/check-username/:username', 
+  checkUsername);
 
 // Check if email is already registered (with validation middleware)
-router.get('/check-email/:email', checkEmail);
+router.get(
+  '/check-email/:email', 
+  checkEmail);
+
 
 // User login with email and password (Local Authentication)
-router.post('/signin', (req, res, next) => {
-  passport.authenticate('local', { session: false }, (err, user, info) => {
-    if (err) {
-      return next(err);  // Pass server-side error to global error handler
-    }
-
-    if (!user) {
-      // Pass the formatted error (`info`) to the global error handler
-      return next(info);
-    }
-
-    // If authentication is successful, proceed to the controller
-    req.user = user;
-    next();
-  })(req, res, next);
-}, authenticateUser);
+router.post(
+  '/signin', 
+  authenticateUser
+);
 
 /* 
 // Logout route (JWT-based, invalidates JWT on the client-side)

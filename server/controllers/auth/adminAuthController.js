@@ -44,42 +44,42 @@ export const createAdmin = async (req, res, next) => {
     }
   };
   
-  /**
-   * Login admin controller.
-   * @param {Object} req - Express request object.
-   * @param {Object} res - Express response object.
-   * @param {Function} next - Express middleware function for error handling.
-   */
-  export const loginAdmin = (req, res, next) => {
-    passport.authenticate('admin-local', { session: false }, async (err, admin, info) => {
-      if (err) {
-        return next(err);  // Handle server error
-      }
-  
-      if (!admin) {
-        // If no admin is found, pass the UnauthorizedError to the error handler
-        const error = new UnauthorizedError(info?.message || 'Authentication failed');
-        return next(error);
-      }
-  
-      try {
-        // Generate token and get cookie options
-        const { token, cookieOptions } = generateTokenAndCookieOptions(admin);
-  
-        // Set the JWT token in the cookie
-        setTokenCookie(res, token, cookieOptions);
-  
-        // Exclude sensitive fields from the response
-        const adminResponse = excludeSensitiveInfo(admin, ['password', '__v']);
-  
-        return res.status(200).json({
-          success: true,
-          message: 'Admin logged in successfully!',
-          data: adminResponse,
-        });
-      } catch (error) {
-        // Pass any errors to the error handler
-        return next(error);
-      }
-    })(req, res, next);
-  };
+/**
+ * Login admin controller.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express middleware function for error handling.
+ */
+export const loginAdmin = (req, res, next) => {
+  passport.authenticate('admin-local', { session: false }, async (err, admin, info) => {
+    if (err) {
+      return next(err);  // Handle server error
+    }
+
+    if (!admin) {
+      // If no admin is found, pass the UnauthorizedError to the error handler
+      const error = new UnauthorizedError(info?.message || 'Authentication failed');
+      return next(error);
+    }
+
+    try {
+      // Generate token and get cookie options
+      const { token, cookieOptions } = generateTokenAndCookieOptions(admin);
+
+      // Set the JWT token in the cookie
+      setTokenCookie(res, token, cookieOptions);
+
+      // Exclude sensitive fields from the response
+      const adminResponse = excludeSensitiveInfo(admin, ['password', '__v']);
+
+      return res.status(200).json({
+        success: true,
+        message: 'Admin logged in successfully!',
+        data: adminResponse,
+      });
+    } catch (error) {
+      // Pass any errors to the error handler
+      return next(error);
+    }
+  })(req, res, next);
+};
