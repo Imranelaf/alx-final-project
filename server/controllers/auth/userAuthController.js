@@ -3,6 +3,7 @@ import '../../config/passport.js';
 import { createNewUser } from '../../services/userServices.js';
 import { generateTokenAndCookieOptions, setTokenCookie } from '../../utils/authHelpers.js';
 import { excludeSensitiveInfo } from '../../utils/excludeSensitiveInfo.js';
+import { clearTokenCookie } from '../../services/authService.js';
 
 /**
  * @desc    Controller to handle the registration of new users.
@@ -74,4 +75,27 @@ export const authenticateUser = async (req, res, next) => {
       return next(error);  // Pass any unexpected error to the global error handler
     }
   })(req, res, next);
+};
+
+/**
+ * Controller for logging out a user.
+ * @desc Clears the authentication token stored in the user's cookie, effectively logging them out.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object used to send the result of the logout.
+ * @param {Function} next - Express middleware function for error handling.
+ * @returns {JSON} - Success message indicating the user has logged out.
+ */
+export const logoutUser = (req, res, next) => {
+  try {
+    // Call the service to clear the authentication token cookie
+    clearTokenCookie(res);
+
+    // Send a response indicating successful logout
+    return res.status(200).json({
+      success: true,
+      message: 'User logged out successfully.',
+    });
+  } catch (error) {
+    next(error); // Pass any errors to the global error handler
+  }
 };

@@ -170,5 +170,20 @@ export const authenticateUserService = async (email, password) => {
   }
 };
 
-
+/**
+ * Clears the authentication token cookie, effectively logging the user out.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ */
+export const clearTokenCookie = (res) => {
+  const cookieOptions = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 0,
+  };
+  
+  // Clear the cookie by setting it with an expired maxAge
+  res.cookie('propertyHubAuthToken', '', cookieOptions);
+};
 

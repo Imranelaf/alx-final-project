@@ -12,7 +12,7 @@ import {
 import {
   createUser,
   authenticateUser,
-  // logoutUser,
+  logoutUser,
   // forgotPassword,
   // resetPassword,
   // verifyToken
@@ -102,7 +102,10 @@ router.post(
 );
 
 // Logout route (JWT-based, invalidates JWT on the client-side)
-router.post('/logout', logoutUser);
+router.post(
+  '/logout', 
+  logoutUser
+);
 
 /* 
 // Forgot Password (Send reset password link)
