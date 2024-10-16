@@ -1,34 +1,35 @@
+/**
+ * This file contains the routes for user management in the system.
+ */
 
 import express from 'express';
+
+// Controllers
 import {
   getUsersByFilter,
   getUserById,
   updateUser,
   deleteUser,
+  addPropertyToUserController
 } from '../controllers/user/userController.js';
-import {validateObjectId} from '../middleware/validation/validateObjectId.js';
-import authenticateJWT from '../middleware/auth/authMiddleware.js';
 
-import { 
-  checkIsUserSelfOrAdmin
-} from '../middleware/auth/roleMiddleware.js';  // Role-based access control
-import { validateUpdateUserFields } from '../middleware/validation/userUpdateValidation.js';  // Input validation for users
+// Middleware - Authentication & Authorization
+import authenticateJWT from '../middleware/auth/authMiddleware.js';
+import { checkIsUserSelfOrAdmin } from '../middleware/auth/roleMiddleware.js';  // Role-based access control
+
+// Middleware - Validation
+import { validateObjectId } from '../middleware/validation/validateObjectId.js';
+import { validateUpdateUserFields } from '../middleware/validation/userUpdateValidation.js';
+
 
 
 const router = express.Router();
 
-/**
- * ============================
- * User Routes
- * ============================
- */
-
-// Get all users (public)
+// Get Users by filter (public)
 router.get(
   '/', 
   getUsersByFilter
 );
-
 
 // Get a specific users by ID (public)
 router.get(
@@ -47,7 +48,7 @@ router.put(
   updateUser
 );
 
-// Delete an user (admin or the user themselves)
+// Delete a user (admin or the user themselves)
 router.delete(
   '/:id', 
   authenticateJWT,
@@ -56,5 +57,10 @@ router.delete(
   deleteUser
 );
 
-export default router;
+router.post(
+  '/:userId/add-property',  // Use :userId in the URL
+  addPropertyToUserController
+);
 
+
+export default router;

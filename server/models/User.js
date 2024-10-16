@@ -77,7 +77,11 @@ const userSchema = new mongoose.Schema({
     isUsernameCustomized: {
         type: Boolean,   // Field to indicate if the username was customized by the user
         default: false,  // Default value is false (automatically generated username)
-    }
+    },
+    properties: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Property', // Reference to properties owned or managed by the user
+    }],
 }, 
 { timestamps: true } // Save the date of creation/update
 );

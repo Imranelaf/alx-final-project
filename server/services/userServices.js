@@ -1,4 +1,15 @@
+/**
+ * This file contains the services for user management in the system.
+ * It handles business logic for creating, updating, retrieving, and deleting users.
+ */
+
 import User from '../models/User.js';
+
+// Utility imports
+import { checkDuplicateFields } from '../utils/checkDuplicateFields.js';
+import { removeRestrictedFields } from '../utils/removeRestrictedFields.js';
+
+// Custom error imports
 import { 
   BusinessLogicError, 
   ServerError, 
@@ -6,8 +17,7 @@ import {
   ValidationError,
   MongooseValidationError 
 } from '../utils/customErrors.js';
-import { checkDuplicateFields } from '../utils/checkDuplicateFields.js';
-import { removeRestrictedFields } from '../utils/removeRestrictedFields.js';
+
 
 /**
  * Business logic to create a new user.
@@ -19,36 +29,30 @@ export const createNewUser = async (userData) => {
   try {
     const { firstName, lastName, username, email, password } = userData;
 
-    // Check for duplicate fields (email, username)
     const duplicateErrors = await checkDuplicateFields(User, { email, username });
 
-    // If duplicates are found, throw BusinessLogicError
     if (duplicateErrors.length > 0) {
       throw new BusinessLogicError('Duplicate fields found', duplicateErrors);
     }
 
-    // Create a new user
     const newUser = new User({
       firstName,
       lastName,
       username,
       email,
       password, // Password will be hashed automatically before saving
-      role: 'user', // Default role is 'user'
+      role: 'user',
     });
 
-    // Save the new user to the database
     await newUser.save();
 
-    // Return the newly created user
     return newUser;
 
   } catch (error) {
-    // Throw any error to be caught by the controller
     if (error instanceof BusinessLogicError) {
       throw error;
     } else {
-      throw new ServerError('Error creating user'); // Default to ServerError for unexpected errors
+      throw new ServerError('Error creating user');
     }
   }
 };
@@ -82,14 +86,11 @@ export const getUsersByFilterService = async (filters) => {
       query.accountStatus = filters.accountStatus;  // Match exact account status
     }
 
-    // Fetch users from the database based on the query
     const users = await User.find(query);
 
-    // Return the array of users
     return users;
 
   } catch (error) {
-    // Handle unexpected errors
     throw new ServerError('Error fetching users from the database');
   }
 };
@@ -103,26 +104,23 @@ export const getUsersByFilterService = async (filters) => {
  */
 export const getUserByIdService = async (userId) => {
   try {
-    // Fetch user by ID
     const user = await User.findById(userId);
 
     if (!user) {
       throw new NotFoundError(`User with ID ${userId} not found`);
     }
 
-    return user; // Return raw user data
+    return user;
   } catch (error) {
     if (error instanceof NotFoundError) {
-      throw error; // Pass specific NotFoundError
+      throw error;
     }
 
-    // Wrap any unexpected errors in a ServerError
     throw new ServerError('Error while fetching user', 500);
   }
 };
 
 /**
- * Service to update a specific user's information.
  * @param {string} id - The user's ID.
  * @param {Object} updates - The updates to be applied to the user.
  * @param {string} userRole - The role of the user making the update request (either 'user' or 'admin').
@@ -134,12 +132,10 @@ export const getUserByIdService = async (userId) => {
  */
 export const updateUserService = async (id, updates, userRole) => {
   try {
-    // List of fields that cannot be modified
     const restrictedFields = ['role', 'accountStatus', 'createdAt', 'lastLogin'];
     
     const sanitizedUpdates = removeRestrictedFields(updates, restrictedFields);
 
-    // Find and update the user
     const updatedUser = await User.findByIdAndUpdate(id, sanitizedUpdates, {
       new: true,  // Return the updated document
       runValidators: true,  // Apply schema validations
@@ -152,14 +148,12 @@ export const updateUserService = async (id, updates, userRole) => {
     return updatedUser;
 
   } catch (error) {
-    // Handle Mongoose validation errors
     if (error.name === 'ValidationError') {
       throw new MongooseValidationError(error);
     } else if (error instanceof NotFoundError || error instanceof ForbiddenError) {
-      throw error;  // Rethrow known errors
+      throw error;
     }
 
-    // Handle any unexpected server-side errors
     throw new ServerError('Server error while updating user information');
   }
 };
@@ -190,3 +184,40 @@ export const deleteUserService = async (id) => {
   }
 };
 
+/**
+ * Service to add a property to a user's properties array.
+ * @param {string} userId - The user's ID (from the URL).
+ * @param {string} propertyId - The property ID to add (from the body).
+ * @throws {NotFoundError} - If the user is not found.
+ * @throws {BusinessLogicError} - If the property already exists in the user's properties array.
+ * @throws {ServerError} - If an error occurs during the update.
+ * @returns {Object} - The updated user object.
+ */
+export const addPropertyToUser = async (userId, propertyId) => {
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
+
+    // Check if the property already exists in the user's properties array
+    if (user.properties.includes(propertyId)) {
+      throw new BusinessLogicError('Property already added to user.');
+    }
+
+    // Add the property ID to the user's properties array
+    user.properties.push(propertyId);
+
+    // Save the updated user
+    await user.save();
+    
+    return user;
+  } catch (error) {
+    // Throw a specific error if known or a generic server error
+    if (error instanceof NotFoundError || error instanceof BusinessLogicError) {
+      throw error;
+    } else {
+      throw new ServerError('Error updating user properties');
+    }
+  }
+};

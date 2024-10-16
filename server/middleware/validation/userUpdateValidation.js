@@ -73,6 +73,17 @@ export const validateUpdateUserFields = [
     .optional()
     .isISO8601().withMessage('Lock until must be a valid date.'),
 
+  // Properties validation (optional)
+  body('properties')
+  .optional()
+  .isArray().withMessage('Properties must be an array of ObjectIds.')
+  .custom((value) => {
+    if (!value.every(mongoose.Types.ObjectId.isValid)) {
+      throw new Error('Invalid property IDs.');
+    }
+    return true;
+  }),
+
   body('isUsernameCustomized')
     .optional()
     .isBoolean().withMessage('isUsernameCustomized must be a boolean value (true or false).'),

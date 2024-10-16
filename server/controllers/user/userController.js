@@ -1,17 +1,28 @@
-import {excludeSensitiveInfo} from '../../utils/excludeSensitiveInfo.js';
+/**
+ * This file contains the controllers for user management in the system.
+ */
+
+// Utility functions
+import { excludeSensitiveInfo } from '../../utils/excludeSensitiveInfo.js';
+
+// Service functions
 import {
-  getUsersByFilterService, 
+  getUsersByFilterService,
   getUserByIdService,
   deleteUserService,
   updateUserService,
+  addPropertyToUser,
 } from '../../services/userServices.js';
 
 /**
- * @desc    Controller to handle retrieving all or filtered users from the database.
- * @param   {Object} req - Express request object.
- * @param   {Object} res - Express response object used to send the list of users.
+ * @desc    Controller to retrieve users based on query parameters (filters) or return all users if no filters are provided.
+ *          This route is public, meaning it doesn't require authentication.
+ * @route   GET /api/users
+ * @access  Public
+ * @param   {Object} req - Express request object containing query parameters for filtering.
+ * @param   {Object} res - Express response object used to send the list of filtered users or all users.
  * @param   {Function} next - Express next middleware function for error handling.
- * @returns {Object} - JSON response with the success status and list of users.
+ * @returns {Object} - Success response with a list of users or an error.
  */
 export const getUsersByFilter = async (req, res, next) => {
   try {
@@ -31,10 +42,9 @@ export const getUsersByFilter = async (req, res, next) => {
 };
 
 /**
- * @desc    Get a specific user by ID from the database.
- *          Returns user data except for the password field.
- * @route   GET /api/user/:id
- * @access  Private (User/Admin)
+ * @desc    Controller to retrieve a specific user by ID from the database.
+ * @route   GET /api/users/:id
+ * @access  Public
  * @param   {Object} req - Express request object containing the user ID in params.
  * @param   {Object} res - Express response object for sending the user data.
  * @param   {Function} next - Express next middleware function for error handling.
@@ -117,3 +127,32 @@ export const deleteUser = async (req, res, next) => {
     return next(error);
   }
 };
+
+/**
+ * @desc    Controller to add a property to a user's properties array.
+ * @route   POST /api/users/:userId/add-property
+ * @access  Private (User or Admin)
+ * @param   {Object} req - Express request object containing userId in params and propertyId in the body.
+ * @param   {Object} res - Express response object used to send the updated user data.
+ * @param   {Function} next - Express middleware function for error handling.
+ * @returns {JSON} - Success response with the updated user data.
+ */
+export const addPropertyToUserController = async (req, res, next) => {
+  const { userId } = req.params; // Extract userId from URL params
+  const { propertyId } = req.body; // Extract propertyId from the body
+
+  try {
+    // Call the service to add the property to the user's properties array
+    const updatedUser = await addPropertyToUser(userId, propertyId);
+
+    // Return success response with the updated user data
+    return res.status(200).json({
+      success: true,
+      message: 'Property added to user successfully.',
+      data: updatedUser,
+    });
+  } catch (error) {
+    return next(error); // Pass any errors to the global error handler
+  }
+};
+
