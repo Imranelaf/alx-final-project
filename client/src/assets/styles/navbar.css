@@ -6,7 +6,7 @@
     /* This vertically centers the content */
     padding: 1.8rem 2.5rem;
     /* Slightly increased padding for a bigger navbar */
-    background-color: #364e68;
+    background-color: var(--primary-color);
     color: white;
     position: relative;
 }
@@ -61,7 +61,7 @@
     top: 100%;
     left: 0;
     width: 25%;
-    background-color: #364e68;
+    background-color: var(--primary-color);
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
     padding: 1rem 0;
     z-index: 1000;
@@ -70,14 +70,18 @@
 .menu-link {
     display: block;
     padding: 1.2rem;
-    color: white;
+    color: var(--font-color);
     text-align: center;
     text-decoration: none;
     font-size: 1.2rem;
 }
 
 .menu-link:hover {
-    background-color: #2a3c51;
+    background-color: var(--primary-color);
+}
+
+.name-text{
+    cursor: pointer;
 }
 
 /* Profile Menu Styling */
@@ -85,15 +89,15 @@
     position: absolute;
     top: 100%;
     right: 2rem;
-    background-color: white;
+    background-color: var(--font-color);
     padding: 1rem;
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 }
 
 .profile-button {
     display: block;
-    background-color: #364e68;
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--font-color);
     border: none;
     padding: 0.6rem 1.2rem;
     margin-bottom: 0.5rem;
@@ -103,7 +107,7 @@
 }
 
 .profile-button:hover {
-    background-color: #2a3c51;
+    background-color: var(--primary-color);
 }
 
 /* Language Menu Styling */
@@ -111,7 +115,7 @@
     position: absolute;
     top: 100%;
     right: 2rem;
-    background-color: #364e68;
+    background-color: var(--primary-color);
     padding: 1rem;
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 }
@@ -135,7 +139,7 @@
 }
 
 .language-option:hover {
-    background-color: #2a3c51;
+    background-color: var(--primary-color);
 }
 
 /* Responsive Design */
@@ -167,5 +171,9 @@
     .navbar{
         padding: 1rem 1rem;
         height: 4.5rem;
+    }
+    .name-text{
+        margin: 0;
+        font-size: small;
     }
 }
