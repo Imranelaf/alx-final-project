@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "../assets/styles/search.css";
 
 export default function Search() {
@@ -22,10 +23,22 @@ export default function Search() {
     });
   };
 
+  // Function to construct query string based on selected filters
+  const createQueryString = (params) => {
+    return Object.entries(params)
+      .filter(([key, value]) => value !== "" && value !== false) // Filter out empty values
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+      .join("&");
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Filters applied:", filters);
-    // Implement search logic here
+
+    // Create query string based on the filters object
+    const queryString = createQueryString(filters);
+    console.log(queryString)
+
+    //sending query to the backend
   };
 
   return (

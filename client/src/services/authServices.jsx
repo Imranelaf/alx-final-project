@@ -84,21 +84,16 @@ export const checkUsernameAvailability = async (username) => {
 };
 
 
-export const SignOut = () => {
+export const SignOut = async () => {
   try {
-    axios.post(`${API_URL}/api/auth/logout`)
+    // Send logout request to the server
+    await axios.post(`${API_URL}/api/auth/logout`);
     
-      .then(() => {
-        // Clear cookies and local storage after successful sign-out
-        Cookies.remove(tokenName);
-        localStorage.clear();
+    // Clear cookies and local storage after successful sign-out
+    Cookies.remove(tokenName);
+    localStorage.clear();
+    window.location.href= '/'
 
-       
-      })
-      .catch((error) => {
-        console.error('Sign out failed:', error);
-        setError('Failed to sign out. Please try again.');
-      });
   } catch (error) {
     console.error('Sign out failed:', error);
     setError('Failed to sign out. Please try again.');

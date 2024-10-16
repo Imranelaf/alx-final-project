@@ -8,8 +8,6 @@ import { SignOut } from '../services/authServices';
 
 export default function Navbar() {
   const { currentUser } = useSelector((state) => state.user);
-  console.log(currentUser);
-  
   const [toggle, setToggle] = useState({
     isMobileMenuOpen: false,
     isProfileMenuOpen: false,
