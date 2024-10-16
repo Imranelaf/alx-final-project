@@ -4,6 +4,8 @@ import { createNewUser } from '../../services/userServices.js';
 import { generateTokenAndCookieOptions, setTokenCookie } from '../../utils/authHelpers.js';
 import { excludeSensitiveInfo } from '../../utils/excludeSensitiveInfo.js';
 import { clearTokenCookie } from '../../services/authService.js';
+import { UnauthorizedError, } from '../../utils/customErrors.js';
+
 
 /**
  * @desc    Controller to handle the registration of new users.
@@ -99,3 +101,4 @@ export const logoutUser = (req, res, next) => {
     next(error); // Pass any errors to the global error handler
   }
 };
+

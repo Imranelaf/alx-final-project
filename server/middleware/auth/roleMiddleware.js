@@ -70,7 +70,7 @@ export const checkIsAdminSelfOrSuperAdmin = (req, res, next) => {
  * @returns {void}
  * @throws {ForbiddenError} - Throws 403 Forbidden if the user is neither the admin nor the agent
  */
-export const checkIsAdminSelfOrAgent = (req, res, next) => {
+export const checkIsAgentSelfOrAdmin = (req, res, next) => {
   const { id } = req.params;  // The agent ID being accessed from the URL
   const { role, id: userId } = req.user;  // The logged-in user's role and ID from JWT payload
 
@@ -85,5 +85,31 @@ export const checkIsAdminSelfOrAgent = (req, res, next) => {
   }
 
   // If neither condition is met, deny access with a ForbiddenError
-  return next(new ForbiddenError('Access forbidden: You are not authorized to update this agent.'));
+  return next(new ForbiddenError('Access denied: You do not have the required permissions to perform this action.'));
 };
+
+/**
+ * Middleware to check if the user is either an admin or the user themselves.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ * @returns {void} - Calls next if authorized, throws ForbiddenError otherwise.
+ */
+export const checkIsUserSelfOrAdmin = (req, res, next) => {
+  const { id } = req.params;  // The user ID being accessed from the URL
+  const { role, id: userId } = req.user;  // The logged-in user's role and ID from JWT payload
+
+  // Allow access if the user is an admin
+  if (role === 'admin' || role === 'super-admin') {
+    return next();
+  }
+
+  // Allow access if the user is updating their own account
+  if (userId === id) {
+    return next();
+  }
+
+  // If neither condition is met, deny access with a ForbiddenError
+  return next(new ForbiddenError('Access denied: You do not have the required permissions to perform this action.'));
+};
+
