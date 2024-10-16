@@ -1,7 +1,7 @@
 
 import express from 'express';
 import {
-  getAllUsers,
+  getUsersByFilter,
   getUserById,
   updateUser,
   deleteUser,
@@ -26,7 +26,7 @@ const router = express.Router();
 // Get all users (public)
 router.get(
   '/', 
-  getAllUsers
+  getUsersByFilter
 );
 
 

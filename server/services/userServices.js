@@ -54,20 +54,43 @@ export const createNewUser = async (userData) => {
 };
 
 /**
- * @desc    Business logic to retrieve all users from the database.
- * @throws  {ServerError} - Throws a server error in case something goes wrong.
- * @returns {Array} - Array of all users.
+ * @desc    Service to fetch users based on filters, or return all users if no filters are provided.
+ * @param   {Object} filters - Query parameters used for filtering users.
+ * @returns {Array} - Array of users that match the filters or all users if no filters are applied.
  */
-export const getAllUsersService = async () => {
+export const getUsersByFilterService = async (filters) => {
   try {
-    // Fetch all users from the database
-    const users = await User.find();
+    const query = {};
+
+    if (filters.firstName) {
+      query.firstName = { $regex: filters.firstName, $options: 'i' }; // Case-insensitive match
+    }
+
+    if (filters.lastName) {
+      query.lastName = { $regex: filters.lastName, $options: 'i' };
+    }
+
+    if (filters.username) {
+      query.username = { $regex: filters.username, $options: 'i' };
+    }
+
+    if (filters.email) {
+      query.email = { $regex: filters.email, $options: 'i' };
+    }
+
+    if (filters.accountStatus) {
+      query.accountStatus = filters.accountStatus;  // Match exact account status
+    }
+
+    // Fetch users from the database based on the query
+    const users = await User.find(query);
 
     // Return the array of users
     return users;
 
   } catch (error) {
-    throw new ServerError('Error retrieving users from the database');
+    // Handle unexpected errors
+    throw new ServerError('Error fetching users from the database');
   }
 };
 

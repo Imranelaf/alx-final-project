@@ -1,35 +1,33 @@
 import {excludeSensitiveInfo} from '../../utils/excludeSensitiveInfo.js';
 import {
-  getAllUsersService, 
+  getUsersByFilterService, 
   getUserByIdService,
   deleteUserService,
   updateUserService,
 } from '../../services/userServices.js';
 
 /**
- * @desc    Controller to handle retrieving all users from the database.
+ * @desc    Controller to handle retrieving all or filtered users from the database.
  * @param   {Object} req - Express request object.
  * @param   {Object} res - Express response object used to send the list of users.
  * @param   {Function} next - Express next middleware function for error handling.
- * @returns {Object} - JSON response with the success status and list of all users.
+ * @returns {Object} - JSON response with the success status and list of users.
  */
-export const getAllUsers = async (req, res, next) => {
-    try {
-      // Fetch all users from the service layer
-      const users = await getAllUsersService();
-  
-      // Sanitize user data to exclude sensitive fields (like passwords)
-      const sanitizedUsers = users.map(user => excludeSensitiveInfo(user, ['password', '__v']));
-  
-      // Respond with the sanitized user data
-      return res.status(200).json({
-        success: true,
-        data: sanitizedUsers,
-      });
-  
-    } catch (error) {
-      return next(error); // Pass any errors to the global error handler
-    }
+export const getUsersByFilter = async (req, res, next) => {
+  try {
+    const filters = req.query;
+    const users = await getUsersByFilterService(filters);
+
+    const sanitizedUsers = users.map(user => excludeSensitiveInfo(user, ['password', '__v']));
+
+    return res.status(200).json({
+      success: true,
+      data: sanitizedUsers,
+    });
+
+  } catch (error) {
+    return next(error);
+  }
 };
 
 /**
