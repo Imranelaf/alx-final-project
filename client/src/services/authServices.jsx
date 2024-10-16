@@ -20,7 +20,7 @@ export const registerUser = async (userData, dispatch) => {
   try {
     console.log('Sending request to:', `${API_URL}/api/auth/signup`); // Log API endpoint
     const response = await axiosInstance.post('/api/auth/signup', userData); // Use axiosInstance
-    console.log('API response:', response);
+    console.log('API response:', response.data.data);
 
     // Dispatch the action after successful registration
     dispatch(setUser(response));
@@ -43,12 +43,12 @@ export const registerUser = async (userData, dispatch) => {
 // Login function
 export const loginUser = async (userData, dispatch) => {
   try {
-    const response = await axiosInstance.post('/api/auth/signin', userData); // Use axiosInstance
-    console.log('Login API response:', response);
+    const response = await axiosInstance.post('/api/auth/signin', userData, dispatch); // Use axiosInstance
+    console.log('Login API response:', response.data.data);
 
     // Assuming your backend sends the token in response
     Cookies.set('propertyHubAuthToken', response.data.token); // Store token in cookies
-    dispatch(setUser(response.data.user)); // Dispatch the action to update Redux and persist it
+    dispatch(setUser(response.data.data)); // Dispatch the action to update Redux and persist it
 
     return response;
   } catch (error) {

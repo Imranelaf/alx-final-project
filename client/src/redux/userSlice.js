@@ -49,6 +49,8 @@ export const loadUserFromStorage = () => (dispatch) => {
     if (token) {
       try {
         const userData = jwtDecode(token); // Decode the token to get user data
+        
+        
         dispatch(setUser(userData));
       } catch (error) {
         console.error('Error decoding token:', error);
