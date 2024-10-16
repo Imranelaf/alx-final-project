@@ -94,7 +94,7 @@
 .profile-info button {
     width: 100%;
     padding: 0.75rem;
-    background: linear-gradient(45deg, #e74c3c, #8e44ad);
+    background: linear-gradient(45deg, #1e5c9e, #8e44ad);
     color: white;
     font-weight: bold;
     border-radius: 8px;
@@ -104,7 +104,7 @@
 }
 
 .profile-info button:hover {
-    background: linear-gradient(45deg, #8e44ad, #e74c3c);
+    background: linear-gradient(45deg, #965ead, #1e5c9e);
 }
 
 /* Other Buttons */
@@ -112,13 +112,13 @@
     width: 100%;
     max-width: 400px;
     padding: 0.75rem;
-    background: linear-gradient(45deg, #9b59b6, #e74c3c);
+    background: linear-gradient(45deg, #965ead, #1e5c9e);
     font-weight: bold;
     color: white;
 }
 
 .navlink button:hover {
-    background: linear-gradient(45deg, #e74c3c, #9b59b6);
+    background: linear-gradient(45deg, #1e5c9e, #965ead);
 }
 
 @media (max-width: 768px) {

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
+import {jwtDecode }from 'jwt-decode'; // Ensure jwt-decode is imported
 
 const USER_STORAGE_KEY = 'propertyHubUser';
 
@@ -35,13 +36,25 @@ export const loadUserFromStorage = () => (dispatch) => {
   const savedUser = localStorage.getItem(USER_STORAGE_KEY);
 
   if (savedUser) {
-    dispatch(setUser(JSON.parse(savedUser)));
+    try {
+      const parsedUser = JSON.parse(savedUser); // Safely parse JSON
+      dispatch(setUser(parsedUser)); // Set user in Redux
+    } catch (error) {
+      console.error('Error parsing user from localStorage:', error);
+      localStorage.removeItem(USER_STORAGE_KEY); // Clear corrupted data
+    }
   } else {
     // Fallback to loading user from cookies (if you want to)
     const token = Cookies.get('propertyHubAuthToken');
     if (token) {
-      const userData = { token }; // You can decode token here or fetch data from API
-      dispatch(setUser(userData));
+      try {
+        const userData = jwtDecode(token); // Decode the token to get user data
+        
+        
+        dispatch(setUser(userData));
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
     }
   }
 };

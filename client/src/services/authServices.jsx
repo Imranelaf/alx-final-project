@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { setUser } from '../redux/userSlice';
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+
 
 
 const API_URL = import.meta.env.VITE_API_URL;
+const tokenName = import.meta.env.VITE_JWT_COOKIE_NAME;
+
 
 // Create an Axios instance with a base URL and default options
 const axiosInstance = axios.create({
@@ -18,7 +20,7 @@ export const registerUser = async (userData, dispatch) => {
   try {
     console.log('Sending request to:', `${API_URL}/api/auth/signup`); // Log API endpoint
     const response = await axiosInstance.post('/api/auth/signup', userData); // Use axiosInstance
-    console.log('API response:', response);
+    console.log('API response:', response.data.data);
 
     // Dispatch the action after successful registration
     dispatch(setUser(response));
@@ -41,12 +43,12 @@ export const registerUser = async (userData, dispatch) => {
 // Login function
 export const loginUser = async (userData, dispatch) => {
   try {
-    const response = await axiosInstance.post('/api/auth/signin', userData); // Use axiosInstance
-    console.log('Login API response:', response);
+    const response = await axiosInstance.post('/api/auth/signin', userData, dispatch); // Use axiosInstance
+    console.log('Login API response:', response.data.data);
 
     // Assuming your backend sends the token in response
     Cookies.set('propertyHubAuthToken', response.data.token); // Store token in cookies
-    dispatch(setUser(response.data.user)); // Dispatch the action to update Redux and persist it
+    dispatch(setUser(response.data.data)); // Dispatch the action to update Redux and persist it
 
     return response;
   } catch (error) {
@@ -82,23 +84,16 @@ export const checkUsernameAvailability = async (username) => {
 };
 
 
-export const SignOut = () => {
-  const navigate = useNavigate(); // Using react-router-dom to navigate without full page reload
-
+export const SignOut = async () => {
   try {
-    axios.put(`${API_URL}/api/auth/signout`)
-      .then(() => {
-        // Clear cookies and local storage after successful sign-out
-        Cookies.remove('propertyHubAuthToken');
-        localStorage.clear();
+    // Send logout request to the server
+    await axios.post(`${API_URL}/api/auth/logout`);
+    
+    // Clear cookies and local storage after successful sign-out
+    Cookies.remove(tokenName);
+    localStorage.clear();
+    window.location.href= '/'
 
-        // Navigate to the homepage
-        navigate('/');
-      })
-      .catch((error) => {
-        console.error('Sign out failed:', error);
-        setError('Failed to sign out. Please try again.');
-      });
   } catch (error) {
     console.error('Sign out failed:', error);
     setError('Failed to sign out. Please try again.');

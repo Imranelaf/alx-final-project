@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import '../assets/styles/profile.css';
-import { Navigate, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import Navbar from "../components/navbar";
 import axios from "axios";
 import { SignOut } from "../services/authServices";
@@ -58,7 +58,7 @@ export default function Profile() {
             setError('');
             setLoading(true);
 
-            const response = await axios.put('/api/update-profile', updateData); // Example API call
+            const response = await axios.put('/api/update-profile', updateData);
             console.log('Profile updated:', response.data);
 
         } catch (error) {
@@ -76,16 +76,13 @@ export default function Profile() {
         setToggle(!toggle); // Toggle expand/collapse
     };
 
-    const handleSignout = () => {
-        SignOut()
-            .then(() => {
-                // Navigate to the homepage after successful sign-out
-                navigate("/");
-            })
-            .catch((error) => {
-                setError('Failed to sign out. Please try again.');
-            });
-    };
+    const handleSignout = async () => {
+        try {
+          await SignOut();
+        } catch (error) {
+          console.error('Error during sign-out navigation:', error);
+        }
+      };
 
     return (
         <>
