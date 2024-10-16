@@ -11,7 +11,7 @@ import {
   deleteAgent,
 } from '../controllers/agent/agentController.js';
 import authenticateJWT from '../middleware/auth/authMiddleware.js';
-import { checkIsAdmin, checkIsAdminSelfOrAgent} from '../middleware/auth/roleMiddleware.js';  // Role-based access control
+import { checkIsAdmin, checkIsAgentSelfOrAdmin} from '../middleware/auth/roleMiddleware.js';  // Role-based access control
 import { validateUpdateAgentFields } from '../middleware/validation/agentUpdateValidation.js';  // Input validation for agents
 import {validateObjectId} from '../middleware/validation/validateObjectId.js';
 
@@ -47,7 +47,7 @@ router.put(
   '/:id', 
   authenticateJWT,
   validateObjectId, 
-  checkIsAdminSelfOrAgent, 
+  checkIsAgentSelfOrAdmin, 
   validateUpdateAgentFields, 
   updateAgent);
 
@@ -56,9 +56,10 @@ router.delete(
   '/:id', 
   authenticateJWT,
   validateObjectId, 
-  checkIsAdminSelfOrAgent, 
+  checkIsAgentSelfOrAdmin, 
   deleteAgent
 );
 
 
 export default router;
+
