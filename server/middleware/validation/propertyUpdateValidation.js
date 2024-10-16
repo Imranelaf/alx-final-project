@@ -1,21 +1,25 @@
 import { body } from 'express-validator';
-
-export const validatePropertyFields = [
+/**
+ * @desc Middleware array that validates the fields for Property updates.
+ *       Fields are optional but will be validated if present.
+ * @returns {Array} An array of validation rules to be applied before handling property requests.
+ */
+export const validateUpdatePropertyFields = [
   body('title')
-    .notEmpty().withMessage('Property title is required.')
+    .optional()
     .isLength({ max: 100 }).withMessage('Title cannot exceed 100 characters.'),
 
   body('description')
-    .notEmpty().withMessage('Description is required.')
+    .optional()
     .isLength({ max: 500 }).withMessage('Description cannot exceed 500 characters.'),
 
   body('propertyType')
-    .notEmpty().withMessage('Property type is required.')
+    .optional()
     .isIn(['Apartment', 'House', 'Condo', 'Land', 'Villa', 'Office', 'Studio'])
     .withMessage('Property type must be one of: Apartment, House, Condo, Land, Villa, Office, Studio.'),
 
   body('price')
-    .notEmpty().withMessage('Price is required.')
+    .optional()
     .isInt({ min: 0 }).withMessage('Price must be a positive whole number (integer).'),
 
   body('status')
@@ -24,23 +28,23 @@ export const validatePropertyFields = [
     .withMessage('Status must be one of: Available, Sold, Rented, Pending.'),
 
   body('size')
-    .notEmpty().withMessage('Property size is required.')
+    .optional()
     .isFloat({ min: 0 }).withMessage('Size must be a positive number.'),
 
   body('bedrooms')
-    .notEmpty().withMessage('Number of bedrooms is required.')
+    .optional()
     .isInt({ min: 1 }).withMessage('Bedrooms must be at least 1.'),
 
   body('bathrooms')
-    .notEmpty().withMessage('Number of bathrooms is required.')
+    .optional()
     .isInt({ min: 1 }).withMessage('Bathrooms must be at least 1.'),
 
   body('rooms')
-    .notEmpty().withMessage('Number of rooms is required.')
+    .optional()
     .isInt({ min: 1 }).withMessage('Rooms must be at least 1.'),
 
   body('offerType')
-    .notEmpty().withMessage('Offer type is required.')
+    .optional()
     .isIn(['Sale', 'Rent'])
     .withMessage('Offer type must be either Sale or Rent.'),
 
@@ -54,21 +58,23 @@ export const validatePropertyFields = [
     .isISO8601().withMessage('Available date must be a valid ISO 8601 date.'),
 
   body('address.street')
-    .notEmpty().withMessage('Street address is required.')
+    .optional()
     .isLength({ max: 100 }).withMessage('Street address cannot exceed 100 characters.'),
 
   body('address.city')
+    .optional()
     .notEmpty().withMessage('City is required.'),
 
   body('address.state')
+    .optional()
     .notEmpty().withMessage('State is required.'),
 
   body('address.zipCode')
-    .notEmpty().withMessage('Zip code is required.')
+    .optional()
     .matches(/^\d{5}(-\d{4})?$/).withMessage('Please provide a valid zip code.'),
 
   body('address.country')
-    .optional().default('Morocco')
+    .optional()
     .isString().withMessage('Country must be a valid string.'),
 
   body('images.*')
@@ -84,7 +90,7 @@ export const validatePropertyFields = [
     }).withMessage('All amenities must be valid strings.'),
 
   body('agentId')
-    .notEmpty().withMessage('Agent ID is required.')
+    .optional()
     .isMongoId().withMessage('Agent ID must be a valid MongoDB ObjectID.'),
 
   body('isFeatured')
@@ -92,10 +98,10 @@ export const validatePropertyFields = [
     .isBoolean().withMessage('isFeatured must be a boolean value.'),
 
   body('coordinates.lat')
-    .notEmpty().withMessage('Latitude is required.')
+    .optional()
     .isFloat({ min: -90, max: 90 }).withMessage('Latitude must be between -90 and 90 degrees.'),
 
   body('coordinates.lng')
-    .notEmpty().withMessage('Longitude is required.')
+    .optional()
     .isFloat({ min: -180, max: 180 }).withMessage('Longitude must be between -180 and 180 degrees.')
 ];
