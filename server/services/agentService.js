@@ -73,29 +73,68 @@ export const createNewAgent = async (agentData) => {
 };
 
 /**
- * Service to retrieve all agents from the database.
- * @returns {Object[]} - Returns an array of agent objects with all fields.
- * @throws {Error} - Throws NotFoundError if no agents are found, or ServerError for other errors.
+ * @desc    Service to fetch agents based on filters, or return all agents if no filters are provided.
+ * @param   {Object} filters - Query parameters used for filtering agents.
+ * @returns {Array} - Array of agents that match the filters or all agents if no filters are applied.
  */
-export const getAllAgentsService = async () => {
+export const getAgentsByFilterService = async (filters) => {
   try {
-    // Find all agents (do not exclude sensitive info here)
-    const agents = await Agent.find();
+    // Initialize an empty query object
+    const query = {};
 
-    if (!agents || agents.length === 0) {
-      throw new NotFoundError('No agents found');
+    // Add filters dynamically based on query parameters
+
+    if (filters.firstName) {
+      query.firstName = { $regex: filters.firstName, $options: 'i' };  // Case-insensitive match for first name
     }
 
-    // Return raw data to the controller
+    if (filters.lastName) {
+      query.lastName = { $regex: filters.lastName, $options: 'i' };  // Case-insensitive match for last name
+    }
+
+    if (filters.username) {
+      query.username = { $regex: filters.username, $options: 'i' };  // Case-insensitive match for username
+    }
+
+    if (filters.agency) {
+      query.agency = { $regex: filters.agency, $options: 'i' };  // Case-insensitive match for agency name
+    }
+
+    if (filters.phoneNumber) {
+      query.phoneNumber = filters.phoneNumber;
+    }
+
+    if (filters.email) {
+      query.email = { $regex: filters.email, $options: 'i' };  // Case-insensitive match for email
+    }
+
+    if (filters.licenseNumber) {
+      query.licenseNumber = filters.licenseNumber;  // Exact match for license number
+    }      
+
+    if (filters.agentStatus) {
+      query.agentStatus = filters.agentStatus;  // E.g., pending, active, rejected
+    }
+
+    if (filters.ratingMin || filters.ratingMax) {
+      query.rating = {};
+      if (filters.ratingMin) query.rating.$gte = parseFloat(filters.ratingMin);
+      if (filters.ratingMax) query.rating.$lte = parseFloat(filters.ratingMax);
+    }
+
+    if (filters.reviewsCountMin || filters.reviewsCountMax) {
+      query.reviewsCount = {};
+      if (filters.reviewsCountMin) query.reviewsCount.$gte = parseInt(filters.reviewsCountMin, 10);
+      if (filters.reviewsCountMax) query.reviewsCount.$lte = parseInt(filters.reviewsCountMax, 10);
+    }
+
+    // Execute the query to fetch agents from the database
+    const agents = await Agent.find(query);
+
+    // Return the array of agents
     return agents;
-
   } catch (error) {
-    if (error instanceof NotFoundError) {
-      throw error; // Propagate the specific NotFoundError
-    }
-
-    // Wrap any other unexpected errors in a ServerError
-    throw new ServerError('Error while fetching agents', 500);
+    throw new ServerError('Error fetching agents from the database');
   }
 };
 

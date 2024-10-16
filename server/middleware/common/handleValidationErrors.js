@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 import { validationResult } from 'express-validator';
 import { ValidationError } from '../../utils/customErrors.js';  // Use your custom ValidationError
 

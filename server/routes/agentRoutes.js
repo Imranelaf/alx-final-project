@@ -4,7 +4,7 @@
 
 import express from 'express';
 import {
-  getAllAgents,
+  getAgentsByFilter,
   getAgentById,
   updateAgentStatus,
   updateAgent,
@@ -25,13 +25,17 @@ const router = express.Router();
  */
 
 // Get all agents (public)
-router.get('/', getAllAgents);
+router.get(
+  '/', 
+  getAgentsByFilter
+);
 
 // Get a specific agent by ID (public)
 router.get(
   '/:id',
   validateObjectId, 
-  getAgentById);
+  getAgentById
+);
 
 // Admin-only route to approve or reject agents
 router.patch(
@@ -49,7 +53,8 @@ router.put(
   validateObjectId, 
   checkIsAgentSelfOrAdmin, 
   validateUpdateAgentFields, 
-  updateAgent);
+  updateAgent
+);
 
 // Delete an agent (admin or the agent themselves)
 router.delete(
@@ -62,4 +67,3 @@ router.delete(
 
 
 export default router;
-

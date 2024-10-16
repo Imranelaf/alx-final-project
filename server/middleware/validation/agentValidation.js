@@ -1,5 +1,6 @@
 import { body } from 'express-validator';
 import Agent from '../../models/Agent.js';
+import mongoose from 'mongoose';  // This is necessary for ObjectId validation
 
 /**
  * @desc Middleware array that validates the fields for creating an Agent.

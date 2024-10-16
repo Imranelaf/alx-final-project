@@ -1,7 +1,7 @@
 
 import {excludeSensitiveInfo} from '../../utils/excludeSensitiveInfo.js';
 import {
-  getAllAgentsService, 
+  getAgentsByFilterService, 
   getAgentByIdService,
   deleteAgentService,
   updateAgentService,
@@ -16,10 +16,12 @@ import {
  * @param   {Function} next - Express next middleware function for error handling.
  * @returns {Object} - JSON response with the success status and list of all agents.
  */
-export const getAllAgents = async (req, res, next) => {
+export const getAgentsByFilter = async (req, res, next) => {
   try {
-    // Get the raw agent data from the service layer
-    const agents = await getAllAgentsService();
+    const filters = req.query;  // Extract filters from query parameters
+
+    // Fetch the agents (all or filtered) from the service layer
+    const agents = await getAgentsByFilterService(filters);
 
     // Sanitize the data by excluding sensitive fields like passwords
     const sanitizedAgents = agents.map(agent => excludeSensitiveInfo(agent, ['password', '__v']));
