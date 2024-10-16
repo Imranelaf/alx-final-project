@@ -101,10 +101,10 @@ router.post(
   authenticateUser
 );
 
-/* 
 // Logout route (JWT-based, invalidates JWT on the client-side)
 router.post('/logout', logoutUser);
 
+/* 
 // Forgot Password (Send reset password link)
 router.post('/forgot-password', forgotPassword);
 
