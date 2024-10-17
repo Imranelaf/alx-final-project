@@ -119,7 +119,7 @@ Follow these steps to install and set up the project locally:
 
     ```bash
     git clone https://github.com/Imranelaf/alx-final-project
-    cd property-hub
+    cd alx-final-project
     ```
 
 2. **Install backend dependencies**:
@@ -1159,35 +1159,6 @@ The **Admin Management** API allows super admins to manage other admins within t
 - **Update Admin Information**: Allows admins to update their personal information, or super admins to update other admins.
 - **Delete Admin**: Allows super admins to delete other admin accounts from the system.
 
-### Example Requests
-
-#### 1. **Get All Admins**
-
-```bash
-GET /api/admin
-```
-Response
-
-```bash
-{
-  "success": true,
-  "data": [
-    {
-      "_id": "605c72df0e3a2c10f8052d19",
-      "firstName": "Admin",
-      "lastName": "Smith",
-      "email": "adminsmith@example.com"
-    },
-    {
-      "_id": "605c72df0e3a2c10f8052d20",
-      "firstName": "Admin",
-      "lastName": "Johnson",
-      "email": "adminjohnson@example.com"
-    }
-  ]
-}
-```
-
 #### 1. **Get All Admins**
 
 ```bash
@@ -1286,6 +1257,73 @@ Response
 
 ## 🗂️ Database Schema
 
+This section provides a brief overview of the main MongoDB schema models used in **Property Hub**.
+
+### 🏘️ Property Model
+
+The **Property** model represents real estate properties on the platform. It includes details such as:
+
+- `title`, `description`, and `propertyType` – basic information about the property.
+- `price`, `size`, `bedrooms`, `bathrooms`, `rooms` – essential property details.
+- `address` – nested object containing street, city, state, and country.
+- `offerType` – indicates if the property is for sale or rent.
+- `amenities` and `images` – optional features and media associated with the property.
+- `coordinates` – latitude and longitude for geolocation.
+
+This model ensures that each property has the necessary attributes for filtering and viewing.
+
+---
+
+### 👤 User Model
+
+The **User** model manages platform users' information. It includes:
+
+- `firstName`, `lastName`, and `username` – personal details for identification.
+- `email` and `password` – used for authentication and login.
+- `avatar` – profile picture, with a default placeholder image.
+- `properties` – references properties owned or managed by the user.
+- `role` – defines user permissions, defaulting to a regular user role.
+
+Users can register, log in, and manage their real estate listings.
+
+---
+
+### 👨‍💼 Agent Model
+
+The **Agent** model extends from the user model and represents real estate agents. It includes:
+
+- `agency`, `licenseNumber` – unique to agents, identifying the agency they work for and their legal license.
+- `bio` – a short description about the agent.
+- `properties` – a reference to properties managed by the agent.
+- `rating` and `reviewsCount` – used to track agent ratings based on customer reviews.
+- `agentStatus` – tracks if an agent is active, pending, or rejected by the platform admins.
+
+Agents have additional permissions and responsibilities compared to regular users.
+
+---
+
+### 👨‍💼 Admin Model
+
+The **Admin** model manages platform administrators, who have control over users, agents, and platform settings. It includes:
+
+- `role` – distinguishes between regular `admin` and `super-admin` with higher permissions.
+- `permissions` – defines actions each admin can perform, such as managing users, agents, and admins.
+- `joinedAt` – the date the admin was added to the system.
+
+Admins oversee platform operations and can assign roles to other users or agents.
+
+---
+
+### ❓ FAQ Model
+
+The **FAQ** model stores frequently asked questions related to platform usage and general inquiries. It includes:
+
+- `question` – the text of the question.
+- `answer` – the corresponding response.
+- `category` – to group similar FAQs under a specific topic.
+  
+This model helps users find answers quickly without needing additional support.
+
 ---
 
 ## 🧪 Testing
@@ -1294,6 +1332,38 @@ Response
 
 ## 👥 Contributors
 
+We are grateful for the dedication and hard work of everyone who contributed to the development of **Property Hub**.
+
+- **Abdessamad Haddouche** - *Full Stack Developer* - [GitHub](https://github.com/yourgithubusername)
+- **Imrane Ali Lafkih** - *Backend Developer* - [GitHub](https://github.com/yourgithubusername)
+
+If you'd like to contribute, please check the [contribution guidelines](CONTRIBUTING.md) and feel free to submit a pull request!
+
 ---
 
+## 🤝 Contributing
+
+We welcome contributions to make Property Hub even better! If you have suggestions or improvements, please create a pull request or open an issue.
+
+### Steps to Contribute:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature-name`).
+3. Make your changes and commit them (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/your-feature-name`).
+5. Open a Pull Request.
+
+---
+
+## 🙏 Acknowledgements
+
+All work contained in this project was completed as part of the curriculum for **ALX Africa**. ALX Africa is an innovative education platform that offers intensive training programs in software engineering and other technology-related fields. Through a project-based and peer learning approach, ALX Africa prepares students for careers in the tech industry by providing them with practical skills and industry-relevant knowledge.
+
+For more information about ALX Africa, please visit this [link](https://www.alxafrica.com/).
+
+
 ## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
