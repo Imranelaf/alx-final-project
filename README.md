@@ -1013,11 +1013,129 @@ The **Agent Management** API allows for managing real estate agents on the platf
 
 ### Example Requests
 
-#### 1. **Get Agents by Filter**
+#### 1. **Get All Agents**
 
 ```bash
 GET /api/agents
+```
+Response
 
+```bash
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "67110e193f6922174bc674a4",
+      "firstName": "Agent",
+      "lastName": "Smith",
+      "email": "agentsmith@example.com",
+      "agency": "Real Estate Co.",
+      "licenseNumber": "12345678",
+      "agentStatus": "Pending"
+    },
+    {
+      "_id": "67110e193f6922174bc674a5",
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "johndoe@example.com",
+      "agency": "Property Experts",
+      "licenseNumber": "98765432",
+      "agentStatus": "Approved"
+    }
+  ]
+}
+```
+
+#### 2. **Get Agent by ID**
+
+```bash
+GET /api/agents/67110e193f6922174bc674a5
+
+```
+
+Response
+
+```bash
+{
+  "success": true,
+  "data": {
+    "_id": "67110e193f6922174bc674a5",
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "johndoe@example.com",
+    "agency": "Property Experts",
+    "licenseNumber": "98765432",
+    "agentStatus": "active"
+  }
+}
+```
+
+#### 3. **Update Agent Status (Admin Only)**
+
+```bash
+
+PATCH /api/agents/67110e193f6922174bc674a5/status
+
+{
+  "agentStatus": "active"
+}
+```
+Response
+
+```bash
+{
+  "success": true,
+  "message": "Agent status updated successfully.",
+  "data": {
+    "_id": "67110e193f6922174bc674a5",
+    "agentStatus": "active"
+  }
+}
+```
+
+#### 4. **Update Agent Profile**
+
+```bash
+PUT /api/agents/67110e193f6922174bc674a5
+
+{
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "email": "janedoe@example.com"
+}
+```
+
+Response
+
+```bash
+{
+  "success": true,
+  "message": "Agent profile updated successfully.",
+  "data": {
+    "_id": "67110e193f6922174bc674a5",
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "email": "janedoe@example.com"
+  }
+}
+```
+
+#### 5. **Delete Agent**
+
+```bash
+{
+  "firstName": "Jane",
+  "lastName": "Doe",
+  "email": "janedoe@example.com"
+}
+```
+
+```bash
+{
+  "success": true,
+  "message": "Agent deleted successfully."
+}
+```
 
 ---
 
