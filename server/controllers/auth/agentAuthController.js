@@ -34,6 +34,7 @@ export const createAgent = async (req, res, next) => {
         success: true,
         message: 'Agent created successfully.',
         data: agentResponse,
+        token
       });
       
     } catch (error) {
@@ -79,6 +80,7 @@ export const createAgent = async (req, res, next) => {
           success: true,
           message: 'Agent logged in successfully!',
           data: agentResponse,
+          token
         });
       } catch (error) {
         next(error);  // Pass any unexpected error to the global error handler

@@ -13,7 +13,7 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState(null); // <-- State for storing token
+  
 
   // Handle Google OAuth login redirection
   const redirectToGoogleSignin = () => {
@@ -29,9 +29,8 @@ const SignIn = () => {
       // Call loginUser function from authServices
       const response = await loginUser({ email, password }, dispatch);
       localStorage.setItem('token', response.data.token);
-
       // Set the token as a default header for future requests
-      axiosWithHeader.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      axiosWithHeader.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
       if (response.data.success) {
         // Navigate to success page after login
@@ -51,8 +50,7 @@ const SignIn = () => {
       <div className="login-container">
         <h1>Welcome back</h1>
 
-        {/* Sign-in using email and password */}
-        {!token ? (  // <-- Conditionally render the login form if no token
+       
           <form onSubmit={handleEmailSignIn}>
             <input
               type="email"
@@ -74,10 +72,6 @@ const SignIn = () => {
               {loading ? 'Signing in...' : 'Continue'}
             </button>
           </form>
-        ) : (
-          // If token is available, render the Create component
-          <Create token={token} />
-        )}
 
         <p className="signup-link">
           Don't have an account? <a href="/signup">Sign Up</a>

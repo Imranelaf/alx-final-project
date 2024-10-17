@@ -23,7 +23,7 @@ export const registerUser = async (userData, dispatch) => {
     console.log('API response:', response.data.data);
 
     // Dispatch the action after successful registration
-    dispatch(setUser(response));
+    dispatch(setUser(response.data.data));
 
     return response;
   } catch (error) {

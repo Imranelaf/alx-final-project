@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FaCheckCircle, FaExclamationTriangle } from 'react-icons/fa'; // Icons for success and failure
 import '../assets/styles/authStatus.css';  // Centralized CSS
+import { jwtDecode } from "jwt-decode";
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/userSlice';
 
 // Failure Component
 export const AuthFailure = ({ type = "SignUp" }) => {  // Default type is "SignUp" if not provided
@@ -14,6 +17,7 @@ export const AuthFailure = ({ type = "SignUp" }) => {  // Default type is "SignU
   useEffect(() => {
     // Redirect to the correct page after 3 seconds
     const timer = setTimeout(() => {
+      
       navigate(`/${type.toLowerCase()}`); // Redirects to /signin or /signup
     }, 3000);
 
@@ -36,10 +40,16 @@ export const AuthFailure = ({ type = "SignUp" }) => {  // Default type is "SignU
 // Success Component
 export const AuthSuccess = ({ type = "SignUp" }) => {  // Default type is "SignUp" if not provided
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Redirect to the homepage after 2 seconds
     const timer = setTimeout(() => {
+      const token = searchParams.get('token');
+      if (token){
+      const decoded = jwtDecode(token);
+      dispatch(setUser(decoded));}
       navigate('/');
     }, 2000);
 
