@@ -125,11 +125,6 @@ const propertySchema = new mongoose.Schema({
       message: 'All amenities must be valid strings.'
     }
   },
-  agentId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: [true, 'An agent is required to manage this property.']
-  },
   isFeatured: {
     type: Boolean,
     default: false,
@@ -137,15 +132,13 @@ const propertySchema = new mongoose.Schema({
   coordinates: {
     lat: {
       type: Number,
-      required: [true, 'Latitude is required.'],
       min: [-90, 'Latitude must be between -90 and 90 degrees.'],
-      max: [90, 'Latitude must be between -90 and 90 degrees.']
+      max: [90, 'Latitude must be between -90 and 90 degrees.'],
     },
     lng: {
       type: Number,
-      required: [true, 'Longitude is required.'],
       min: [-180, 'Longitude must be between -180 and 180 degrees.'],
-      max: [180, 'Longitude must be between -180 and 180 degrees.']
+      max: [180, 'Longitude must be between -180 and 180 degrees.'],
     }
   },
   createdAt: {

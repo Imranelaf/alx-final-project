@@ -89,10 +89,6 @@ export const validateUpdatePropertyFields = [
       return amenities.every(amenity => typeof amenity === 'string');
     }).withMessage('All amenities must be valid strings.'),
 
-  body('agentId')
-    .optional()
-    .isMongoId().withMessage('Agent ID must be a valid MongoDB ObjectID.'),
-
   body('isFeatured')
     .optional()
     .isBoolean().withMessage('isFeatured must be a boolean value.'),

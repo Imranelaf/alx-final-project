@@ -2,7 +2,11 @@ import {
   createNewProperty,
   getPropertyByIdService,
   deletePropertyService,
-  getPropertiesByFilterService
+  getPropertiesByFilterService,
+  addPropertyImageService, 
+  removePropertyImageService,
+  addPropertyAmenityService, 
+  removePropertyAmenityService 
  } from '../../services/propertyService.js';
 import { updatePropertyService } from '../../services/propertyService.js';
 
@@ -80,10 +84,10 @@ export const updateProperty = async (req, res, next) => {
 };
 
 /**
- * @desc    Controller to delete a property by ID.
+ * @desc    Controller to delete a property by ID and remove its reference from users/agents.
  * @route   DELETE /api/properties/:id
  * @access  Private (Admin or Property Owner)
- * @param   {Object} req - Express request object containing the property ID in the params.
+ * @param   {Object} req - Express request object containing the property ID in params.
  * @param   {Object} res - Express response object used to send the deletion result.
  * @param   {Function} next - Express middleware function for error handling.
  * @returns {JSON} - Success message or error response.
@@ -92,14 +96,15 @@ export const deleteProperty = async (req, res, next) => {
   try {
     const { id } = req.params;
 
+    // Call the service to delete the property and remove its references from users/agents
     await deletePropertyService(id);
 
     return res.status(200).json({
       success: true,
-      message: 'Property deleted successfully!',
+      message: 'Property deleted and references updated successfully!',
     });
   } catch (error) {
-    return next(error);
+    return next(error);  // Pass any errors to the global error handler
   }
 };
 
@@ -124,6 +129,94 @@ export const getPropertiesByFilter = async (req, res, next) => {
     });
   } catch (error) {
     return next(error);
+  }
+};
+
+/**
+ * @desc    Controller to add an image to a property
+ * @route   PUT /api/properties/:id/images
+ * @access  Private (Admin, Owner, or Agent)
+ */
+export const addPropertyImage = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { imageUrl } = req.body;
+
+    const updatedProperty = await addPropertyImageService(id, imageUrl);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Image added successfully.',
+      data: updatedProperty,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @desc    Controller to remove an image from a property
+ * @route   PUT /api/properties/:id/images/remove
+ * @access  Private (Admin, Owner, or Agent)
+ */
+export const removePropertyImage = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { imageUrl } = req.body;
+
+    const updatedProperty = await removePropertyImageService(id, imageUrl);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Image removed successfully.',
+      data: updatedProperty,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @desc    Controller to add an amenity to a property
+ * @route   PUT /api/properties/:id/amenities
+ * @access  Private (Admin, Owner, or Agent)
+ */
+export const addPropertyAmenity = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { amenity } = req.body;
+
+    const updatedProperty = await addPropertyAmenityService(id, amenity);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Amenity added successfully.',
+      data: updatedProperty,
+    });
+  } catch (error) {
+    next(error);  // Pass error to global error handler
+  }
+};
+
+/**
+ * @desc    Controller to remove an amenity from a property
+ * @route   PUT /api/properties/:id/amenities/remove
+ * @access  Private (Admin, Owner, or Agent)
+ */
+export const removePropertyAmenity = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { amenity } = req.body;
+
+    const updatedProperty = await removePropertyAmenityService(id, amenity);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Amenity removed successfully.',
+      data: updatedProperty,
+    });
+  } catch (error) {
+    next(error);  // Pass error to global error handler
   }
 };
 

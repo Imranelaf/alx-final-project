@@ -83,19 +83,16 @@ export const validatePropertyFields = [
       return amenities.every(amenity => typeof amenity === 'string');
     }).withMessage('All amenities must be valid strings.'),
 
-  body('agentId')
-    .notEmpty().withMessage('Agent ID is required.')
-    .isMongoId().withMessage('Agent ID must be a valid MongoDB ObjectID.'),
-
   body('isFeatured')
     .optional()
     .isBoolean().withMessage('isFeatured must be a boolean value.'),
 
+  // Coordinates validation, made optional by removing `.notEmpty()`
   body('coordinates.lat')
-    .notEmpty().withMessage('Latitude is required.')
+    .optional()
     .isFloat({ min: -90, max: 90 }).withMessage('Latitude must be between -90 and 90 degrees.'),
 
   body('coordinates.lng')
-    .notEmpty().withMessage('Longitude is required.')
+    .optional()
     .isFloat({ min: -180, max: 180 }).withMessage('Longitude must be between -180 and 180 degrees.')
 ];
