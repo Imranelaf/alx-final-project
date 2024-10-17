@@ -12,10 +12,8 @@ export default function ImageUpload({ handleFileChange, createImagePreviews }) {
         multiple
         onChange={handleFileChange}
       />
-      
-      <div className="image-previews">
-        {createImagePreviews()}
-      </div>
+
+      <div className="image-previews">{createImagePreviews()}</div>
     </>
   );
 }

@@ -480,55 +480,211 @@
           export default function TextFieldsAndCheckbox({ data, handleChange }) {
             return (
               <>
-                <input type="text" placeholder="Name" name="name" onChange={handleChange} />
-                <input type="text" placeholder="Description" name="description" onChange={handleChange} />
-                <input type="text" placeholder="Address" name="address" onChange={handleChange} required />
-                <input type="text" placeholder="Phone" name="phone" onChange={handleChange} />
-                <h3>This is for?</h3> 
-                <div className="check">
-            <label htmlFor="rent" className="cheking">Rent  
-              <input
-                type="checkbox"
-                name="rent"
-                id="rent"
-                checked={data.rent}
-                onChange={handleChange}
-              />
-            </label>
+                {/* Title */}
+                <input
+                  type="text"
+                  placeholder="Title"
+                  name="title"
+                  value={data.title}
+                  onChange={handleChange}
+                  required
+                />
           
-            <label htmlFor="sell" className="cheking">Sell 
-              <input
-                type="checkbox"
-                name="sell"
-                id="sell"
-                checked={data.sell}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
+                {/* Description */}
+                <input
+                  type="text"
+                  placeholder="Description"
+                  name="description"
+                  value={data.description}
+                  onChange={handleChange}
+                  required
+                />
           
+                {/* Address Fields */}
+                <input
+                  type="text"
+                  placeholder="Street Address"
+                  name="address.street"
+                  value={data.address.street}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="City"
+                  name="address.city"
+                  value={data.address.city}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="State"
+                  name="address.state"
+                  value={data.address.state}
+                  onChange={handleChange}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Zip Code"
+                  name="address.zipCode"
+                  value={data.address.zipCode}
+                  onChange={handleChange}
+                  required
+                />
+          
+                {/* Phone Number */}
+                <input
+                  type="text"
+                  placeholder="Phone"
+                  name="phone"
+                  value={data.phone}
+                  onChange={handleChange}
+                  required
+                />
+          
+                {/* Property Type */}
+                <p>Property Type</p>
+                <select
+                  name="propertyType"
+                  value={data.propertyType}
+                  onChange={handleChange}
+                  className="propertyType"
+                  required
+                >
+                  <option value="">Select Property Type</option>
+                  <option value="Apartment">Apartment</option>
+                  <option value="House">House</option>
+                  <option value="Condo">Condo</option>
+                  <option value="Land">Land</option>
+                  <option value="Villa">Villa</option>
+                  <option value="Office">Office</option>
+                  <option value="Studio">Studio</option>
+                </select>
+          
+                {/* Size */}
+                <label htmlFor="size">Size (sq. ft / m²)</label>
+                <input
+                  type="number"
+                  name="size"
+                  value={data.size}
+                  onChange={handleChange}
+                  required
+                />
+          
+                {/* Year Built */}
+                <label htmlFor="yearBuilt">Year Built</label>
+                <input
+                  type="number"
+                  name="yearBuilt"
+                  min="1800"
+                  max={new Date().getFullYear()}
+                  value={data.yearBuilt}
+                  onChange={handleChange}
+                  required
+                />
+          
+                {/* Rooms */}
+                <label htmlFor="rooms">Rooms</label>
+                <input
+                  type="number"
+                  name="rooms"
+                  min="1"
+                  value={data.rooms}
+                  onChange={handleChange}
+                  required
+                />
+          
+                {/* Bathrooms */}
+                <label htmlFor="bathrooms">Bathrooms</label>
+                <input
+                  type="number"
+                  name="bathrooms"
+                  min="1"
+                  value={data.bathrooms}
+                  onChange={handleChange}
+                  required
+                />
+          
+                {/* Bedrooms */}
+                <label htmlFor="bedrooms">Bedrooms</label>
+                <input
+                  type="number"
+                  name="bedrooms"
+                  min="1"
+                  value={data.bedrooms}
+                  onChange={handleChange}
+                  required
+                />
+          
+                {/* Offer Type: Rent or Sell as a Dropdown */}
+                <h3>This is for?</h3>
+                <select
+                  name="offerType"
+                  value={data.offerType}
+                  onChange={handleChange}
+                  className="offer-type"
+                  required
+                >
+                  <option value="">Select Offer Type</option>
+                  <option value="Rent">Rent</option>
+                  <option value="Sale">Sale</option>
+                </select>
+          
+                {/* Additional Features: Parking, Wi-Fi, Pet-Friendly */}
                 <h3>Include :</h3>
                 <div className="check">
-                  <label htmlFor="parking" className="cheking">Parking <input type="checkbox" name="parking" id="parking" onChange={handleChange} /></label>
-                  
+                  <label htmlFor="parking" className="cheking">
+                    Parking
+                    <input
+                      type="checkbox"
+                      name="parking"
+                      id="parking"
+                      className="checkbox"
+                      checked={data.parking}
+                      onChange={handleChange}
+                    />
+                  </label>
           
-                  <label htmlFor="wifi" className="cheking">WI-FI  <input type="checkbox" name="wifi" id="wifi" onChange={handleChange} /></label>
-                 
+                  <label htmlFor="wifi" className="cheking">
+                    Wi-Fi
+                    <input
+                      type="checkbox"
+                      name="wifi"
+                      id="wifi"
+                      className="checkbox"
+                      checked={data.wifi}
+                      onChange={handleChange}
+                    />
+                  </label>
           
-                  <label htmlFor="petFriendly" className="cheking">Pet-friendly <input type="checkbox" name="petFriendly" id="petFriendly" onChange={handleChange} /></label>
-                  
+                  <label htmlFor="petFriendly" className="cheking">
+                    Pet-friendly
+                    <input
+                      type="checkbox"
+                      name="petFriendly"
+                      id="petFriendly"
+                      className="checkbox"
+                      checked={data.petFriendly}
+                      onChange={handleChange}
+                    />
+                  </label>
                 </div>
           
-                <label htmlFor="rooms">Rooms</label>
-                <input type="number" name="rooms" min="1" id="rooms" onChange={handleChange} required />
-          
-                <label htmlFor="bathrooms">Bathrooms</label>
-                <input type="number" name="bathrooms" min="1" id="bathrooms" onChange={handleChange} required />
-          
-                <label htmlFor="price" >Price</label>
+                {/* Price */}
+                <label htmlFor="price">Price</label>
                 <div className="price">
-                  <input type="number" name="price" min="0" id="price" onChange={handleChange} required />
-                  <p>{data.rent ? "$ / night" : "$"}</p>
+                  <input
+                    type="number"
+                    name="price"
+                    min="0"
+                    id="price"
+                    value={data.price}
+                    onChange={handleChange}
+                    required
+                  />
+                  <p>{data.offerType === "Rent" ? "$ / month" : "$"}</p>
                 </div>
               </>
             );
@@ -548,15 +704,14 @@
                   multiple
                   onChange={handleFileChange}
                 />
-                
-                <div className="image-previews">
-                  {createImagePreviews()}
-                </div>
+          
+                <div className="image-previews">{createImagePreviews()}</div>
               </>
             );
           }
         |-search.jsx
           import React, { useState } from "react";
+          import axios from "axios";
           import "../assets/styles/search.css";
           
           export default function Search() {
@@ -580,10 +735,22 @@
               });
             };
           
+            // Function to construct query string based on selected filters
+            const createQueryString = (params) => {
+              return Object.entries(params)
+                .filter(([key, value]) => value !== "" && value !== false) // Filter out empty values
+                .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+                .join("&");
+            };
+          
             const handleSubmit = (e) => {
               e.preventDefault();
-              console.log("Filters applied:", filters);
-              // Implement search logic here
+          
+              // Create query string based on the filters object
+              const queryString = createQueryString(filters);
+              console.log(queryString)
+          
+              //sending query to the backend
             };
           
             return (
@@ -843,8 +1010,6 @@
           
           export default function Navbar() {
             const { currentUser } = useSelector((state) => state.user);
-            console.log(currentUser);
-            
             const [toggle, setToggle] = useState({
               isMobileMenuOpen: false,
               isProfileMenuOpen: false,
@@ -969,6 +1134,7 @@
         |-userSlice.js
           import { createSlice } from '@reduxjs/toolkit';
           import Cookies from 'js-cookie';
+          import {jwtDecode }from 'jwt-decode'; // Ensure jwt-decode is imported
           
           const USER_STORAGE_KEY = 'propertyHubUser';
           
@@ -1004,13 +1170,25 @@
             const savedUser = localStorage.getItem(USER_STORAGE_KEY);
           
             if (savedUser) {
-              dispatch(setUser(JSON.parse(savedUser)));
+              try {
+                const parsedUser = JSON.parse(savedUser); // Safely parse JSON
+                dispatch(setUser(parsedUser)); // Set user in Redux
+              } catch (error) {
+                console.error('Error parsing user from localStorage:', error);
+                localStorage.removeItem(USER_STORAGE_KEY); // Clear corrupted data
+              }
             } else {
               // Fallback to loading user from cookies (if you want to)
               const token = Cookies.get('propertyHubAuthToken');
               if (token) {
-                const userData = { token }; // You can decode token here or fetch data from API
-                dispatch(setUser(userData));
+                try {
+                  const userData = jwtDecode(token); // Decode the token to get user data
+                  
+                  
+                  dispatch(setUser(userData));
+                } catch (error) {
+                  console.error('Error decoding token:', error);
+                }
               }
             }
           };
@@ -1107,103 +1285,132 @@
           import TextFieldsAndCheckbox from "../components/TextFieldsAndCheckbox";
           import ImageUpload from "../components/ImageUpload";
           import Footer from "../components/Footer";
+          import Cookies from 'js-cookie';
           
           export default function Create() {
-            const { currentUser } = useSelector((state) => state.user);
+            const API_URL = import.meta.env.VITE_API_URL;
+            const { currentUser } = useSelector((state) => state.user); // Access the logged-in user
+          
             const [images, setImages] = useState([]);
             const [data, setData] = useState({
-              id: currentUser._id,
-              name: '',
+              title: '',
               description: '',
-              address: '',
-              phone: '',
-              rent: true,
-              sell: false,
-              parking: false,
+              propertyType: '',
+              price: '', // Will be converted to a number
+              size: '',  // Will be converted to a number
+              yearBuilt: '',
+              bedrooms: '',
+              bathrooms: '',
+              rooms: '',
+              offerType: '', // Either "Rent" or "Sale"
               wifi: false,
               petFriendly: false,
-              rooms: '',
-              bathrooms: '',
-              price: '',
-              image: []
+              parking: false,
+              availableFrom: new Date().toISOString().slice(0, 10),
+              address: {
+                street: '',
+                city: '',
+                state: '',
+                zipCode: '',
+                country: 'Morocco', // Default to "Morocco" if not provided
+              },
+              images: [], // Placeholder for image URLs after upload
+              phone: '',
+              status: 'Available', // Default status
+              amenities: [], // Placeholder for amenities
+              isFeatured: false, // Track if the listing is featured
             });
           
-            // Handle file input change
+            // Handle file input change for image upload
             const handleFileChange = (event) => {
               setImages([...event.target.files]);
             };
           
-            // Handle text and checkbox changes
+            // Handle form changes (both text fields and checkboxes)
             const handleChange = (e) => {
-              const { name, type, checked, value } = e.target;
-              if (type === "checkbox") {
-                if (name === "rent") {
-                  setData((prev) => ({
-                    ...prev,
-                    rent: checked,
-                    sell: !checked, // Automatically toggle sell to false when rent is true
-                  }));
-                } else if (name === "sell") {
-                  setData((prev) => ({
-                    ...prev,
-                    sell: checked,
-                    rent: !checked, // and vice-versa
-                  }));
-                } else {
-                  setData((prev) => ({
-                    ...prev,
-                    [name]: checked,
-                  }));
-                }
+              const { name, type, value, checked } = e.target;
+          
+              if (name.includes('address.')) {
+                const field = name.split('.')[1];
+                setData((prev) => ({
+                  ...prev,
+                  address: { ...prev.address, [field]: value }
+                }));
+              } else if (name.includes('coordinates.')) {
+                const field = name.split('.')[1];
+                setData((prev) => ({
+                  ...prev,
+                  coordinates: { ...prev.coordinates, [field]: value }
+                }));
               } else {
                 setData((prev) => ({
                   ...prev,
-                  [name]: value,
+                  [name]: type === 'checkbox' ? checked : value
                 }));
               }
             };
           
-            // Handle form submission
-            const handleSubmit = async (event) => {
-              event.preventDefault();
+           // Handle form submission to send listing data and upload images
+          const handleSubmit = async (event) => {
+            event.preventDefault();
           
-              const formData = new FormData();
-              const imageUrls = [];
-          
-              for (const image of images) {
-                formData.append("file", image);
-                formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
-          
-                try {
-                  const response = await axios.post(
-                    `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
-                    formData
-                  );
-          
-                  imageUrls.push(response.data.secure_url);
-                } catch (error) {
-                  console.error("Error uploading image to Cloudinary:", error);
-                  alert("Error during uploading image");
-                  return;
-                }
-              }
-          
-              // Update state with image URLs before sending data to backend
-              const updatedData = { ...data, image: imageUrls };
-          
-              console.log(updatedData); // for testing delete in final version
-              console.log(currentUser);
-          
-              // Sending the data to the backend
-              try {
-                await axios.post(`${API_URL}/create-listing`, updatedData); // Update the API endpoint accordingly
-                console.log("Listing created successfully");
-              } catch (error) {
-                console.error("Error creating listing:", error);
-              }
+            // Convert numeric values before submitting
+            const formattedData = {
+              ...data,
+              price: Number(data.price), // Convert price to a number
+              size: Number(data.size),   // Convert size to a number
+              bedrooms: Number(data.bedrooms),
+              bathrooms: Number(data.bathrooms),
+              rooms: Number(data.rooms),
             };
           
-            // Create image previews
+            const formData = new FormData();
+            const imageUrls = [];
+          
+            // Upload images to Cloudinary
+            for (const image of images) {
+              formData.append("file", image);
+              formData.append("upload_preset", import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET);
+          
+              try {
+                const response = await axios.post(
+                  `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}/image/upload`,
+                  formData
+                );
+                imageUrls.push(response.data.secure_url);
+              } catch (error) {
+                console.error("Error uploading image to Cloudinary:", error);
+                alert("Error during uploading image");
+                return;
+              }
+            }
+          
+            // Prepare the final data object with image URLs and ensure proper data types
+            const updatedData = {
+              ...formattedData, // Use the formatted data with correct types
+              images: imageUrls, // Add uploaded image URLs
+              offerType: data.offerType.charAt(0).toUpperCase() + data.offerType.slice(1), // Capitalize offerType
+            };
+          
+            const token = Cookies.get('propertyHubAuthToken');
+            console.log("Token:", token); // Log the token value
+            console.log("All cookies:", Cookies.get());
+          
+            // Send the data to the backend with JWT token in headers
+            try {
+              await axios.post(`${API_URL}/api/properties`, updatedData, {
+                headers: {
+                  Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header
+                },
+              });
+              console.log("Property listing created successfully", updatedData);
+            } catch (error) {
+              console.error("Error creating listing:", error);
+            }
+          };
+          
+          
+            // Create image previews to display selected images
             const createImagePreviews = () => {
               return Array.from(images).map((file, index) => {
                 const url = URL.createObjectURL(file);
@@ -1212,6 +1419,7 @@
                     key={index}
                     src={url}
                     alt={`preview ${index}`}
+                    className="image-preview" // Added class for image preview styling
                     style={{ width: "100px", height: "100px", objectFit: "cover", margin: "5px" }}
                   />
                 );
@@ -1223,15 +1431,15 @@
                 <Navbar />
           
                 <div className="creating-container">
-                  <h2>CREATE LISTING</h2>
+                  <h2>Create Property Listing</h2>
                   <form className="creating" onSubmit={handleSubmit}>
                     <TextFieldsAndCheckbox data={data} handleChange={handleChange} />
-                    <ImageUpload handleFileChange={handleFileChange} createImagePreviews={createImagePreviews} />
           
-                    <button type="submit">Create</button>
+                    <ImageUpload handleFileChange={handleFileChange} createImagePreviews={createImagePreviews} />
+                    <button type="submit" className="submit-btn">Create</button>
                   </form>
                 </div>
-                
+          
                 <Footer />
               </>
             );
@@ -1241,6 +1449,7 @@
           import { useNavigate } from 'react-router-dom';
           import { useDispatch } from 'react-redux';
           import { loginUser } from '../services/authServices';  // Import the login function from authServices
+          import Cookies from 'js-cookie';  // Import js-cookie
           import '../assets/styles/signin.css';
           import Navbar from '../components/navbar';
           
@@ -1267,7 +1476,11 @@
                 const response = await loginUser({ email, password }, dispatch);
           
                 if (response.data.success) {
-                  navigate('/signin/success');  // Redirect on success
+                  const token = response.data.token;  // Assuming the token is returned in the response
+                  Cookies.set('propertyHubAuthToken', token, { expires: 7, path: '/' });  // Set the cookie with a 7-day expiry
+                  
+                  // Navigate to success page after login
+                  navigate('/signin/success');
                 }
               } catch (err) {
                 const errorMessage = err.response?.data?.message || 'Something went wrong. Please try again.';
@@ -1342,7 +1555,7 @@
           import React, { useState, useRef, useEffect } from "react";
           import { useSelector } from "react-redux";
           import '../assets/styles/profile.css';
-          import { Navigate, useNavigate } from "react-router-dom";
+          import {  useNavigate } from "react-router-dom";
           import Navbar from "../components/navbar";
           import axios from "axios";
           import { SignOut } from "../services/authServices";
@@ -1399,7 +1612,7 @@
                       setError('');
                       setLoading(true);
           
-                      const response = await axios.put('/api/update-profile', updateData); // Example API call
+                      const response = await axios.put('/api/update-profile', updateData);
                       console.log('Profile updated:', response.data);
           
                   } catch (error) {
@@ -1417,16 +1630,13 @@
                   setToggle(!toggle); // Toggle expand/collapse
               };
           
-              const handleSignout = () => {
-                  SignOut()
-                      .then(() => {
-                          // Navigate to the homepage after successful sign-out
-                          navigate("/");
-                      })
-                      .catch((error) => {
-                          setError('Failed to sign out. Please try again.');
-                      });
-              };
+              const handleSignout = async () => {
+                  try {
+                    await SignOut();
+                  } catch (error) {
+                    console.error('Error during sign-out navigation:', error);
+                  }
+                };
           
               return (
                   <>
@@ -1672,7 +1882,7 @@
             try {
               console.log('Sending request to:', `${API_URL}/api/auth/signup`); // Log API endpoint
               const response = await axiosInstance.post('/api/auth/signup', userData); // Use axiosInstance
-              console.log('API response:', response);
+              console.log('API response:', response.data.data);
           
               // Dispatch the action after successful registration
               dispatch(setUser(response));
@@ -1695,12 +1905,12 @@
           // Login function
           export const loginUser = async (userData, dispatch) => {
             try {
-              const response = await axiosInstance.post('/api/auth/signin', userData); // Use axiosInstance
+              const response = await axiosInstance.post('/api/auth/signin', userData, dispatch); // Use axiosInstance
               console.log('Login API response:', response);
           
               // Assuming your backend sends the token in response
               Cookies.set('propertyHubAuthToken', response.data.token); // Store token in cookies
-              dispatch(setUser(response.data.user)); // Dispatch the action to update Redux and persist it
+              dispatch(setUser(response.data.data)); // Dispatch the action to update Redux and persist it
           
               return response;
             } catch (error) {
@@ -1736,21 +1946,16 @@
           };
           
           
-          export const SignOut = () => {
+          export const SignOut = async () => {
             try {
-              axios.post(`${API_URL}/api/auth/logout`)
+              // Send logout request to the server
+              await axios.post(`${API_URL}/api/auth/logout`);
               
-                .then(() => {
-                  // Clear cookies and local storage after successful sign-out
-                  Cookies.remove(tokenName);
-                  localStorage.clear();
+              // Clear cookies and local storage after successful sign-out
+              Cookies.remove(tokenName);
+              localStorage.clear();
+              window.location.href= '/'
           
-                 
-                })
-                .catch((error) => {
-                  console.error('Sign out failed:', error);
-                  setError('Failed to sign out. Please try again.');
-                });
             } catch (error) {
               console.error('Sign out failed:', error);
               setError('Failed to sign out. Please try again.');
@@ -2050,7 +2255,7 @@
           
           import {excludeSensitiveInfo} from '../../utils/excludeSensitiveInfo.js';
           import {
-            getAllAgentsService, 
+            getAgentsByFilterService, 
             getAgentByIdService,
             deleteAgentService,
             updateAgentService,
@@ -2065,10 +2270,12 @@
            * @param   {Function} next - Express next middleware function for error handling.
            * @returns {Object} - JSON response with the success status and list of all agents.
            */
-          export const getAllAgents = async (req, res, next) => {
+          export const getAgentsByFilter = async (req, res, next) => {
             try {
-              // Get the raw agent data from the service layer
-              const agents = await getAllAgentsService();
+              const filters = req.query;  // Extract filters from query parameters
+          
+              // Fetch the agents (all or filtered) from the service layer
+              const agents = await getAgentsByFilterService(filters);
           
               // Sanitize the data by excluding sensitive fields like passwords
               const sanitizedAgents = agents.map(agent => excludeSensitiveInfo(agent, ['password', '__v']));
@@ -2657,84 +2864,228 @@
           };
       |-property/
         |-propertiesController.js
-          import Property from '../../models/Property.js';
-          import { validationResult } from 'express-validator';
+          import { 
+            createNewProperty,
+            getPropertyByIdService,
+            deletePropertyService,
+            getPropertiesByFilterService,
+            addPropertyImageService, 
+            removePropertyImageService,
+            addPropertyAmenityService, 
+            removePropertyAmenityService 
+           } from '../../services/propertyService.js';
+          import { updatePropertyService } from '../../services/propertyService.js';
           
           /**
-           * @desc    Create a new property listing
-           * @route   POST /api/properties
-           * @access  Private (Agents/Admins only)
+           * @desc    Controller to handle the creation of a new property.
+           * @param   {Object} req - Express request object containing the property data.
+           * @param   {Object} res - Express response object used to send the result of the creation process.
+           * @param   {Function} next - Express middleware function for error handling.
+           * @returns {JSON} - Success response with the created property's data.
            */
           export const createProperty = async (req, res, next) => {
-            // Extract validation errors from express-validator
-            const validationErrors = validationResult(req);
-            let errors = [];
-          
-            //Collect validation errors and ensure both `field` and `message` are included
-            if (!validationErrors.isEmpty()) {
-              errors = validationErrors.array().map(err => ({
-                field: err.path, // Returns the field name
-                message: err.msg, // Error message for that field
-              }));
-            }
-          
-            const {
-              title, description, propertyType, price, status, size, bedrooms, bathrooms, rooms,
-              offerType, wifi, petFriendly, parking, yearBuilt, availableFrom, address, images,
-              amenities, coordinates
-            } = req.body;
-          
             try {
-              // If there are any validation errors, pass them to the global error handler
-              if (errors.length > 0) {
-                const error = new Error('Validation failed');
-                error.statusCode = 400;
-                error.errors = errors;
-                return next(error);  // Forward errors to the global error handler
-              }
+                const newProperty = await createNewProperty(req.body);
           
-              // Create a new property object using the Property model
-              const newProperty = new Property({
-                title,
-                description,
-                propertyType,
-                price,
-                status,
-                size,
-                bedrooms,
-                bathrooms,
-                rooms,
-                offerType,
-                wifi: wifi || false,
-                petFriendly: petFriendly || false,
-                parking: parking || false,
-                yearBuilt,
-                availableFrom,
-                address,
-                images: images || [],
-                amenities: amenities || [],
-                agentId: req.user._id,  // Use the authenticated user's ID (from `req.user`)
-                coordinates,
-              });
-          
-              //Save the new property to the database
-              const savedProperty = await newProperty.save();
-          
-              // Return success response with the newly created property and its ID
-              return res.status(201).json({
-                success: true,
-                message: 'Property created successfully!',
-                data: {
-                  id: savedProperty._id,  // Return the generated property ID
-                  property: savedProperty  // Include the full property object
-                }
-              });
-          
+                return res.status(201).json({
+                    success: true,
+                    message: 'Property created successfully.',
+                    data: newProperty,
+                });
             } catch (error) {
-              // Catch any server errors and pass them to the global error handler
+                next(error);
+            }
+          };
+          
+          
+          /**
+           * @desc    Controller to handle retrieving a property by ID from the database.
+           * @param   {Object} req - Express request object containing the property ID in params.
+           * @param   {Object} res - Express response object for sending the property data.
+           * @param   {Function} next - Express middleware function for error handling.
+           * @returns {Object} - Success response with property data or formatted error.
+           */
+          export const getPropertyById = async (req, res, next) => {
+            try {
+              const { id } = req.params; // Extract property ID from params
+          
+              // Call the service to get the property by ID
+              const property = await getPropertyByIdService(id);
+          
+              return res.status(200).json({
+                success: true,
+                data: property, 
+              });
+            } catch (error) {
               return next(error);
             }
           };
+          
+          /**
+           * @desc    Controller to update a specific property's information.
+           * @route   PUT /api/properties/:id
+           * @access  Private (Admin or Property Owner)
+           * @param   {Object} req - Express request object containing the property ID in params and updated data in the body.
+           * @param   {Object} res - Express response object for sending the updated property data.
+           * @param   {Function} next - Express next middleware function for error handling.
+           * @returns {Object} - Success response with updated property data or error.
+           */
+          export const updateProperty = async (req, res, next) => {
+            try {
+              const { id } = req.params;
+              const updates = req.body;
+              const userRole = req.user.role;
+          
+              // Call the service to update the property
+              const updatedProperty = await updatePropertyService(id, updates, userRole);
+          
+              return res.status(200).json({
+                success: true,
+                message: 'Property information updated successfully.',
+                data: updatedProperty,  // Send the updated property data
+              });
+            } catch (error) {
+              return next(error);
+            }
+          };
+          
+          /**
+           * @desc    Controller to delete a property by ID and remove its reference from users/agents.
+           * @route   DELETE /api/properties/:id
+           * @access  Private (Admin or Property Owner)
+           * @param   {Object} req - Express request object containing the property ID in params.
+           * @param   {Object} res - Express response object used to send the deletion result.
+           * @param   {Function} next - Express middleware function for error handling.
+           * @returns {JSON} - Success message or error response.
+           */
+          export const deleteProperty = async (req, res, next) => {
+            try {
+              const { id } = req.params;
+          
+              // Call the service to delete the property and remove its references from users/agents
+              await deletePropertyService(id);
+          
+              return res.status(200).json({
+                success: true,
+                message: 'Property deleted and references updated successfully!',
+              });
+            } catch (error) {
+              return next(error);  // Pass any errors to the global error handler
+            }
+          };
+          
+          /**
+           * @desc    Controller to fetch properties, either all or filtered based on query parameters.
+           * @param   {Object} req - Express request object containing query parameters for filters.
+           * @param   {Object} res - Express response object for sending the property data.
+           * @param   {Function} next - Express next middleware function for error handling.
+           * @returns {Object} - JSON response with success status and list of properties.
+           */
+          export const getPropertiesByFilter = async (req, res, next) => {
+            try {
+              // Pass query parameters to the service
+              const filters = req.query;
+          
+              // Fetch properties based on filters (or all if no filters)
+              const properties = await getPropertiesByFilterService(filters);
+          
+              return res.status(200).json({
+                success: true,
+                data: properties,
+              });
+            } catch (error) {
+              return next(error);
+            }
+          };
+          
+          /**
+           * @desc    Controller to add an image to a property
+           * @route   PUT /api/properties/:id/images
+           * @access  Private (Admin, Owner, or Agent)
+           */
+          export const addPropertyImage = async (req, res, next) => {
+            try {
+              const { id } = req.params;
+              const { imageUrl } = req.body;
+          
+              const updatedProperty = await addPropertyImageService(id, imageUrl);
+          
+              return res.status(200).json({
+                success: true,
+                message: 'Image added successfully.',
+                data: updatedProperty,
+              });
+            } catch (error) {
+              next(error);
+            }
+          };
+          
+          /**
+           * @desc    Controller to remove an image from a property
+           * @route   PUT /api/properties/:id/images/remove
+           * @access  Private (Admin, Owner, or Agent)
+           */
+          export const removePropertyImage = async (req, res, next) => {
+            try {
+              const { id } = req.params;
+              const { imageUrl } = req.body;
+          
+              const updatedProperty = await removePropertyImageService(id, imageUrl);
+          
+              return res.status(200).json({
+                success: true,
+                message: 'Image removed successfully.',
+                data: updatedProperty,
+              });
+            } catch (error) {
+              next(error);
+            }
+          };
+          
+          /**
+           * @desc    Controller to add an amenity to a property
+           * @route   PUT /api/properties/:id/amenities
+           * @access  Private (Admin, Owner, or Agent)
+           */
+          export const addPropertyAmenity = async (req, res, next) => {
+            try {
+              const { id } = req.params;
+              const { amenity } = req.body;
+          
+              const updatedProperty = await addPropertyAmenityService(id, amenity);
+          
+              return res.status(200).json({
+                success: true,
+                message: 'Amenity added successfully.',
+                data: updatedProperty,
+              });
+            } catch (error) {
+              next(error);  // Pass error to global error handler
+            }
+          };
+          
+          /**
+           * @desc    Controller to remove an amenity from a property
+           * @route   PUT /api/properties/:id/amenities/remove
+           * @access  Private (Admin, Owner, or Agent)
+           */
+          export const removePropertyAmenity = async (req, res, next) => {
+            try {
+              const { id } = req.params;
+              const { amenity } = req.body;
+          
+              const updatedProperty = await removePropertyAmenityService(id, amenity);
+          
+              return res.status(200).json({
+                success: true,
+                message: 'Amenity removed successfully.',
+                data: updatedProperty,
+              });
+            } catch (error) {
+              next(error);  // Pass error to global error handler
+            }
+          };
+          
       |-validation/
         |-validationController.js
           
@@ -2781,45 +3132,54 @@
           };
       |-user/
         |-userController.js
-          import {excludeSensitiveInfo} from '../../utils/excludeSensitiveInfo.js';
+          /**
+           * This file contains the controllers for user management in the system.
+           */
+          
+          // Utility functions
+          import { excludeSensitiveInfo } from '../../utils/excludeSensitiveInfo.js';
+          
+          // Service functions
           import {
-            getAllUsersService, 
+            getUsersByFilterService,
             getUserByIdService,
             deleteUserService,
             updateUserService,
+            addPropertyToUserService,
+            removePropertyFromUserService,
           } from '../../services/userServices.js';
           
           /**
-           * @desc    Controller to handle retrieving all users from the database.
-           * @param   {Object} req - Express request object.
-           * @param   {Object} res - Express response object used to send the list of users.
+           * @desc    Controller to retrieve users based on query parameters (filters) or return all users if no filters are provided.
+           *          This route is public, meaning it doesn't require authentication.
+           * @route   GET /api/users
+           * @access  Public
+           * @param   {Object} req - Express request object containing query parameters for filtering.
+           * @param   {Object} res - Express response object used to send the list of filtered users or all users.
            * @param   {Function} next - Express next middleware function for error handling.
-           * @returns {Object} - JSON response with the success status and list of all users.
+           * @returns {Object} - Success response with a list of users or an error.
            */
-          export const getAllUsers = async (req, res, next) => {
-              try {
-                // Fetch all users from the service layer
-                const users = await getAllUsersService();
-            
-                // Sanitize user data to exclude sensitive fields (like passwords)
-                const sanitizedUsers = users.map(user => excludeSensitiveInfo(user, ['password', '__v']));
-            
-                // Respond with the sanitized user data
-                return res.status(200).json({
-                  success: true,
-                  data: sanitizedUsers,
-                });
-            
-              } catch (error) {
-                return next(error); // Pass any errors to the global error handler
-              }
+          export const getUsersByFilter = async (req, res, next) => {
+            try {
+              const filters = req.query;
+              const users = await getUsersByFilterService(filters);
+          
+              const sanitizedUsers = users.map(user => excludeSensitiveInfo(user, ['password', '__v']));
+          
+              return res.status(200).json({
+                success: true,
+                data: sanitizedUsers,
+              });
+          
+            } catch (error) {
+              return next(error);
+            }
           };
           
           /**
-           * @desc    Get a specific user by ID from the database.
-           *          Returns user data except for the password field.
-           * @route   GET /api/user/:id
-           * @access  Private (User/Admin)
+           * @desc    Controller to retrieve a specific user by ID from the database.
+           * @route   GET /api/users/:id
+           * @access  Public
            * @param   {Object} req - Express request object containing the user ID in params.
            * @param   {Object} res - Express response object for sending the user data.
            * @param   {Function} next - Express next middleware function for error handling.
@@ -2902,6 +3262,58 @@
               return next(error);
             }
           };
+          
+          /**
+           * @desc    Controller to add a property to a user's properties array.
+           * @route   POST /api/users/:userId/add-property
+           * @access  Private (User or Admin)
+           * @param   {Object} req - Express request object containing userId in params and propertyId in the body.
+           * @param   {Object} res - Express response object used to send the updated user data.
+           * @param   {Function} next - Express middleware function for error handling.
+           * @returns {JSON} - Success response with the updated user data.
+           */
+          export const addPropertyToUser = async (req, res, next) => {
+            const { userId } = req.params; // Extract userId from URL params
+            const { propertyId } = req.body; // Extract propertyId from the body
+          
+            try {
+              // Call the service to add the property to the user's properties array
+              const updatedUser = await addPropertyToUserService(userId, propertyId);
+          
+              // Return success response with the updated user data
+              return res.status(200).json({
+                success: true,
+                message: 'Property added to user successfully.',
+                data: updatedUser,
+              });
+            } catch (error) {
+              return next(error); // Pass any errors to the global error handler
+            }
+          };
+          
+          /**
+           * Controller to handle removing a property from a user.
+           * @param {Object} req - Express request object containing userId in params and propertyId in body.
+           * @param {Object} res - Express response object for sending the result of the removal process.
+           * @param {Function} next - Express middleware function for error handling.
+           */
+          export const removePropertyFromUser = async (req, res, next) => {
+            try {
+              const { userId } = req.params;
+              const { propertyId } = req.body;
+          
+              const updatedUser = await removePropertyFromUserService(userId, propertyId);
+          
+              return res.status(200).json({
+                success: true,
+                message: 'Property removed from user successfully.',
+                data: updatedUser
+              });
+            } catch (error) {
+              next(error);
+            }
+          };
+          
     |-utils/
       |-validationErrorsHandler.js
         import { validationResult } from 'express-validator';
@@ -2991,6 +3403,7 @@
         
         export const generateJWT = (user) => {
           console.log('User object received in generateJWT:', JSON.stringify(user, null, 2));
+        
           if (!user || !user._id || !user.username || !user.email || !user.role) {
             throw new ValidationError('Invalid user object provided to generateJWT', [
               { field: '_id', message: 'User ID is missing' },
@@ -3008,53 +3421,51 @@
           };
         
           const options = {
-            expiresIn: process.env.JWT_EXPIRES_IN || '3d',
-            issuer: process.env.JWT_ISSUER || 'propertyHub',
-            audience: process.env.JWT_AUDIENCE || 'propertyHubApp',
+            expiresIn: process.env.JWT_EXPIRES_IN,
+            issuer: process.env.JWT_ISSUER,
+            audience: process.env.JWT_AUDIENCE,
           };
+        
+          console.log('JWT payload:', payload);
+          console.log('JWT options:', options);
         
           return jwt.sign(payload, process.env.JWT_SECRET, options);
         };
         
-        /**
-         * Generate a token and cookie options for a user
-         * @param {Object} user - The user object
-         * @returns {Object} An object containing the token and cookie options
-         */
         export const generateTokenAndCookieOptions = (user) => {
           const token = generateJWT(user);
           const cookieOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'strict',
-            maxAge: 24 * 60 * 60 * 1000, // 24 hours
+            maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days in milliseconds
+            name: process.env.JWT_COOKIE_NAME,
           };
+        
+          console.log('Generated token:', token);
+          console.log('Cookie options:', cookieOptions);
+        
           return { token, cookieOptions };
         };
         
-        /**
-         * Set the JWT token in a cookie
-         * @param {Object} res - The response object
-         * @param {string} token - The JWT token
-         * @param {Object} cookieOptions - The cookie options
-         */
         export const setTokenCookie = (res, token, cookieOptions) => {
           if (!res || !token || !cookieOptions) {
             throw new Error('Invalid parameters provided to setTokenCookie');
           }
-          res.cookie('propertyHubAuthToken', token, cookieOptions);
+        
+          console.log('Setting token cookie. Token:', token);
+          res.cookie(cookieOptions.name, token, cookieOptions);
         };
         
-        /**
-         * Verify and decode a JWT token
-         * @param {string} token - The JWT token to verify
-         * @returns {Object} The decoded token payload
-         * @throws {Error} If the token is invalid or expired
-         */
         export const verifyJWT = (token) => {
           try {
-            return jwt.verify(token, process.env.JWT_SECRET);
+            console.log('Verifying token:', token);
+            return jwt.verify(token, process.env.JWT_SECRET, {
+              issuer: process.env.JWT_ISSUER,
+              audience: process.env.JWT_AUDIENCE,
+            });
           } catch (error) {
+            console.error('Token verification failed:', error);
             throw new Error('Invalid or expired token');
           }
         };
@@ -3063,13 +3474,13 @@
         
         /**
          * Utility function to remove restricted fields from an updates object.
-         * @param {Object} updates - The updates object containing fields to be modified.
+         * @param {Object} data - The updates object containing fields to be created or modified.
          * @param {Array<string>} restrictedFields - An array of field names that should not be modified.
          * @returns {Object} - The sanitized updates object with restricted fields removed.
          */
-        export const removeRestrictedFields = (updates, restrictedFields) => {
+        export const removeRestrictedFields = (data, restrictedFields) => {
             // Create a shallow copy of updates to avoid directly modifying the original object
-            const sanitizedUpdates = { ...updates };
+            const sanitizedUpdates = { ...data };
           
             // Loop through restrictedFields and delete them from updates if they exist
             restrictedFields.forEach(field => {
@@ -3200,37 +3611,40 @@
         export { CustomError };
     |-routes/
       |-userRoutes.js
+        /**
+         * This file contains the routes for user management in the system.
+         */
         
         import express from 'express';
+        
+        // Controllers
         import {
-          getAllUsers,
+          getUsersByFilter,
           getUserById,
           updateUser,
           deleteUser,
+          addPropertyToUser,
+          removePropertyFromUser,
         } from '../controllers/user/userController.js';
-        import {validateObjectId} from '../middleware/validation/validateObjectId.js';
+        
+        // Middleware - Authentication & Authorization
         import authenticateJWT from '../middleware/auth/authMiddleware.js';
+        import { checkIsUserSelfOrAdmin } from '../middleware/auth/roleMiddleware.js';  // Role-based access control
         
-        import { 
-          checkIsUserSelfOrAdmin
-        } from '../middleware/auth/roleMiddleware.js';  // Role-based access control
-        import { validateUpdateUserFields } from '../middleware/validation/userUpdateValidation.js';  // Input validation for users
-        
+        // Middleware - Validation
+        import { validateObjectId } from '../middleware/validation/validateObjectId.js';
+        import { validateUpdateUserFields } from '../middleware/validation/userUpdateValidation.js';
+        import { validatePropertyIdBody } from '../middleware/validation/validateObjectIdBody.js';
+        import { handleValidationErrors } from '../middleware/common/handleValidationErrors.js';
+        import { validateUserObjectIdParam } from '../middleware/validation/validateUserObjectId.js';
         
         const router = express.Router();
         
-        /**
-         * ============================
-         * User Routes
-         * ============================
-         */
-        
-        // Get all users (public)
+        // Get Users by filter (public)
         router.get(
           '/', 
-          getAllUsers
+          getUsersByFilter
         );
-        
         
         // Get a specific users by ID (public)
         router.get(
@@ -3249,7 +3663,7 @@
           updateUser
         );
         
-        // Delete an user (admin or the user themselves)
+        // Delete a user (admin or the user themselves)
         router.delete(
           '/:id', 
           authenticateJWT,
@@ -3258,8 +3672,28 @@
           deleteUser
         );
         
-        export default router;
+        router.post(
+          '/:userId/add-property',
+          authenticateJWT,
+          checkIsUserSelfOrAdmin, 
+          validateUserObjectIdParam,
+          validatePropertyIdBody,
+          handleValidationErrors,
+          addPropertyToUser,
+        );
         
+        router.put(
+          '/:userId/remove-property',
+          authenticateJWT,
+          checkIsUserSelfOrAdmin, 
+          validateUserObjectIdParam,
+          validatePropertyIdBody,
+          handleValidationErrors,
+          removePropertyFromUser
+        );
+        
+        
+        export default router;
       |-agentRoutes.js
         /**
          * This file contains the routes for agent management in the system.
@@ -3267,7 +3701,7 @@
         
         import express from 'express';
         import {
-          getAllAgents,
+          getAgentsByFilter,
           getAgentById,
           updateAgentStatus,
           updateAgent,
@@ -3288,13 +3722,17 @@
          */
         
         // Get all agents (public)
-        router.get('/', getAllAgents);
+        router.get(
+          '/', 
+          getAgentsByFilter
+        );
         
         // Get a specific agent by ID (public)
         router.get(
           '/:id',
           validateObjectId, 
-          getAgentById);
+          getAgentById
+        );
         
         // Admin-only route to approve or reject agents
         router.patch(
@@ -3312,7 +3750,8 @@
           validateObjectId, 
           checkIsAgentSelfOrAdmin, 
           validateUpdateAgentFields, 
-          updateAgent);
+          updateAgent
+        );
         
         // Delete an agent (admin or the agent themselves)
         router.delete(
@@ -3325,7 +3764,6 @@
         
         
         export default router;
-        
       |-transactionRoutes.js
         import express from 'express';
         const router = express.Router();
@@ -3420,12 +3858,126 @@
         export default router;
       |-propertyRoutes.js
         import express from 'express';
+        import {
+          createProperty,
+          getPropertyById,
+          updateProperty,
+          deleteProperty,
+          getPropertiesByFilter,
+          addPropertyImage,
+          removePropertyImage,
+          addPropertyAmenity,
+          removePropertyAmenity,
+        } from '../controllers/property/propertiesController.js';
+        import { validateObjectId } from '../middleware/validation/validateObjectId.js';
+        import authenticateJWT from '../middleware/auth/authMiddleware.js';
+        import { validatePropertyFields } from '../middleware/validation/propertyValidation.js';
+        import { validateUpdatePropertyFields } from '../middleware/validation/propertyUpdateValidation.js';
+        import { validateFilterQuery } from '../middleware/validation/propertyQueryValidation.js';
+        import { validateImageUrl } from '../middleware/validation/validateImageUrl.js';
+        import { validateAmenity } from '../middleware/validation/amenityValidation.js';
+        
+        import { 
+          checkRoleToCreateProperty,
+          checkIsAdminOrOwnerOrAgent
+         } from '../middleware/auth/roleMiddleware.js';  // Role-based access control
+        import { handleValidationErrors } from '../middleware/common/handleValidationErrors.js'; // Make sure this is imported correctly
+        
         const router = express.Router();
         
-        // Placeholder routes for property-related operations
-        router.get('/', (req, res) => {
-          res.send('Property route');
-        });
+        /**
+         * ============================
+         * Property Routes
+         * ============================
+         */
+        
+        // Create a new property (authenticated users only)
+        router.post(
+          '/', 
+          authenticateJWT,
+          checkRoleToCreateProperty, 
+          validatePropertyFields,
+          handleValidationErrors,   
+          createProperty
+        );
+        
+        // Get a specific property by ID (public)
+        router.get(
+          '/:id',
+          validateObjectId, 
+          getPropertyById
+        );
+        
+        // Update property information (admin, agent or the property owner)
+        router.put(
+          '/:id', 
+          authenticateJWT, 
+          validateObjectId, 
+          checkIsAdminOrOwnerOrAgent,
+          validateUpdatePropertyFields,
+          handleValidationErrors,
+          updateProperty
+        );
+        
+        // Delete a property (admin or the property owner)
+        router.delete(
+          '/:id', 
+          authenticateJWT, 
+          validateObjectId, 
+          checkIsAdminOrOwnerOrAgent, 
+          deleteProperty
+        );
+        
+        // Route for fetching properties (all or filtered)
+        router.get(
+          '/', 
+          validateFilterQuery,  // Optional: Validates the filters provided
+          handleValidationErrors, 
+          getPropertiesByFilter  // Fetch properties based on filters or return all properties
+        );
+        
+        // Add and Remove Image Routes (images related)
+        router.put(
+          '/:id/images', 
+          authenticateJWT,
+           validateObjectId, 
+           checkIsAdminOrOwnerOrAgent, 
+           validateImageUrl,
+           handleValidationErrors, 
+           addPropertyImage
+        );
+        
+        router.put(
+          '/:id/images/remove', 
+          authenticateJWT, 
+          validateObjectId, 
+          checkIsAdminOrOwnerOrAgent,
+          validateImageUrl, 
+          handleValidationErrors, 
+          removePropertyImage
+        );
+        
+        // Add an amenity to a property
+        router.put(
+          '/:id/amenities',
+          authenticateJWT,
+          validateObjectId,
+          checkIsAdminOrOwnerOrAgent,
+          validateAmenity,
+          handleValidationErrors,
+          addPropertyAmenity
+        );
+        
+        // Remove an amenity from a property
+        router.put(
+          '/:id/amenities/remove',
+          authenticateJWT,
+          validateObjectId,
+          checkIsAdminOrOwnerOrAgent,
+          validateAmenity,
+          handleValidationErrors,
+          removePropertyAmenity
+        );
         
         export default router;
       |-authRoutes.js
@@ -3731,6 +4283,8 @@
           
           export default checkEmptyBody;
         |-handleValidationErrors.js
+          import mongoose from 'mongoose';
+          
           import { validationResult } from 'express-validator';
           import { ValidationError } from '../../utils/customErrors.js';  // Use your custom ValidationError
           
@@ -3795,7 +4349,11 @@
           
           export default authenticateJWT;
         |-roleMiddleware.js
-          import { ForbiddenError } from '../../utils/customErrors.js';  // Import custom ForbiddenError
+          import { 
+            ForbiddenError,
+            NotFoundError 
+          } from '../../utils/customErrors.js';
+          import Property from '../../models/Property.js';
           
           /**
            * @desc - Check if the user is an admin
@@ -3910,6 +4468,61 @@
             return next(new ForbiddenError('Access denied: You do not have the required permissions to perform this action.'));
           };
           
+          // Middleware to check if the user is authorized to create a property
+          export const checkRoleToCreateProperty = (req, res, next) => {
+            const { role } = req.user;
+          
+            // Allow access to users with any of these roles
+            const allowedRoles = ['user', 'agent', 'admin', 'super-admin'];
+          
+            if (req.user && allowedRoles.includes(role)) {
+              return next();
+            }
+          
+            // If the user does not have the right role, return 403 Forbidden
+            return res.status(403).json({ message: 'Access denied: You do not have permission to create a property.' });
+          };
+          
+          /**
+           * Middleware to check if the user is an admin, the property owner (user who created it), or the agent managing the property.
+           * @param {Object} req - Express request object.
+           * @param {Object} res - Express response object.
+           * @param {Function} next - Express next middleware function.
+           * @returns {void} - Calls next if authorized, throws ForbiddenError otherwise.
+           */
+          export const checkIsAdminOrOwnerOrAgent = async (req, res, next) => {
+            const { id: propertyId } = req.params;
+            const { role, id: userId } = req.user;  // The logged-in user's role and ID from JWT payload
+          
+            try {
+              // If the user is an admin or super-admin, allow the update
+              if (role === 'admin' || role === 'super-admin') {
+                return next();
+              }
+          
+              const property = await Property.findById(propertyId);
+          
+              if (!property) {
+                return next(new NotFoundError(`Property with ID ${propertyId} not found`));
+              }
+           
+              console.log(property.userId, userId);
+              // Check if `userId` is set on the property and compare with the logged-in user
+              if (property.userId && property.userId.toString() === userId.toString()) {
+                return next();
+              }
+          
+              // Check if `agentId` is set on the property and compare with the logged-in user
+              if (property.agentId && property.agentId.toString() === userId.toString()) {
+                return next();
+              }
+          
+              // If none of the conditions are met, deny access
+              return next(new ForbiddenError('Access denied: You are not authorized to modify this property.'));
+            } catch (error) {
+              return next(error); // Pass error to the global error handler
+            }
+          };
         |-globalMiddlewares.js
           import cors from 'cors';
           import express from 'express';
@@ -4025,11 +4638,31 @@
               .optional()
               .isISO8601().withMessage('Lock until must be a valid date.'),
           
+            // Properties validation (optional)
+            body('properties')
+            .optional()
+            .isArray().withMessage('Properties must be an array of ObjectIds.')
+            .custom((value) => {
+              if (!value.every(mongoose.Types.ObjectId.isValid)) {
+                throw new Error('Invalid property IDs.');
+              }
+              return true;
+            }),
+          
             body('isUsernameCustomized')
               .optional()
               .isBoolean().withMessage('isUsernameCustomized must be a boolean value (true or false).'),
           ];
           
+        |-validateImageUrl.js
+          import { body } from 'express-validator';
+          
+          export const validateImageUrl = [
+            body('imageUrl')
+              .notEmpty().withMessage('Image URL is required.')
+              .isURL().withMessage('Image must be a valid URL.')
+              .matches(/\.(jpg|jpeg|png|webp)$/).withMessage('Image must be a valid format: jpg, jpeg, png, or webp.'),
+          ];
         |-userValidation.js
           import { body } from 'express-validator';
           import {accountStatusEnum } from '../../models/User.js'; // Importing enums for validation
@@ -4101,6 +4734,99 @@
               .optional()
               .isURL().withMessage('Avatar must be a valid URL.')
           ];
+        |-propertyQueryValidation.js
+          import { query } from 'express-validator';
+          
+          /**
+           * @desc Middleware array that validates the query parameters for filtering properties.
+           *       Filters are optional but will be validated if present.
+           * @returns {Array} An array of validation rules to be applied before handling property filter requests.
+           */
+          export const validateFilterQuery = [
+            query('title')
+              .optional()
+              .isLength({ max: 100 }).withMessage('Title cannot exceed 100 characters.'),
+          
+            query('propertyType')
+              .optional()
+              .isIn(['Apartment', 'House', 'Condo', 'Land', 'Villa', 'Office', 'Studio'])
+              .withMessage('Property type must be one of: Apartment, House, Condo, Land, Villa, Office, Studio.'),
+          
+            query('priceMin')
+              .optional()
+              .isInt({ min: 0 }).withMessage('Minimum price must be a positive whole number (integer).'),
+          
+            query('priceMax')
+              .optional()
+              .isInt({ min: 0 }).withMessage('Maximum price must be a positive whole number (integer).'),
+          
+            query('status')
+              .optional()
+              .isIn(['Available', 'Sold', 'Rented', 'Pending'])
+              .withMessage('Status must be one of: Available, Sold, Rented, Pending.'),
+          
+            query('sizeMin')
+              .optional()
+              .isFloat({ min: 0 }).withMessage('Minimum size must be a positive number.'),
+          
+            query('sizeMax')
+              .optional()
+              .isFloat({ min: 0 }).withMessage('Maximum size must be a positive number.'),
+          
+            query('bedrooms')
+              .optional()
+              .isInt({ min: 1 }).withMessage('Bedrooms must be at least 1.'),
+          
+            query('bathrooms')
+              .optional()
+              .isInt({ min: 1 }).withMessage('Bathrooms must be at least 1.'),
+          
+            query('offerType')
+              .optional()
+              .isIn(['Sale', 'Rent'])
+              .withMessage('Offer type must be either Sale or Rent.'),
+          
+            query('yearBuiltMin')
+              .optional()
+              .isInt({ min: 1800 }).withMessage('Minimum year built must be after 1800.'),
+          
+            query('yearBuiltMax')
+              .optional()
+              .isInt({ max: new Date().getFullYear() })
+              .withMessage(`Maximum year built must be before ${new Date().getFullYear()}.`),
+          
+            query('availableFrom')
+              .optional()
+              .isISO8601().withMessage('Available date must be a valid ISO 8601 date.'),
+          
+            query('address.city')
+              .optional()
+              .isString().withMessage('City must be a valid string.'),
+          
+            query('address.state')
+              .optional()
+              .isString().withMessage('State must be a valid string.'),
+          
+            query('address.zipCode')
+              .optional()
+              .matches(/^\d{5}(-\d{4})?$/).withMessage('Please provide a valid zip code.'),
+          
+            query('coordinates.lat')
+              .optional()
+              .isFloat({ min: -90, max: 90 }).withMessage('Latitude must be between -90 and 90 degrees.'),
+          
+            query('coordinates.lng')
+              .optional()
+              .isFloat({ min: -180, max: 180 }).withMessage('Longitude must be between -180 and 180 degrees.')
+          ];
+        |-amenityValidation.js
+          import { body } from 'express-validator';
+          
+          export const validateAmenity = [
+            body('amenity')
+              .notEmpty().withMessage('Amenity is required.')
+              .isString().withMessage('Amenity must be a valid string.')
+          ];
         |-validateObjectId.js
           import { isValidObjectId } from 'mongoose';
           import { ValidationError } from '../../utils/customErrors.js';
@@ -4117,94 +4843,107 @@
           
           export const validatePropertyFields = [
             body('title')
-              .notEmpty().withMessage('Title is required.')
+              .notEmpty().withMessage('Property title is required.')
               .isLength({ max: 100 }).withMessage('Title cannot exceed 100 characters.'),
           
-            // Description: required and max length 500 characters
             body('description')
               .notEmpty().withMessage('Description is required.')
               .isLength({ max: 500 }).withMessage('Description cannot exceed 500 characters.'),
           
-            // Property Type: required and must be one of the predefined types
             body('propertyType')
               .notEmpty().withMessage('Property type is required.')
               .isIn(['Apartment', 'House', 'Condo', 'Land', 'Villa', 'Office', 'Studio'])
-              .withMessage('Invalid property type. Must be one of: Apartment, House, Condo, Land, Villa, Office, Studio.'),
+              .withMessage('Property type must be one of: Apartment, House, Condo, Land, Villa, Office, Studio.'),
           
-            // Price: required and must be a positive number
             body('price')
               .notEmpty().withMessage('Price is required.')
-              .isFloat({ min: 0 }).withMessage('Price must be a positive number.'),
+              .isInt({ min: 0 }).withMessage('Price must be a positive whole number (integer).'),
           
-            // Status: optional, but if present must be one of the allowed statuses
             body('status')
               .optional()
               .isIn(['Available', 'Sold', 'Rented', 'Pending'])
-              .withMessage('Invalid status. Must be one of: Available, Sold, Rented, Pending.'),
+              .withMessage('Status must be one of: Available, Sold, Rented, Pending.'),
           
-            // Size: required and must be a positive number
             body('size')
-              .notEmpty().withMessage('Size is required.')
+              .notEmpty().withMessage('Property size is required.')
               .isFloat({ min: 0 }).withMessage('Size must be a positive number.'),
           
-            // Bedrooms: required and must be a positive integer
             body('bedrooms')
               .notEmpty().withMessage('Number of bedrooms is required.')
               .isInt({ min: 1 }).withMessage('Bedrooms must be at least 1.'),
           
-            // Bathrooms: required and must be a positive integer
             body('bathrooms')
               .notEmpty().withMessage('Number of bathrooms is required.')
               .isInt({ min: 1 }).withMessage('Bathrooms must be at least 1.'),
           
-            // Rooms: required and must be a positive integer
             body('rooms')
               .notEmpty().withMessage('Number of rooms is required.')
               .isInt({ min: 1 }).withMessage('Rooms must be at least 1.'),
           
-            // Offer Type: required and must be either 'Sale' or 'Rent'
             body('offerType')
               .notEmpty().withMessage('Offer type is required.')
-              .isIn(['Sale', 'Rent']).withMessage('Offer type must be either Sale or Rent.'),
+              .isIn(['Sale', 'Rent'])
+              .withMessage('Offer type must be either Sale or Rent.'),
           
-            // Coordinates: Latitude and Longitude must be valid numbers
-            body('coordinates.lat')
-              .notEmpty().withMessage('Latitude is required.')
-              .isFloat({ min: -90, max: 90 }).withMessage('Latitude must be between -90 and 90.'),
-            body('coordinates.lng')
-              .notEmpty().withMessage('Longitude is required.')
-              .isFloat({ min: -180, max: 180 }).withMessage('Longitude must be between -180 and 180.'),
-          
-            // Address: street, city, state, zipCode are required
-            body('address.street')
-              .notEmpty().withMessage('Street address is required.')
-              .isLength({ max: 100 }).withMessage('Street address cannot exceed 100 characters.'),
-            body('address.city')
-              .notEmpty().withMessage('City is required.'),
-            body('address.state')
-              .notEmpty().withMessage('State is required.'),
-            body('address.zipCode')
-              .notEmpty().withMessage('Zip code is required.')
-              .matches(/^\d{5}(-\d{4})?$/).withMessage('Please provide a valid zip code.'),
-          
-            // Images: Optional but must be valid URLs if provided
-            body('images')
-              .optional()
-              .isArray().withMessage('Images must be an array of URLs.')
-              .custom((images) => {
-                for (let url of images) {
-                  if (!/^https?:\/\/.+\.(jpg|jpeg|png|webp)$/.test(url)) {
-                    throw new Error('Invalid image URL. Must be a valid URL pointing to a jpg, jpeg, png, or webp file.');
-                  }
-                }
-                return true;
-              }),
-          
-            // Optional: Year built, but if present, it must be between 1800 and the current year
             body('yearBuilt')
               .optional()
               .isInt({ min: 1800, max: new Date().getFullYear() })
               .withMessage(`Year built must be between 1800 and ${new Date().getFullYear()}.`),
+          
+            body('availableFrom')
+              .optional()
+              .isISO8601().withMessage('Available date must be a valid ISO 8601 date.'),
+          
+            body('address.street')
+              .notEmpty().withMessage('Street address is required.')
+              .isLength({ max: 100 }).withMessage('Street address cannot exceed 100 characters.'),
+          
+            body('address.city')
+              .notEmpty().withMessage('City is required.'),
+          
+            body('address.state')
+              .notEmpty().withMessage('State is required.'),
+          
+            body('address.zipCode')
+              .notEmpty().withMessage('Zip code is required.')
+              .matches(/^\d{5}(-\d{4})?$/).withMessage('Please provide a valid zip code.'),
+          
+            body('address.country')
+              .optional().default('Morocco')
+              .isString().withMessage('Country must be a valid string.'),
+          
+            body('images.*')
+              .optional()
+              .isURL().withMessage('Each image must be a valid URL (jpg, jpeg, png, or webp).')
+              .matches(/\.(jpg|jpeg|png|webp)$/).withMessage('Image must be a valid format: jpg, jpeg, png, or webp.'),
+          
+            body('amenities')
+              .optional()
+              .isArray().withMessage('Amenities must be an array of strings.')
+              .custom((amenities) => {
+                return amenities.every(amenity => typeof amenity === 'string');
+              }).withMessage('All amenities must be valid strings.'),
+          
+            body('isFeatured')
+              .optional()
+              .isBoolean().withMessage('isFeatured must be a boolean value.'),
+          
+            // Coordinates validation, made optional by removing `.notEmpty()`
+            body('coordinates.lat')
+              .optional()
+              .isFloat({ min: -90, max: 90 }).withMessage('Latitude must be between -90 and 90 degrees.'),
+          
+            body('coordinates.lng')
+              .optional()
+              .isFloat({ min: -180, max: 180 }).withMessage('Longitude must be between -180 and 180 degrees.')
+          ];
+        |-validateObjectIdBody.js
+          import { body } from 'express-validator';
+          
+          export const validatePropertyIdBody = [
+            body('propertyId')
+              .notEmpty().withMessage('Property ID is required.')
+              .isMongoId().withMessage('Property ID must be a valid MongoDB ObjectId.'),
           ];
         |-adminValidation.js
           /**
@@ -4268,6 +5007,17 @@
               .optional()
               .matches(/^https?:\/\/.+\.(jpg|jpeg|png|webp)$/).withMessage('Please provide a valid image URL (jpg, jpeg, png, or webp).')
           ];
+        |-validateUserObjectId.js
+          import { isValidObjectId } from 'mongoose';
+          import { ValidationError } from '../../utils/customErrors.js';
+          
+          export const validateUserObjectIdParam = (req, res, next) => {
+            const { userId } = req.params;  // Make sure to reference the correct param (userId)
+            if (!isValidObjectId(userId)) {
+              return next(new ValidationError('Invalid User ID'));  // Customize the error message
+            }
+            next();
+          };
         |-agentUpdateValidation.js
           import { body } from 'express-validator';
           import mongoose from 'mongoose';
@@ -4464,6 +5214,7 @@
         |-agentValidation.js
           import { body } from 'express-validator';
           import Agent from '../../models/Agent.js';
+          import mongoose from 'mongoose';  // This is necessary for ObjectId validation
           
           /**
            * @desc Middleware array that validates the fields for creating an Agent.
@@ -4576,6 +5327,141 @@
               .optional()
               .isBoolean().withMessage('Availability must be true or false.'),
           ];
+        |-propertyUpdateValidation.js
+          import { body } from 'express-validator';
+          /**
+           * @desc Middleware array that validates the fields for Property updates.
+           *       Fields are optional but will be validated if present.
+           * @returns {Array} An array of validation rules to be applied before handling property requests.
+           */
+          export const validateUpdatePropertyFields = [
+            body('title')
+              .optional()
+              .isLength({ max: 100 }).withMessage('Title cannot exceed 100 characters.'),
+          
+            body('description')
+              .optional()
+              .isLength({ max: 500 }).withMessage('Description cannot exceed 500 characters.'),
+          
+            body('propertyType')
+              .optional()
+              .isIn(['Apartment', 'House', 'Condo', 'Land', 'Villa', 'Office', 'Studio'])
+              .withMessage('Property type must be one of: Apartment, House, Condo, Land, Villa, Office, Studio.'),
+          
+            body('price')
+              .optional()
+              .isInt({ min: 0 }).withMessage('Price must be a positive whole number (integer).'),
+          
+            body('status')
+              .optional()
+              .isIn(['Available', 'Sold', 'Rented', 'Pending'])
+              .withMessage('Status must be one of: Available, Sold, Rented, Pending.'),
+          
+            body('size')
+              .optional()
+              .isFloat({ min: 0 }).withMessage('Size must be a positive number.'),
+          
+            body('bedrooms')
+              .optional()
+              .isInt({ min: 1 }).withMessage('Bedrooms must be at least 1.'),
+          
+            body('bathrooms')
+              .optional()
+              .isInt({ min: 1 }).withMessage('Bathrooms must be at least 1.'),
+          
+            body('rooms')
+              .optional()
+              .isInt({ min: 1 }).withMessage('Rooms must be at least 1.'),
+          
+            body('offerType')
+              .optional()
+              .isIn(['Sale', 'Rent'])
+              .withMessage('Offer type must be either Sale or Rent.'),
+          
+            body('yearBuilt')
+              .optional()
+              .isInt({ min: 1800, max: new Date().getFullYear() })
+              .withMessage(`Year built must be between 1800 and ${new Date().getFullYear()}.`),
+          
+            body('availableFrom')
+              .optional()
+              .isISO8601().withMessage('Available date must be a valid ISO 8601 date.'),
+          
+            body('address.street')
+              .optional()
+              .isLength({ max: 100 }).withMessage('Street address cannot exceed 100 characters.'),
+          
+            body('address.city')
+              .optional()
+              .notEmpty().withMessage('City is required.'),
+          
+            body('address.state')
+              .optional()
+              .notEmpty().withMessage('State is required.'),
+          
+            body('address.zipCode')
+              .optional()
+              .matches(/^\d{5}(-\d{4})?$/).withMessage('Please provide a valid zip code.'),
+          
+            body('address.country')
+              .optional()
+              .isString().withMessage('Country must be a valid string.'),
+          
+            body('images.*')
+              .optional()
+              .isURL().withMessage('Each image must be a valid URL (jpg, jpeg, png, or webp).')
+              .matches(/\.(jpg|jpeg|png|webp)$/).withMessage('Image must be a valid format: jpg, jpeg, png, or webp.'),
+          
+            body('amenities')
+              .optional()
+              .isArray().withMessage('Amenities must be an array of strings.')
+              .custom((amenities) => {
+                return amenities.every(amenity => typeof amenity === 'string');
+              }).withMessage('All amenities must be valid strings.'),
+          
+            body('isFeatured')
+              .optional()
+              .isBoolean().withMessage('isFeatured must be a boolean value.'),
+          
+            body('coordinates.lat')
+              .optional()
+              .isFloat({ min: -90, max: 90 }).withMessage('Latitude must be between -90 and 90 degrees.'),
+          
+            body('coordinates.lng')
+              .optional()
+              .isFloat({ min: -180, max: 180 }).withMessage('Longitude must be between -180 and 180 degrees.')
+          ];
+    |-test/
+      |-controllers/
+        |-adminController.test.js
+        |-authController.test.js
+        |-agentController.test.js
+        |-propertyController.test.js
+        |-userController.test.js
+      |-utils/
+        |-customErrors.test.js
+        |-removeRestrictedFields.test.js
+        |-excludeSensitiveInfo.test.js
+      |-routes/
+        |-authRoutes.test.js
+        |-propertyRoutes.test.js
+        |-agentRoutes.test.js
+        |-userRoutes.test.js
+      |-middlewares/
+        |-authMiddleware.test.js
+        |-roleMiddleware.test.js
+        |-validationMiddleware.test.js
+      |-integration/
+        |-integrationTests.test.js
+      |-services/
+        |-authService.test.js
+        |-propertyService.test.js
+        |-userService.test.js
+        |-agentService.test.js
+      |-models/
+        |-agentModel.test.js
+        |-propertyModel.test.js
+        |-userModel.test.js
     |-services/
       |-validationServices.js
         import User from '../models/User.js';
@@ -4610,6 +5496,364 @@
           
           return true; // Email is available
         };
+      |-propertyService.js
+        import Property from '../models/Property.js';
+        import { 
+            BusinessLogicError, 
+            ServerError, 
+            NotFoundError, 
+            ValidationError,
+            MongooseValidationError 
+          } from '../utils/customErrors.js';
+          import { removeRestrictedFields } from '../utils/removeRestrictedFields.js';
+        
+        /**
+         * @desc    Service to handle creating a new property.
+         * @param   {Object} propertyData - Data for creating the property.
+         * @returns {Object} - The created property document.
+         * @throws  {ServerError} - Throws an error if property creation fails.
+         */
+        export const createNewProperty = async (propertyData) => {
+            try {
+                const restrictedFields = ['createdAt', 'updatedAt', '_id', 'isFeatured'];
+                const sanitizedData = removeRestrictedFields(propertyData, restrictedFields);
+        
+                // Attempt to create the property in the database
+                const newProperty = await Property.create(sanitizedData);
+                return newProperty;
+            } catch (error) {
+                console.error('Error creating property:', error);  // Log the actual error for debugging
+                if (error.name === 'ValidationError') {
+                    throw new ValidationError('Mongoose validation failed.', error.errors);
+                } else if (error.code === 11000) {
+                    throw new BusinessLogicError('Duplicate field error: Property already exists.');
+                }
+                throw new ServerError('Error creating property.');
+            }
+        };
+        
+          /**
+         * @desc    Service to retrieve a property by its ID from the database.
+         * @param   {string} propertyId - The ID of the property to be fetched.
+         * @returns {Object} - Returns the property object if found.
+         * @throws  {NotFoundError} - If the property is not found.
+         * @throws  {ServerError} - For other server errors.
+         */
+        export const getPropertyByIdService = async (propertyId) => {
+            try {
+              const property = await Property.findById(propertyId);
+          
+              if (!property) {
+                throw new NotFoundError(`Property with ID ${propertyId} not found`);
+              }
+          
+              return property;
+            } catch (error) {
+              if (error instanceof NotFoundError) {
+                throw error; // Pass specific NotFoundError
+              }
+          
+              // Wrap any unexpected errors in a ServerError
+              throw new ServerError('Error while fetching property', 500);
+            }
+        };
+        
+        /**
+         * @desc    Service to update a specific property's information.
+         * @param   {string} id - The property's ID.
+         * @param   {Object} updates - The updates to be applied to the property.
+         * @param   {string} userRole - The role of the user making the update request (either 'agent' or 'admin').
+         * @throws  {ValidationError} - If the ID or fields are invalid.
+         * @throws  {NotFoundError} - If the property is not found.
+         * @throws  {ForbiddenError} - If the user is not allowed to update restricted fields.
+         * @throws  {ServerError} - For any server-side errors that occur.
+         * @returns {Object} - The updated property object.
+         */
+        export const updatePropertyService = async (id, updates, userRole) => {
+            try {
+              const restrictedFields = ['createdAt', 'updatedAt', '_id', 'isFeatured'];
+          
+              const sanitizedUpdates = removeRestrictedFields(updates, restrictedFields);
+          
+              const updatedProperty = await Property.findByIdAndUpdate(id, sanitizedUpdates, {
+                new: true,  // Return the updated document
+                runValidators: true,  // Apply schema validations
+              });
+          
+              if (!updatedProperty) {
+                throw new NotFoundError('Property not found');
+              }
+          
+              return updatedProperty;
+          
+            } catch (error) {
+              if (error.name === 'ValidationError') {
+                throw new MongooseValidationError(error);
+              } else if (error instanceof NotFoundError || error instanceof ForbiddenError) {
+                throw error;
+              }
+          
+              throw new ServerError('Server error while updating property information');
+            }
+        };
+        
+        /**
+         * Service to delete a property by ID and remove its reference from users/agents.
+         * @param {string} id - The property's ID.
+         * @throws {NotFoundError} - If the property is not found.
+         * @throws {ServerError} - If an error occurs during deletion.
+         */
+        export const deletePropertyService = async (id) => {
+          try {
+            // Find the property by ID
+            const property = await Property.findById(id);
+            if (!property) {
+              throw new NotFoundError('Property not found');
+            }
+        
+            // Delete the property from the database
+            await property.deleteOne();
+        
+            // Remove the property reference from users' and agents' properties array
+            await User.updateMany(
+              { properties: id },  // Match users with this property
+              { $pull: { properties: id } }  // Remove the property from their properties array
+            );
+        
+            await Agent.updateMany(
+              { properties: id },  // Match agents with this property
+              { $pull: { properties: id } }  // Remove the property from their properties array
+            );
+        
+          } catch (error) {
+            if (error instanceof NotFoundError || error instanceof ValidationError) {
+              throw error;
+            }
+            throw new ServerError('Error deleting property and updating users/agents');
+          }
+        };
+        
+        /**
+         * @desc    Service to fetch properties based on filters, or return all properties if no filters are provided.
+         * @param   {Object} filters - Query parameters used for filtering properties.
+         * @returns {Array} - Array of properties that match the filters or all properties if no filters are applied.
+         */
+        export const getPropertiesByFilterService = async (filters) => {
+          try {
+            // Initialize an empty query object
+            const query = {};
+        
+            // Add filters to the query dynamically based on the user input
+            if (filters.title) {
+              query.title = { $regex: filters.title, $options: 'i' }; // Case-insensitive match for title
+            }
+        
+            if (filters.propertyType) {
+              query.propertyType = filters.propertyType;
+            }
+        
+            if (filters.priceMin || filters.priceMax) {
+              query.price = {};
+              if (filters.priceMin) query.price.$gte = parseInt(filters.priceMin, 10);
+              if (filters.priceMax) query.price.$lte = parseInt(filters.priceMax, 10);
+            }
+        
+            if (filters.status) {
+              query.status = filters.status;
+            }
+        
+            if (filters.sizeMin || filters.sizeMax) {
+              query.size = {};
+              if (filters.sizeMin) query.size.$gte = parseFloat(filters.sizeMin);
+              if (filters.sizeMax) query.size.$lte = parseFloat(filters.sizeMax);
+            }
+        
+            if (filters.bedrooms) {
+              query.bedrooms = { $gte: parseInt(filters.bedrooms, 10) }; // Minimum number of bedrooms
+            }
+        
+            if (filters.bathrooms) {
+              query.bathrooms = { $gte: parseInt(filters.bathrooms, 10) }; // Minimum number of bathrooms
+            }
+        
+            if (filters.rooms) {
+              query.rooms = { $gte: parseInt(filters.rooms, 10) }; // Minimum number of rooms
+            }
+        
+            if (filters.offerType) {
+              query.offerType = filters.offerType;
+            }
+        
+            if (filters.wifi) {
+              query.wifi = filters.wifi === 'true'; // Ensure it's a boolean
+            }
+        
+            if (filters.petFriendly) {
+              query.petFriendly = filters.petFriendly === 'true'; // Ensure it's a boolean
+            }
+        
+            if (filters.parking) {
+              query.parking = filters.parking === 'true'; // Ensure it's a boolean
+            }
+        
+            if (filters.yearBuiltMin || filters.yearBuiltMax) {
+              query.yearBuilt = {};
+              if (filters.yearBuiltMin) query.yearBuilt.$gte = parseInt(filters.yearBuiltMin, 10);
+              if (filters.yearBuiltMax) query.yearBuilt.$lte = parseInt(filters.yearBuiltMax, 10);
+            }
+        
+            if (filters.city) {
+              query['address.city'] = filters.city;
+            }
+        
+            if (filters.state) {
+              query['address.state'] = filters.state;
+            }
+        
+            if (filters.zipCode) {
+              query['address.zipCode'] = filters.zipCode;
+            }
+        
+            if (filters.amenities) {
+              query.amenities = { $all: filters.amenities.split(',').map(amenity => amenity.trim()) };
+            }    
+        
+            if (filters.coordinatesLat || filters.coordinatesLng) {
+              query.coordinates = {};
+              if (filters.coordinatesLat) query['coordinates.lat'] = parseFloat(filters.coordinatesLat);
+              if (filters.coordinatesLng) query['coordinates.lng'] = parseFloat(filters.coordinatesLng);
+            }
+        
+            // Execute the query to fetch properties from the database
+            const properties = await Property.find(query);
+        
+            // Return the array of properties
+            return properties;
+          } catch (error) {
+            // Throw an error if any issue occurs
+            throw new ServerError('Error fetching properties from the database');
+          }
+        };
+        
+        export const addPropertyImageService = async (propertyId, imageUrl) => {
+          try {
+            // Find the property by ID
+            const property = await Property.findById(propertyId);
+        
+            if (!property) {
+              throw new NotFoundError('Property not found');
+            }
+        
+            // Check if the image already exists in the array to avoid duplicates
+            if (property.images.includes(imageUrl)) {
+              throw new BusinessLogicError('Image URL already exists in the property.');
+            }
+        
+            // Add the new image URL to the images array
+            const updatedProperty = await Property.findByIdAndUpdate(
+              propertyId,
+              { $push: { images: imageUrl } },  // Push new image if not found in array
+              { new: true, runValidators: true }  // Return the updated document
+            );
+        
+            return updatedProperty;
+          } catch (error) {
+            // Re-throw known errors (like BusinessLogicError)
+            if (error instanceof NotFoundError || error instanceof BusinessLogicError) {
+              throw error;
+            }
+        
+            // Wrap and throw unexpected errors as ServerError
+            throw new ServerError('Error adding image to property', 500, error);
+          }
+        };
+        
+        export const removePropertyImageService = async (propertyId, imageUrl) => {
+          try {
+            // Find the property by ID
+            const property = await Property.findById(propertyId);
+        
+            if (!property) {
+              throw new NotFoundError('Property not found');
+            }
+        
+            // Check if the image exists in the property
+            if (!property.images.includes(imageUrl)) {
+              throw new BusinessLogicError('Image URL does not exist in the property.');
+            }
+        
+            // Remove the image URL from the images array
+            const updatedProperty = await Property.findByIdAndUpdate(
+              propertyId,
+              { $pull: { images: imageUrl } },  // Remove the image
+              { new: true }  // Return the updated document
+            );
+        
+            return updatedProperty;
+          } catch (error) {
+            // Re-throw known errors like NotFoundError and BusinessLogicError
+            if (error instanceof NotFoundError || error instanceof BusinessLogicError) {
+              throw error;
+            }
+        
+            // Wrap any other unexpected errors in a ServerError
+            throw new ServerError('Error removing image from property', 500, error);
+          }
+        };
+        
+        export const addPropertyAmenityService = async (propertyId, amenity) => {
+          try {
+            const property = await Property.findById(propertyId);
+        
+            if (!property) {
+              throw new NotFoundError('Property not found');
+            }
+        
+            if (property.amenities.includes(amenity)) {
+              throw new BusinessLogicError('Amenity already exists in the property.');
+            }
+        
+            property.amenities.push(amenity);
+        
+            const updatedProperty = await property.save();
+        
+            return updatedProperty;
+          } catch (error) {
+            if (error instanceof NotFoundError || error instanceof BusinessLogicError) {
+              throw error;
+            }
+        
+            throw new ServerError('Error adding amenity to property', 500, error);
+          }
+        };
+        
+        export const removePropertyAmenityService = async (propertyId, amenity) => {
+          try {
+            const property = await Property.findById(propertyId);
+        
+            if (!property) {
+              throw new NotFoundError('Property not found');
+            }
+        
+            if (!property.amenities.includes(amenity)) {
+              throw new BusinessLogicError('Amenity does not exist in the property.');
+            }
+        
+            property.amenities = property.amenities.filter(existingAmenity => existingAmenity !== amenity);
+        
+            // Save the updated property
+            const updatedProperty = await property.save();
+        
+            return updatedProperty;
+          } catch (error) {
+            if (error instanceof NotFoundError || error instanceof BusinessLogicError) {
+              throw error;
+            }
+        
+            throw new ServerError('Error removing amenity from property', 500, error);
+          }
+        };
+        
       |-adminService.js
         import Admin from '../models/Admin.js';
         import { checkDuplicateFields } from '../utils/checkDuplicateFields.js';
@@ -4876,29 +6120,68 @@
         };
         
         /**
-         * Service to retrieve all agents from the database.
-         * @returns {Object[]} - Returns an array of agent objects with all fields.
-         * @throws {Error} - Throws NotFoundError if no agents are found, or ServerError for other errors.
+         * @desc    Service to fetch agents based on filters, or return all agents if no filters are provided.
+         * @param   {Object} filters - Query parameters used for filtering agents.
+         * @returns {Array} - Array of agents that match the filters or all agents if no filters are applied.
          */
-        export const getAllAgentsService = async () => {
+        export const getAgentsByFilterService = async (filters) => {
           try {
-            // Find all agents (do not exclude sensitive info here)
-            const agents = await Agent.find();
+            // Initialize an empty query object
+            const query = {};
         
-            if (!agents || agents.length === 0) {
-              throw new NotFoundError('No agents found');
+            // Add filters dynamically based on query parameters
+        
+            if (filters.firstName) {
+              query.firstName = { $regex: filters.firstName, $options: 'i' };  // Case-insensitive match for first name
             }
         
-            // Return raw data to the controller
+            if (filters.lastName) {
+              query.lastName = { $regex: filters.lastName, $options: 'i' };  // Case-insensitive match for last name
+            }
+        
+            if (filters.username) {
+              query.username = { $regex: filters.username, $options: 'i' };  // Case-insensitive match for username
+            }
+        
+            if (filters.agency) {
+              query.agency = { $regex: filters.agency, $options: 'i' };  // Case-insensitive match for agency name
+            }
+        
+            if (filters.phoneNumber) {
+              query.phoneNumber = filters.phoneNumber;
+            }
+        
+            if (filters.email) {
+              query.email = { $regex: filters.email, $options: 'i' };  // Case-insensitive match for email
+            }
+        
+            if (filters.licenseNumber) {
+              query.licenseNumber = filters.licenseNumber;  // Exact match for license number
+            }      
+        
+            if (filters.agentStatus) {
+              query.agentStatus = filters.agentStatus;  // E.g., pending, active, rejected
+            }
+        
+            if (filters.ratingMin || filters.ratingMax) {
+              query.rating = {};
+              if (filters.ratingMin) query.rating.$gte = parseFloat(filters.ratingMin);
+              if (filters.ratingMax) query.rating.$lte = parseFloat(filters.ratingMax);
+            }
+        
+            if (filters.reviewsCountMin || filters.reviewsCountMax) {
+              query.reviewsCount = {};
+              if (filters.reviewsCountMin) query.reviewsCount.$gte = parseInt(filters.reviewsCountMin, 10);
+              if (filters.reviewsCountMax) query.reviewsCount.$lte = parseInt(filters.reviewsCountMax, 10);
+            }
+        
+            // Execute the query to fetch agents from the database
+            const agents = await Agent.find(query);
+        
+            // Return the array of agents
             return agents;
-        
           } catch (error) {
-            if (error instanceof NotFoundError) {
-              throw error; // Propagate the specific NotFoundError
-            }
-        
-            // Wrap any other unexpected errors in a ServerError
-            throw new ServerError('Error while fetching agents', 500);
+            throw new ServerError('Error fetching agents from the database');
           }
         };
         
@@ -5037,7 +6320,18 @@
           }
         };
       |-userServices.js
+        /**
+         * This file contains the services for user management in the system.
+         * It handles business logic for creating, updating, retrieving, and deleting users.
+         */
+        
         import User from '../models/User.js';
+        
+        // Utility imports
+        import { checkDuplicateFields } from '../utils/checkDuplicateFields.js';
+        import { removeRestrictedFields } from '../utils/removeRestrictedFields.js';
+        
+        // Custom error imports
         import { 
           BusinessLogicError, 
           ServerError, 
@@ -5045,8 +6339,7 @@
           ValidationError,
           MongooseValidationError 
         } from '../utils/customErrors.js';
-        import { checkDuplicateFields } from '../utils/checkDuplicateFields.js';
-        import { removeRestrictedFields } from '../utils/removeRestrictedFields.js';
+        
         
         /**
          * Business logic to create a new user.
@@ -5058,55 +6351,69 @@
           try {
             const { firstName, lastName, username, email, password } = userData;
         
-            // Check for duplicate fields (email, username)
             const duplicateErrors = await checkDuplicateFields(User, { email, username });
         
-            // If duplicates are found, throw BusinessLogicError
             if (duplicateErrors.length > 0) {
               throw new BusinessLogicError('Duplicate fields found', duplicateErrors);
             }
         
-            // Create a new user
             const newUser = new User({
               firstName,
               lastName,
               username,
               email,
               password, // Password will be hashed automatically before saving
-              role: 'user', // Default role is 'user'
+              role: 'user',
             });
         
-            // Save the new user to the database
             await newUser.save();
         
-            // Return the newly created user
             return newUser;
         
           } catch (error) {
-            // Throw any error to be caught by the controller
             if (error instanceof BusinessLogicError) {
               throw error;
             } else {
-              throw new ServerError('Error creating user'); // Default to ServerError for unexpected errors
+              throw new ServerError('Error creating user');
             }
           }
         };
         
         /**
-         * @desc    Business logic to retrieve all users from the database.
-         * @throws  {ServerError} - Throws a server error in case something goes wrong.
-         * @returns {Array} - Array of all users.
+         * @desc    Service to fetch users based on filters, or return all users if no filters are provided.
+         * @param   {Object} filters - Query parameters used for filtering users.
+         * @returns {Array} - Array of users that match the filters or all users if no filters are applied.
          */
-        export const getAllUsersService = async () => {
+        export const getUsersByFilterService = async (filters) => {
           try {
-            // Fetch all users from the database
-            const users = await User.find();
+            const query = {};
         
-            // Return the array of users
+            if (filters.firstName) {
+              query.firstName = { $regex: filters.firstName, $options: 'i' }; // Case-insensitive match
+            }
+        
+            if (filters.lastName) {
+              query.lastName = { $regex: filters.lastName, $options: 'i' };
+            }
+        
+            if (filters.username) {
+              query.username = { $regex: filters.username, $options: 'i' };
+            }
+        
+            if (filters.email) {
+              query.email = { $regex: filters.email, $options: 'i' };
+            }
+        
+            if (filters.accountStatus) {
+              query.accountStatus = filters.accountStatus;  // Match exact account status
+            }
+        
+            const users = await User.find(query);
+        
             return users;
         
           } catch (error) {
-            throw new ServerError('Error retrieving users from the database');
+            throw new ServerError('Error fetching users from the database');
           }
         };
         
@@ -5119,26 +6426,23 @@
          */
         export const getUserByIdService = async (userId) => {
           try {
-            // Fetch user by ID
             const user = await User.findById(userId);
         
             if (!user) {
               throw new NotFoundError(`User with ID ${userId} not found`);
             }
         
-            return user; // Return raw user data
+            return user;
           } catch (error) {
             if (error instanceof NotFoundError) {
-              throw error; // Pass specific NotFoundError
+              throw error;
             }
         
-            // Wrap any unexpected errors in a ServerError
             throw new ServerError('Error while fetching user', 500);
           }
         };
         
         /**
-         * Service to update a specific user's information.
          * @param {string} id - The user's ID.
          * @param {Object} updates - The updates to be applied to the user.
          * @param {string} userRole - The role of the user making the update request (either 'user' or 'admin').
@@ -5150,12 +6454,10 @@
          */
         export const updateUserService = async (id, updates, userRole) => {
           try {
-            // List of fields that cannot be modified
             const restrictedFields = ['role', 'accountStatus', 'createdAt', 'lastLogin'];
             
             const sanitizedUpdates = removeRestrictedFields(updates, restrictedFields);
         
-            // Find and update the user
             const updatedUser = await User.findByIdAndUpdate(id, sanitizedUpdates, {
               new: true,  // Return the updated document
               runValidators: true,  // Apply schema validations
@@ -5168,14 +6470,12 @@
             return updatedUser;
         
           } catch (error) {
-            // Handle Mongoose validation errors
             if (error.name === 'ValidationError') {
               throw new MongooseValidationError(error);
             } else if (error instanceof NotFoundError || error instanceof ForbiddenError) {
-              throw error;  // Rethrow known errors
+              throw error;
             }
         
-            // Handle any unexpected server-side errors
             throw new ServerError('Server error while updating user information');
           }
         };
@@ -5206,13 +6506,84 @@
           }
         };
         
+        /**
+         * Service to add a property to a user's properties array.
+         * @param {string} userId - The user's ID (from the URL).
+         * @param {string} propertyId - The property ID to add (from the body).
+         * @throws {NotFoundError} - If the user is not found.
+         * @throws {BusinessLogicError} - If the property already exists in the user's properties array.
+         * @throws {ServerError} - If an error occurs during the update.
+         * @returns {Object} - The updated user object.
+         */
+        export const addPropertyToUserService = async (userId, propertyId) => {
+          try {
+            const user = await User.findById(userId);
+            if (!user) {
+              throw new NotFoundError('User not found');
+            }
+        
+            // Check if the property already exists in the user's properties array
+            if (user.properties.includes(propertyId)) {
+              throw new BusinessLogicError('Property already added to user.');
+            }
+        
+            // Add the property ID to the user's properties array
+            user.properties.push(propertyId);
+        
+            // Save the updated user
+            await user.save();
+            
+            return user;
+          } catch (error) {
+            // Throw a specific error if known or a generic server error
+            if (error instanceof NotFoundError || error instanceof BusinessLogicError) {
+              throw error;
+            } else {
+              throw new ServerError('Error updating user properties');
+            }
+          }
+        };
+        
+        /**
+         * Service to remove a property from a user's properties array.
+         * @param {string} userId - The user's ID (from the URL).
+         * @param {string} propertyId - The property ID to remove (from the body).
+         * @throws {NotFoundError} - If the user is not found.
+         * @throws {BusinessLogicError} - If the property does not exist in the user's properties array.
+         * @throws {ServerError} - If an error occurs during the update.
+         * @returns {Object} - The updated user object.
+         */
+        export const removePropertyFromUserService = async (userId, propertyId) => {
+          try {
+            const user = await User.findById(userId);
+            if (!user) {
+              throw new NotFoundError('User not found');
+            }
+        
+            if (!user.properties.includes(propertyId)) {
+              throw new BusinessLogicError('Property not found in user\'s properties.');
+            }
+        
+            user.properties = user.properties.filter(prop => prop.toString() !== propertyId);
+        
+            await user.save();
+            
+            return user;
+          } catch (error) {
+            if (error instanceof NotFoundError || error instanceof BusinessLogicError) {
+              throw error;
+            } else {
+              throw new ServerError('Error removing property from user');
+            }
+          }
+        };
       |-authService.js
         import Admin from '../models/Admin.js';
         import Agent from '../models/Agent.js';
         import User from '../models/User.js';
         import generateUniqueUsername from '../utils/generateUniqueUsername.js'; // Default import
         import { ServerError} from '../utils/customErrors.js';
-        import { BusinessLogicError } from '../utils/customErrors.js';
+        import { BusinessLogicError, UnauthorizedError } from '../utils/customErrors.js';
         
         /**
          * Authenticate admin by email and password.
@@ -5526,7 +6897,6 @@
       |-Property.js
         import mongoose from 'mongoose';
         
-        // Create the schema for the Property model
         const propertySchema = new mongoose.Schema({
           title: {
             type: String,
@@ -5549,7 +6919,7 @@
             min: [0, 'Price must be a positive number.'],
             validate: {
               validator: function (value) {
-                return Number.isInteger(value); // Ensure price is an integer
+                return Number.isInteger(value);
               },
               message: 'Price must be a whole number (integer).'
             }
@@ -5560,7 +6930,7 @@
             default: 'Available'
           },
           size: {
-            type: Number, // Size in square feet/meters
+            type: Number,
             required: [true, 'Property size is required.'],
             min: [0, 'Size must be a positive number.'],
           },
@@ -5581,20 +6951,20 @@
           },
           offerType: {
             type: String,
-            enum: ['Sale', 'Rent'], // Offer type must be either for Sale or Rent
+            enum: ['Sale', 'Rent'],
             required: [true, 'Offer type is required.']
           },
           wifi: {
             type: Boolean,
-            default: false, // Boolean to indicate if Wi-Fi is available
+            default: false,
           },
           petFriendly: {
             type: Boolean,
-            default: false, // Boolean to indicate if the property is pet-friendly
+            default: false,
           },
           parking: {
             type: Boolean,
-            default: false, // Boolean to indicate if parking is available
+            default: false,
           },
           yearBuilt: {
             type: Number,
@@ -5604,7 +6974,7 @@
           availableFrom: {
             type: Date,
             required: [true, 'Available date is required.'],
-            default: Date.now, // Set default availability to current date
+            default: Date.now,
           },
           address: {
             street: {
@@ -5628,7 +6998,7 @@
             country: {
               type: String,
               required: [true, 'Country is required.'],
-              default: 'USA'
+              default: 'Morocco'
             }
           },
           images: [
@@ -5652,27 +7022,20 @@
               message: 'All amenities must be valid strings.'
             }
           },
-          agentId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User', // Reference to the User (agent/owner) model
-            required: [true, 'An agent is required to manage this property.']
-          },
           isFeatured: {
             type: Boolean,
-            default: false, // Boolean to mark properties as featured listings
+            default: false,
           },
           coordinates: {
             lat: {
               type: Number,
-              required: [true, 'Latitude is required.'],
               min: [-90, 'Latitude must be between -90 and 90 degrees.'],
-              max: [90, 'Latitude must be between -90 and 90 degrees.']
+              max: [90, 'Latitude must be between -90 and 90 degrees.'],
             },
             lng: {
               type: Number,
-              required: [true, 'Longitude is required.'],
               min: [-180, 'Longitude must be between -180 and 180 degrees.'],
-              max: [180, 'Longitude must be between -180 and 180 degrees.']
+              max: [180, 'Longitude must be between -180 and 180 degrees.'],
             }
           },
           createdAt: {
@@ -5684,7 +7047,7 @@
             default: Date.now
           }
         }, {
-          timestamps: true // Automatically add createdAt and updatedAt fields
+          timestamps: true
         });
         
         // Pre-save middleware to update `updatedAt` before saving
@@ -5920,10 +7283,6 @@
         import mongoose from 'mongoose';
         import bcrypt from 'bcrypt';
         
-        // Define possible roles in the system
-        export const rolesEnum = ['user', 'admin', 'super-admin'];
-        
-        // Define possible statuses for the account
         export const accountStatusEnum = ['active', 'pending', 'suspended', 'deactivated'];
         
         // Create the schema of the database
@@ -5939,14 +7298,14 @@
             username: {
                 type: String,
                 required: true,
-                unique: true, // Ensure username is unique
+                unique: true,
             },
             email: {
                 type: String,
                 required: [true, "Please enter an email"],
                 unique: true,
                 lowercase: true,
-                match: [/\S+@\S+\.\S+/, 'Please enter a valid email'] // Email format validation
+                match: [/\S+@\S+\.\S+/, 'Please enter a valid email']
             },
             avatar: {
                 type: String,
@@ -5957,7 +7316,6 @@
                 minlength: [6, 'Minimum length is 6 characters'],
                 validate: {
                     validator: function(value) {
-                        // Password must include at least one uppercase letter, one lowercase letter, and one number
                         return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(value);
                     },
                     message: 'Password must include at least one uppercase letter, one lowercase letter, and one number.'
@@ -5965,41 +7323,51 @@
             },
             googleId: {
                 type: String,
-                required: false, // This will store Google user ID for OAuth users
+                required: false,
             },
             role: {
                 type: String,
                 enum: ['user'],
-                default: 'user', // Default role is 'user'
+                default: 'user',
             },
             accountStatus: {
                 type: String,
-                enum: accountStatusEnum, // Possible account statuses
-                default: 'active', // Default status is 'active'
+                enum: accountStatusEnum,
+                default: 'active',
             },
             isEmailVerified: {
-                type: Boolean,  // Whether the user's email has been verified
-                default: false, // Default is unverified, can be updated after email confirmation
+                type: Boolean,
+                default: false,
             },
             lastLogin: {
-                type: Date,  // Store the last login time
+                type: Date,
                 default: null,
             },
             failedLoginAttempts: {
-                type: Number,  // Track failed login attempts for security reasons
+                type: Number,
                 default: 0,
             },
             lockUntil: {
-                type: Date,  // Lock the account until a specific time if too many failed login attempts
+                type: Date,
                 default: null,
             },
             isUsernameCustomized: {
-                type: Boolean,   // Field to indicate if the username was customized by the user
-                default: false,  // Default value is false (automatically generated username)
-            }
+                type: Boolean,
+                default: false,
+            },
+            properties: [{
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Property',
+            }],
         }, 
-        { timestamps: true } // Save the date of creation/update
+        { timestamps: true }
         );
+        
+        userSchema.index({ email: 1 }, { unique: true });
+        userSchema.index({ username: 1 }, { unique: true });
+        userSchema.index({ properties: 1 });
+        userSchema.index({ role: 1 });
+        userSchema.index({ accountStatus: 1 });    
         
         // Hash the password before saving it to the database
         userSchema.pre('save', async function(next) {
@@ -6066,7 +7434,6 @@
             throw new Error("Incorrect email");
         };
         
-        // Virtual field to get the full name of the user
         userSchema.virtual('fullName').get(function() {
             return `${this.firstName} ${this.lastName}`;
         });
@@ -6093,40 +7460,59 @@
       |-29/
       |-e3/
       |-4b/
+      |-68/
       |-f6/
+      |-80/
       |-9a/
       |-0b/
       |-c9/
+      |-81/
       |-e9/
       |-f0/
       |-3c/
+      |-a7/
+      |-f2/
+      |-67/
+      |-e2/
       |-a0/
       |-d3/
       |-e8/
       |-f4/
       |-dd/
       |-e7/
+      |-8a/
       |-98/
       |-pack/
+      |-42/
       |-95/
       |-f5/
       |-a2/
+      |-e4/
       |-c6/
+      |-fb/
       |-b0/
+      |-23/
+      |-27/
       |-74/
       |-ce/
+      |-1f/
       |-cf/
       |-de/
       |-63/
       |-32/
+      |-34/
       |-c2/
+      |-ee/
       |-bb/
       |-8b/
+      |-c5/
       |-ac/
       |-d9/
       |-da/
       |-87/
+      |-5f/
       |-ab/
+      |-3f/
       |-2f/
       |-c3/
       |-db/
@@ -6147,17 +7533,22 @@
       |-22/
       |-7c/
       |-ad/
+      |-83/
       |-7b/
       |-0d/
       |-77/
       |-2a/
       |-50/
+      |-56/
       |-dc/
+      |-25/
+      |-2c/
       |-40/
       |-09/
       |-88/
       |-5e/
       |-6f/
+      |-5c/
       |-ba/
       |-d5/
       |-4c/
@@ -6165,50 +7556,67 @@
       |-2b/
       |-8d/
       |-b6/
+      |-8f/
       |-54/
       |-15/
       |-04/
+      |-9c/
       |-0f/
       |-9f/
+      |-21/
       |-82/
       |-20/
+      |-03/
       |-b9/
       |-0e/
       |-ca/
       |-1c/
       |-f8/
       |-72/
+      |-53/
       |-b7/
       |-78/
       |-9d/
       |-4d/
       |-86/
       |-14/
+      |-28/
       |-75/
+      |-55/
       |-61/
       |-d6/
+      |-d2/
       |-a8/
       |-33/
       |-a6/
+      |-9e/
       |-1d/
       |-11/
+      |-fa/
       |-b8/
       |-60/
       |-59/
       |-07/
+      |-76/
       |-84/
       |-35/
       |-8c/
       |-4a/
+      |-c4/
       |-f1/
+      |-94/
+      |-37/
+      |-e5/
       |-c7/
       |-b3/
+      |-7a/
       |-46/
       |-43/
       |-62/
       |-73/
       |-e6/
       |-92/
+      |-17/
       |-fe/
       |-b4/
       |-90/
@@ -6224,6 +7632,7 @@
       |-aa/
       |-3a/
       |-3e/
+      |-a3/
       |-3b/
       |-97/
       |-7d/
@@ -6240,6 +7649,7 @@
       |-a1/
       |-45/
       |-02/
+      |-44/
       |-cc/
       |-0a/
       |-4f/
@@ -6250,8 +7660,13 @@
       |-18/
       |-30/
       |-36/
+      |-0c/
+      |-49/
       |-4e/
+      |-ec/
       |-16/
+      |-52/
+      |-93/
       |-info/
     |-logs/
       |-refs/
