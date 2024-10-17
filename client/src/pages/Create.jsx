@@ -6,10 +6,10 @@ import { useSelector } from "react-redux";
 import TextFieldsAndCheckbox from "../components/TextFieldsAndCheckbox";
 import ImageUpload from "../components/ImageUpload";
 import Footer from "../components/Footer";
-import Cookies from 'js-cookie';
+import axiosWithHeader from "../services/axios";
 
-export default function Create({ token }) {  // <-- Accept token as a prop
-  console.log("Token in Create:", token);  // <-- Log token for debugging
+export default function Create() { 
+
 
   const API_URL = import.meta.env.VITE_API_URL;
   const { currentUser } = useSelector((state) => state.user); // Access the logged-in user
@@ -75,7 +75,7 @@ export default function Create({ token }) {  // <-- Accept token as a prop
     const formattedData = {
       ...data,
       price: Number(data.price), // Convert price to a number
-      size: Number(data.size),   // Convert size to a number
+      size: Number(data.size),  
       bedrooms: Number(data.bedrooms),
       bathrooms: Number(data.bathrooms),
       rooms: Number(data.rooms),
@@ -112,12 +112,10 @@ export default function Create({ token }) {  // <-- Accept token as a prop
 
     // Send the data to the backend with JWT token in headers
     try {
-      await axios.post(`${API_URL}/api/properties`, updatedData, {
-        headers: {
-          Authorization: `Bearer ${token}`, // <-- Use the token from props
-        },
-      });
-      console.log("Property listing created successfully");
+      await axiosWithHeader.post(`${API_URL}/api/properties`, updatedData)
+      .then((response)=>{console.log(response)});
+      
+
     } catch (error) {
       console.error("Error creating listing:", error);
     }

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from '../services/authServices';  // Import the login function from authServices
 import '../assets/styles/signin.css';
 import Navbar from '../components/navbar';
-import Create from './Create';
+import axiosWithHeader from '../services/axios'
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -28,12 +28,11 @@ const SignIn = () => {
     try {
       // Call loginUser function from authServices
       const response = await loginUser({ email, password }, dispatch);
-      
-      // Store token from response
-      const token = response.data.token;
-      setToken(token);  // <-- Set the token state
-      console.log("JWT Token:", token);
-      
+      localStorage.setItem('token', response.data.token);
+
+      // Set the token as a default header for future requests
+      axiosWithHeader.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
       if (response.data.success) {
         // Navigate to success page after login
         navigate('/signin/success');
