@@ -32,6 +32,7 @@ export const createUser = async (req, res, next) => {
       success: true,
       message: 'User registered successfully.',
       data: userResponse,
+      token
     });
   } catch (error) {
     return next(error); // Pass errors to the global error handler
@@ -72,6 +73,7 @@ export const authenticateUser = async (req, res, next) => {
         success: true,
         message: 'User logged in successfully!',
         data: userResponse,
+        token,
       });
     } catch (error) {
       return next(error);  // Pass any unexpected error to the global error handler

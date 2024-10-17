@@ -37,6 +37,7 @@ export const createAdmin = async (req, res, next) => {
         success: true,
         message: 'Admin created successfully.',
         data: adminResponse,
+        token
       });
     } catch (error) {
       // Pass the error to the global error handler
@@ -76,6 +77,7 @@ export const loginAdmin = (req, res, next) => {
         success: true,
         message: 'Admin logged in successfully!',
         data: adminResponse,
+        token
       });
     } catch (error) {
       // Pass any errors to the error handler
