@@ -1141,19 +1141,146 @@ Response
 
 ### 🛠️ Admin Management
 
+The **Admin Management** API allows super admins to manage other admins within the system. Admins can update their own profiles, and super admins have the authority to update or delete other admins. This section covers how to retrieve, update, and delete admins.
+
+### Admin Management Endpoints
+
+| Method | Endpoint                | Description                                                     |
+|--------|-------------------------|-----------------------------------------------------------------|
+| GET    | `/api/admin`            | Retrieves a list of all admins (admin-only access).              |
+| GET    | `/api/admin/:id`        | Retrieves a specific admin by their ID (admin-only access).      |
+| PUT    | `/api/admin/:id`        | Updates admin information (admin or super admin-only).           |
+| DELETE | `/api/admin/:id`        | Deletes an admin (super admin-only).                             |
+
+### Admin Management Actions
+
+- **Get All Admins**: Fetches a list of all admins with admin-only access.
+- **Get Admin by ID**: Retrieves detailed information for a specific admin by their unique ID (admin-only access).
+- **Update Admin Information**: Allows admins to update their personal information, or super admins to update other admins.
+- **Delete Admin**: Allows super admins to delete other admin accounts from the system.
+
 ### Example Requests
 
----
+#### 1. **Get All Admins**
 
-### 💰 Transaction Management
+```bash
+GET /api/admin
+```
+Response
 
-### Example Requests
+```bash
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "605c72df0e3a2c10f8052d19",
+      "firstName": "Admin",
+      "lastName": "Smith",
+      "email": "adminsmith@example.com"
+    },
+    {
+      "_id": "605c72df0e3a2c10f8052d20",
+      "firstName": "Admin",
+      "lastName": "Johnson",
+      "email": "adminjohnson@example.com"
+    }
+  ]
+}
+```
 
----
+#### 1. **Get All Admins**
 
-### ❓ FAQ Management
+```bash
+GET /api/admin
+```
+Response
 
-### Example Requests
+```bash
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "605c72df0e3a2c10f8052d19",
+      "firstName": "Abdessamad",
+      "lastName": "Haddouche",
+      "email": "abdessamad.hadd@gmail.com"
+    },
+    {
+      "_id": "605c72df0e3a2c10f8052d20",
+      "firstName": "Imrane",
+      "lastName": "Ali Lafkih",
+      "email": "imranelaf@gmail.com"
+    }
+  ]
+}
+```
+
+#### 2. **Get Admin by ID**
+
+```bash
+GET /api/admins/605c72df0e3a2c10f8052d19
+```
+Response
+
+```bash
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "605c72df0e3a2c10f8052d19",
+      "firstName": "Abdessamad",
+      "lastName": "Haddouche",
+      "email": "abdessamad.hadd@gmail.com"
+    },
+    {
+      "_id": "605c72df0e3a2c10f8052d20",
+      "firstName": "Imrane",
+      "lastName": "Ali Lafkih",
+      "email": "imranelaf@gmail.com"
+    }
+  ]
+}
+```
+
+#### 3. **Update Admin Information**
+
+```bash
+PUT /api/admin/605c72df0e3a2c10f8052d19
+
+{
+  "email": "abdessamadroot@gmail.com",
+  "firstName": "abdes"
+}
+```
+
+Response
+
+```bash
+{
+  "success": true,
+  "message": "Admin information updated successfully",
+  "data": {
+    "_id": "605c72df0e3a2c10f8052d19",
+    "email": "abdessamadroot@gmail.com",
+    "firstName": "abdes"
+  }
+}
+```
+
+#### 4. **Delete Admin**
+
+```bash
+DELETE /api/admin/605c72df0e3a2c10f8052d19
+```
+
+Response
+
+```bash
+{
+  "success": true,
+  "message": "Admin deleted successfully"
+}
+```
 
 ---
 
