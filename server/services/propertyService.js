@@ -1,4 +1,7 @@
 import Property from '../models/Property.js';
+import User from '../models/User.js';
+import Agent from '../models/Agent.js';
+
 import { 
     BusinessLogicError, 
     ServerError, 

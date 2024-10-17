@@ -672,43 +672,352 @@ Response
 }
 ```
 
-#### 7. **Check if Email is Registered**
-
-```bash
-GET /api/auth/check-email/johndoe@example.com
-
-```bash
-```
-Response
-
-```bash
-
-```
-
-#### 8. **Check if Email is Registered**
-
-```bash
-GET /api/auth/check-email/johndoe@example.com
-
-```bash
-```
-Response
-
-```bash
-
-```
-
 ---
 
 ### 🏘️ Property Management
 
+The **Property Management** API enables authenticated users, agents, and admins to create, update, and manage properties. This section covers how users can create new properties, update existing ones, and manage property-related details such as images and amenities.
+
+### Property Management Endpoints
+
+| Method | Endpoint                         | Description                                                          |
+|--------|----------------------------------|----------------------------------------------------------------------|
+| POST   | `/api/properties`                | Creates a new property (authenticated users only).                    |
+| GET    | `/api/properties/:id`            | Retrieves a specific property by its ID (public access).              |
+| PUT    | `/api/properties/:id`            | Updates a property (admin, agent, or property owner only).            |
+| DELETE | `/api/properties/:id`            | Deletes a property (admin or property owner only).                    |
+| GET    | `/api/properties`                | Retrieves properties, with optional filters (public access).          |
+| PUT    | `/api/properties/:id/images`     | Adds an image to a property (admin, agent, or property owner only).   |
+| PUT    | `/api/properties/:id/images/remove` | Removes an image from a property (admin, agent, or property owner only). |
+| PUT    | `/api/properties/:id/amenities`  | Adds an amenity to a property (admin, agent, or property owner only). |
+| PUT    | `/api/properties/:id/amenities/remove` | Removes an amenity from a property (admin, agent, or property owner only). |
+
+### Property Management Actions
+
+- **Create Property**: Authenticated users (with appropriate roles) can create new property listings by submitting the required details, such as property location, price, and description.
+- **Get Property by ID**: Retrieves the details of a property using its unique ID.
+- **Update Property**: Allows admins, agents, or property owners to modify the details of a property they own or manage.
+- **Delete Property**: Admins or property owners can delete a property from the system.
+- **Get Properties by Filter**: Retrieves a list of properties based on optional filters such as location, price range, or property type.
+- **Add Property Image**: Uploads an image to an existing property listing.
+- **Remove Property Image**: Removes an image from a property listing.
+- **Add Property Amenity**: Adds an amenity (e.g., pool, gym) to a property.
+- **Remove Property Amenity**: Removes an amenity from a property.
+
 ### Example Requests
+
+#### 1. **Create a Property By Filter**
+
+```bash
+POST /api/properties
+
+{
+  "title": "Modern Apartment",
+  "description": "A modern apartment located in the heart of the city.",
+  "propertyType": "Apartment",
+  "price": 250000,
+  "size": 1200,
+  "bedrooms": 3,
+  "bathrooms": 2,
+  "rooms": 5,
+  "offerType": "Sale",
+  "wifi": true,
+  "petFriendly": false,
+  "parking": true,
+  "yearBuilt": 2015,
+  "availableFrom": "2023-10-01",
+  "address": {
+    "street": "123 Main St",
+    "city": "Nador",
+    "state": "Oriental",
+    "zipCode": "62700",
+    "country": "Morocco"
+  },
+  "coordinates": {
+    "lat": 33.5731,
+    "lng": -7.5898
+  }
+}
+```
+Response
+
+```bash
+{
+  "success": true,
+  "message": "Property created successfully.",
+  "data": {
+    "_id": "67112c113279b4c07ffa6ce5",
+    "title": "Modern Apartment",
+    "description": "A modern apartment located in the heart of the city.",
+    "price": 250000,
+    "size": 1200,
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "offerType": "Sale",
+    "wifi": true,
+    "petFriendly": false,
+    "parking": true,
+    "yearBuilt": 2015,
+    "availableFrom": "2023-10-01",
+    "address": {
+      "street": "123 Main St",
+      "city": "Casablanca",
+      "state": "Casablanca-Settat",
+      "zipCode": "20000",
+      "country": "Morocco"
+    },
+    "coordinates": {
+      "lat": 33.5731,
+      "lng": -7.5898
+    }
+  }
+}
+```
+
+```bash
+GET /api/properties?propertyType=Apartment&price[gte]=100000&price[lte]=300000
+```
+Response
+
+```bash
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "605c72df0e3a2c10f8052d18",
+      "title": "Modern Apartment",
+      "description": "A modern apartment located in the heart of the city.",
+      "price": 250000,
+      "size": 1200,
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "propertyType": "Apartment",
+      "offerType": "Sale"
+    }
+  ]
+}
+```
+
+#### 2. **Get Property by ID**
+
+```bash
+GET /api/properties/67112c113279b4c07ffa6ce5
+```
+Response
+
+```bash
+{
+  "success": true,
+  "data": {
+    "_id": "67112c113279b4c07ffa6ce5",
+    "title": "Modern Apartment",
+    "description": "A modern apartment located in the heart of the city.",
+    "price": 250000,
+    "size": 1200,
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "offerType": "Sale",
+    "wifi": true,
+    "petFriendly": false,
+    "parking": true,
+    "yearBuilt": 2015,
+    "availableFrom": "2023-10-01",
+    "address": {
+      "street": "123 Main St",
+      "city": "Casablanca",
+      "state": "Casablanca-Settat",
+      "zipCode": "20000",
+      "country": "Morocco"
+    },
+    "coordinates": {
+      "lat": 33.5731,
+      "lng": -7.5898
+    }
+  }
+}
+```
+
+#### 3. **Update Property**
+
+```bash
+PUT /api/properties/67112c113279b4c07ffa6ce5
+
+{
+  "price": 260000,
+  "description": "Updated modern apartment with new interiors."
+}
+```
+Response
+
+```bash
+{
+  "success": true,
+  "message": "Property updated successfully.",
+  "data": {
+    "_id": "67112c113279b4c07ffa6ce5",
+    "title": "Modern Apartment",
+    "description": "Updated modern apartment with new interiors.",
+    "price": 260000
+  }
+}
+```
+
+#### 4. **Delete Property**
+
+```bash
+DELETE /api/properties/67112c113279b4c07ffa6ce5
+```
+Response
+
+```bash
+{
+    "success": true,
+    "message": "Property deleted and references updated successfully!"
+}
+```
+
+#### 5. **Add Image to Property**
+
+```bash
+PUT /api/properties/605c72df0e3a2c10f8052d18/images
+
+{
+  "imageUrl": "https://example.com/images/apartment1.jpg"
+}
+```
+Response
+
+```bash
+{
+  "success": true,
+  "message": "Image added successfully.",
+  "data": {
+    "imageUrl": "https://example.com/images/apartment1.jpg",
+    "propertyId": "605c72df0e3a2c10f8052d18"
+  }
+}
+```
+
+#### 6. **Remove Image from Property**
+
+```bash
+PUT /api/properties/605c72df0e3a2c10f8052d18/images/remove
+
+{
+  "imageUrl": "https://example.com/images/apartment1.jpg"
+}
+```
+
+Response
+
+```bash
+{
+  "success": true,
+  "message": "Image removed successfully.",
+  "data": {
+    "imageUrl": "https://example.com/images/apartment1.jpg",
+    "propertyId": "605c72df0e3a2c10f8052d18"
+  }
+}
+```
+
+#### 7. **Add Amenity to Property**
+
+```bash
+PUT /api/properties/605c72df0e3a2c10f8052d18/amenities
+
+{
+  "amenity": "Gym"
+}
+```
+Response
+
+```bash
+{
+  "success": true,
+  "message": "Amenity added successfully.",
+  "data": {
+    "amenity": "Gym",
+    "propertyId": "605c72df0e3a2c10f8052d18"
+  }
+}
+```
+
+#### 8. **Remove Amenity from Property**
+
+```bash
+PUT /api/properties/605c72df0e3a2c10f8052d18/amenities/remove
+
+{
+  "amenity": "Gym"
+}
+```
+Response
+
+```bash
+{
+  "success": true,
+  "message": "Amenity removed successfully.",
+  "data": {
+    "amenity": "Gym",
+    "propertyId": "605c72df0e3a2c10f8052d18"
+  }
+}
+```
+
+#### 9. **Remove Property from User**
+
+```bash
+PUT /api/properties/605c72df0e3a2c10f8052d18/amenities/remove
+
+{
+  "amenity": "Gym"
+}
+```
+Response
+
+```bash
+{
+  "success": true,
+  "message": "Amenity removed successfully.",
+  "data": {
+    "amenity": "Gym",
+    "propertyId": "605c72df0e3a2c10f8052d18"
+  }
+}
+```
 
 ---
 
 ### 👨‍💼 Agent Management
 
+The **Agent Management** API allows for managing real estate agents on the platform. Admins have control over agent approval and status updates, while agents can manage their own profiles. This section covers how admins can approve or reject agents and how agents can update their profiles.
+
+### Agent Management Endpoints
+
+| Method | Endpoint                       | Description                                                          |
+|--------|--------------------------------|----------------------------------------------------------------------|
+| GET    | `/api/agents`                  | Retrieves a list of agents based on filters (public access).          |
+| GET    | `/api/agents/:id`              | Retrieves a specific agent by their ID (public access).               |
+| PATCH  | `/api/agents/:id/status`       | Updates the status of an agent (admin-only).                          |
+| PUT    | `/api/agents/:id`              | Updates agent information (admin or agent-only).                      |
+| DELETE | `/api/agents/:id`              | Deletes an agent (admin or agent-only).                               |
+
+### Agent Management Actions
+
+- **Get All Agents**: Fetches a list of agents based on optional filters like name, status, or experience level.
+- **Get Agent by ID**: Retrieves detailed information about a specific agent by their unique ID.
+- **Update Agent Status**: Admins can approve or reject agent applications by updating the agent's status.
+- **Update Agent Profile**: Agents can update their personal information, or admins can make changes on their behalf.
+- **Delete Agent**: Agents can delete their accounts, or admins can remove agents from the system.
+
 ### Example Requests
+
+#### 1. **Get Agents by Filter**
+
+```bash
+GET /api/agents
+
 
 ---
 
