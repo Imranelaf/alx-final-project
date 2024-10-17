@@ -1,10 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-// Define possible roles in the system
-export const rolesEnum = ['user', 'admin', 'super-admin'];
-
-// Define possible statuses for the account
 export const accountStatusEnum = ['active', 'pending', 'suspended', 'deactivated'];
 
 // Create the schema of the database
@@ -20,14 +16,14 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        unique: true, // Ensure username is unique
+        unique: true,
     },
     email: {
         type: String,
         required: [true, "Please enter an email"],
         unique: true,
         lowercase: true,
-        match: [/\S+@\S+\.\S+/, 'Please enter a valid email'] // Email format validation
+        match: [/\S+@\S+\.\S+/, 'Please enter a valid email']
     },
     avatar: {
         type: String,
@@ -38,7 +34,6 @@ const userSchema = new mongoose.Schema({
         minlength: [6, 'Minimum length is 6 characters'],
         validate: {
             validator: function(value) {
-                // Password must include at least one uppercase letter, one lowercase letter, and one number
                 return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(value);
             },
             message: 'Password must include at least one uppercase letter, one lowercase letter, and one number.'
@@ -46,45 +41,51 @@ const userSchema = new mongoose.Schema({
     },
     googleId: {
         type: String,
-        required: false, // This will store Google user ID for OAuth users
+        required: false,
     },
     role: {
         type: String,
         enum: ['user'],
-        default: 'user', // Default role is 'user'
+        default: 'user',
     },
     accountStatus: {
         type: String,
-        enum: accountStatusEnum, // Possible account statuses
-        default: 'active', // Default status is 'active'
+        enum: accountStatusEnum,
+        default: 'active',
     },
     isEmailVerified: {
-        type: Boolean,  // Whether the user's email has been verified
-        default: false, // Default is unverified, can be updated after email confirmation
+        type: Boolean,
+        default: false,
     },
     lastLogin: {
-        type: Date,  // Store the last login time
+        type: Date,
         default: null,
     },
     failedLoginAttempts: {
-        type: Number,  // Track failed login attempts for security reasons
+        type: Number,
         default: 0,
     },
     lockUntil: {
-        type: Date,  // Lock the account until a specific time if too many failed login attempts
+        type: Date,
         default: null,
     },
     isUsernameCustomized: {
-        type: Boolean,   // Field to indicate if the username was customized by the user
-        default: false,  // Default value is false (automatically generated username)
+        type: Boolean,
+        default: false,
     },
     properties: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Property', // Reference to properties owned or managed by the user
+        ref: 'Property',
     }],
 }, 
-{ timestamps: true } // Save the date of creation/update
+{ timestamps: true }
 );
+
+userSchema.index({ email: 1 }, { unique: true });
+userSchema.index({ username: 1 }, { unique: true });
+userSchema.index({ properties: 1 });
+userSchema.index({ role: 1 });
+userSchema.index({ accountStatus: 1 });    
 
 // Hash the password before saving it to the database
 userSchema.pre('save', async function(next) {
@@ -151,7 +152,6 @@ userSchema.statics.login = async function(email, password) {
     throw new Error("Incorrect email");
 };
 
-// Virtual field to get the full name of the user
 userSchema.virtual('fullName').get(function() {
     return `${this.firstName} ${this.lastName}`;
 });

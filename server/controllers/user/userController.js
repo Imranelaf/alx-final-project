@@ -11,7 +11,8 @@ import {
   getUserByIdService,
   deleteUserService,
   updateUserService,
-  addPropertyToUser,
+  addPropertyToUserService,
+  removePropertyFromUserService,
 } from '../../services/userServices.js';
 
 /**
@@ -137,13 +138,13 @@ export const deleteUser = async (req, res, next) => {
  * @param   {Function} next - Express middleware function for error handling.
  * @returns {JSON} - Success response with the updated user data.
  */
-export const addPropertyToUserController = async (req, res, next) => {
+export const addPropertyToUser = async (req, res, next) => {
   const { userId } = req.params; // Extract userId from URL params
   const { propertyId } = req.body; // Extract propertyId from the body
 
   try {
     // Call the service to add the property to the user's properties array
-    const updatedUser = await addPropertyToUser(userId, propertyId);
+    const updatedUser = await addPropertyToUserService(userId, propertyId);
 
     // Return success response with the updated user data
     return res.status(200).json({
@@ -153,6 +154,29 @@ export const addPropertyToUserController = async (req, res, next) => {
     });
   } catch (error) {
     return next(error); // Pass any errors to the global error handler
+  }
+};
+
+/**
+ * Controller to handle removing a property from a user.
+ * @param {Object} req - Express request object containing userId in params and propertyId in body.
+ * @param {Object} res - Express response object for sending the result of the removal process.
+ * @param {Function} next - Express middleware function for error handling.
+ */
+export const removePropertyFromUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { propertyId } = req.body;
+
+    const updatedUser = await removePropertyFromUserService(userId, propertyId);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Property removed from user successfully.',
+      data: updatedUser
+    });
+  } catch (error) {
+    next(error);
   }
 };
 

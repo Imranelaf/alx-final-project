@@ -10,7 +10,8 @@ import {
   getUserById,
   updateUser,
   deleteUser,
-  addPropertyToUserController
+  addPropertyToUser,
+  removePropertyFromUser,
 } from '../controllers/user/userController.js';
 
 // Middleware - Authentication & Authorization
@@ -20,8 +21,9 @@ import { checkIsUserSelfOrAdmin } from '../middleware/auth/roleMiddleware.js';  
 // Middleware - Validation
 import { validateObjectId } from '../middleware/validation/validateObjectId.js';
 import { validateUpdateUserFields } from '../middleware/validation/userUpdateValidation.js';
-
-
+import { validatePropertyIdBody } from '../middleware/validation/validateObjectIdBody.js';
+import { handleValidationErrors } from '../middleware/common/handleValidationErrors.js';
+import { validateUserObjectIdParam } from '../middleware/validation/validateUserObjectId.js';
 
 const router = express.Router();
 
@@ -58,8 +60,23 @@ router.delete(
 );
 
 router.post(
-  '/:userId/add-property',  // Use :userId in the URL
-  addPropertyToUserController
+  '/:userId/add-property',
+  authenticateJWT,
+  checkIsUserSelfOrAdmin, 
+  validateUserObjectIdParam,
+  validatePropertyIdBody,
+  handleValidationErrors,
+  addPropertyToUser,
+);
+
+router.put(
+  '/:userId/remove-property',
+  authenticateJWT,
+  checkIsUserSelfOrAdmin, 
+  validateUserObjectIdParam,
+  validatePropertyIdBody,
+  handleValidationErrors,
+  removePropertyFromUser
 );
 
 

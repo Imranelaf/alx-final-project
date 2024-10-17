@@ -193,7 +193,7 @@ export const deleteUserService = async (id) => {
  * @throws {ServerError} - If an error occurs during the update.
  * @returns {Object} - The updated user object.
  */
-export const addPropertyToUser = async (userId, propertyId) => {
+export const addPropertyToUserService = async (userId, propertyId) => {
   try {
     const user = await User.findById(userId);
     if (!user) {
@@ -218,6 +218,40 @@ export const addPropertyToUser = async (userId, propertyId) => {
       throw error;
     } else {
       throw new ServerError('Error updating user properties');
+    }
+  }
+};
+
+/**
+ * Service to remove a property from a user's properties array.
+ * @param {string} userId - The user's ID (from the URL).
+ * @param {string} propertyId - The property ID to remove (from the body).
+ * @throws {NotFoundError} - If the user is not found.
+ * @throws {BusinessLogicError} - If the property does not exist in the user's properties array.
+ * @throws {ServerError} - If an error occurs during the update.
+ * @returns {Object} - The updated user object.
+ */
+export const removePropertyFromUserService = async (userId, propertyId) => {
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
+
+    if (!user.properties.includes(propertyId)) {
+      throw new BusinessLogicError('Property not found in user\'s properties.');
+    }
+
+    user.properties = user.properties.filter(prop => prop.toString() !== propertyId);
+
+    await user.save();
+    
+    return user;
+  } catch (error) {
+    if (error instanceof NotFoundError || error instanceof BusinessLogicError) {
+      throw error;
+    } else {
+      throw new ServerError('Error removing property from user');
     }
   }
 };
