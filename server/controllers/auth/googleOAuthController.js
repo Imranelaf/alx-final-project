@@ -15,7 +15,7 @@ export const googleOAuthSignupCallback = async (req, res) => {
 
     if (!user) {
       const errorMessage = encodeURIComponent('Google OAuth failed');
-      return res.redirect(`${process.env.CLIENT_URI}/signup/failure?message=${errorMessage}`);
+      return res.redirect(`${process.env.CLIENT_URI}/signup/failure?token`);
     }
 
     // Generate token and get cookie options
@@ -25,14 +25,14 @@ export const googleOAuthSignupCallback = async (req, res) => {
 
     if (isExisting) {
       const welcomeBackMessage = encodeURIComponent('Welcome back!');
-      return res.redirect(`${process.env.CLIENT_URI}/signin/success?message=${welcomeBackMessage}`);
+      return res.redirect(`${process.env.CLIENT_URI}/signin/success?token=${token}`);
     } else {
       const successMessage = encodeURIComponent('Signup successful');
-      return res.redirect(`${process.env.CLIENT_URI}/signup/success?message=${successMessage}`);
+      return res.redirect(`${process.env.CLIENT_URI}/signup/success?token=${token}`);
     }
   } catch (error) {
     const errorMessage = encodeURIComponent('Error processing signup');
-    return res.redirect(`${process.env.CLIENT_URI}/signup/failure?message=${errorMessage}`);
+    return res.redirect(`${process.env.CLIENT_URI}/signup/failure?token`);
   }
 };
 
@@ -51,7 +51,7 @@ export const googleOAuthSigninCallback = async (req, res) => {
 
     if (!user) {
       const errorMessage = encodeURIComponent('Google OAuth failed');
-      return res.redirect(`${process.env.CLIENT_URI}/signin/failure?message=${errorMessage}`);
+      return res.redirect(`${process.env.CLIENT_URI}/signin/failure?token`);
     }
 
     // Generate JWT token and get cookie options
@@ -62,10 +62,10 @@ export const googleOAuthSigninCallback = async (req, res) => {
 
     // Redirect to frontend with success message
     const successMessage = encodeURIComponent('Signin successful');
-    return res.redirect(`${process.env.CLIENT_URI}/signin/success?message=${successMessage}`);
+    return res.redirect(`${process.env.CLIENT_URI}/signin/success?token=${token}`);
 
   } catch (error) {
     const errorMessage = encodeURIComponent('Error processing signin');
-    return res.redirect(`${process.env.CLIENT_URI}/signin/failure?message=${errorMessage}`);
+    return res.redirect(`${process.env.CLIENT_URI}/signin/failure?token`);
   }
 };
