@@ -2,8 +2,7 @@ import Admin from '../models/Admin.js';
 import Agent from '../models/Agent.js';
 import User from '../models/User.js';
 import generateUniqueUsername from '../utils/generateUniqueUsername.js'; // Default import
-import { ServerError} from '../utils/customErrors.js';
-import { BusinessLogicError, UnauthorizedError } from '../utils/customErrors.js';
+import { BusinessLogicError, UnauthorizedError, ServerError } from '../utils/customErrors.js';
 
 /**
  * Authenticate admin by email and password.
@@ -186,4 +185,3 @@ export const clearTokenCookie = (res) => {
   // Clear the cookie by setting it with an expired maxAge
   res.cookie('propertyHubAuthToken', '', cookieOptions);
 };
-
