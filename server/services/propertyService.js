@@ -1,3 +1,7 @@
+/**
+ * This file contains the property services.
+ */
+
 import Property from '../models/Property.js';
 import User from '../models/User.js';
 import Agent from '../models/Agent.js';
@@ -26,7 +30,7 @@ export const createNewProperty = async (propertyData) => {
         const newProperty = await Property.create(sanitizedData);
         return newProperty;
     } catch (error) {
-        console.error('Error creating property:', error);  // Log the actual error for debugging
+        console.error('Error creating property:', error);
         if (error.name === 'ValidationError') {
             throw new ValidationError('Mongoose validation failed.', error.errors);
         } else if (error.code === 11000) {
@@ -54,7 +58,7 @@ export const getPropertyByIdService = async (propertyId) => {
       return property;
     } catch (error) {
       if (error instanceof NotFoundError) {
-        throw error; // Pass specific NotFoundError
+        throw error;
       }
   
       // Wrap any unexpected errors in a ServerError
@@ -109,13 +113,11 @@ export const updatePropertyService = async (id, updates, userRole) => {
  */
 export const deletePropertyService = async (id) => {
   try {
-    // Find the property by ID
     const property = await Property.findById(id);
     if (!property) {
       throw new NotFoundError('Property not found');
     }
 
-    // Delete the property from the database
     await property.deleteOne();
 
     // Remove the property reference from users' and agents' properties array
@@ -144,7 +146,6 @@ export const deletePropertyService = async (id) => {
  */
 export const getPropertiesByFilterService = async (filters) => {
   try {
-    // Initialize an empty query object
     const query = {};
 
     // Add filters to the query dynamically based on the user input
@@ -241,14 +242,12 @@ export const getPropertiesByFilterService = async (filters) => {
 
 export const addPropertyImageService = async (propertyId, imageUrl) => {
   try {
-    // Find the property by ID
     const property = await Property.findById(propertyId);
 
     if (!property) {
       throw new NotFoundError('Property not found');
     }
 
-    // Check if the image already exists in the array to avoid duplicates
     if (property.images.includes(imageUrl)) {
       throw new BusinessLogicError('Image URL already exists in the property.');
     }
@@ -274,19 +273,16 @@ export const addPropertyImageService = async (propertyId, imageUrl) => {
 
 export const removePropertyImageService = async (propertyId, imageUrl) => {
   try {
-    // Find the property by ID
     const property = await Property.findById(propertyId);
 
     if (!property) {
       throw new NotFoundError('Property not found');
     }
 
-    // Check if the image exists in the property
     if (!property.images.includes(imageUrl)) {
       throw new BusinessLogicError('Image URL does not exist in the property.');
     }
 
-    // Remove the image URL from the images array
     const updatedProperty = await Property.findByIdAndUpdate(
       propertyId,
       { $pull: { images: imageUrl } },  // Remove the image
@@ -295,12 +291,10 @@ export const removePropertyImageService = async (propertyId, imageUrl) => {
 
     return updatedProperty;
   } catch (error) {
-    // Re-throw known errors like NotFoundError and BusinessLogicError
     if (error instanceof NotFoundError || error instanceof BusinessLogicError) {
       throw error;
     }
 
-    // Wrap any other unexpected errors in a ServerError
     throw new ServerError('Error removing image from property', 500, error);
   }
 };

@@ -1,3 +1,7 @@
+/**
+ * This file contains middleware functions to validate the fields for updating an agent.
+ */
+
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
 import Agent from '../../models/Agent.js';

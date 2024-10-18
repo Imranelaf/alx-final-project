@@ -1,3 +1,7 @@
+/**
+ * This file contains the authentication routes for the application.
+ */
+
 import express from 'express';
 import passport from 'passport';
 import '../config/passport.js'; // Ensure Passport configuration is loaded

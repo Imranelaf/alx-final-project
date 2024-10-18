@@ -1,3 +1,7 @@
+/**
+ * This file contains the schema for the User model.
+ */
+
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 

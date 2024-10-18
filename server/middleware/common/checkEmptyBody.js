@@ -1,3 +1,7 @@
+/**
+ * This file contains a middleware function to check if the request body is empty.
+ */
+
 import { formatError } from '../../utils/errorFormatter.js';
 
 /**
@@ -10,11 +14,10 @@ const checkEmptyBody = (message = 'Request body is empty. Please provide valid d
   return (req, res, next) => {
     // Check if the request body is empty
     if (Object.keys(req.body).length === 0) {
-      // Format and return the error
-      const error = formatError(message, [], 400);  // Use `formatError` with the custom message
-      return next(error);  // Pass the error to the global error handler
+      const error = formatError(message, [], 400);
+      return next(error);
     }
-    next();  // Proceed to the next middleware if the body isn't empty
+    next();
   };
 };
 

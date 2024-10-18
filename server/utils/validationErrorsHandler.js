@@ -1,3 +1,7 @@
+/**
+ * This file contains a middleware to handle validation errors from express-validator.
+ */
+
 import { validationResult } from 'express-validator';
 import { ValidationError } from '../utils/customErrors.js';
 

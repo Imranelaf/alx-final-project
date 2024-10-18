@@ -1,3 +1,7 @@
+/**
+ * This file contains validation middleware functions for the property routes.
+ */
+
 import { body } from 'express-validator';
 
 export const validatePropertyFields = [
@@ -9,7 +13,6 @@ export const validatePropertyFields = [
     .notEmpty().withMessage('Description is required.')
     .isLength({ max: 500 }).withMessage('Description cannot exceed 500 characters.'),
 
-  // Phone number validation (must be unique, E.164 format)
   body('phoneNumber')
   .notEmpty().withMessage('Phone number is required.')
   .matches(/^\+?[1-9]\d{1,14}$/).withMessage('Please provide a valid phone number.'),
@@ -92,7 +95,6 @@ export const validatePropertyFields = [
     .optional()
     .isBoolean().withMessage('isFeatured must be a boolean value.'),
 
-  // Coordinates validation, made optional by removing `.notEmpty()`
   body('coordinates.lat')
     .optional()
     .isFloat({ min: -90, max: 90 }).withMessage('Latitude must be between -90 and 90 degrees.'),

@@ -1,3 +1,7 @@
+/**
+ * This file contains the property model.
+ */
+
 import mongoose from 'mongoose';
 
 const propertySchema = new mongoose.Schema({

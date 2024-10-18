@@ -1,3 +1,7 @@
+/**
+ * This file contains the business logic for admin-related operations.
+ */
+
 import Admin from '../models/Admin.js';
 import { checkDuplicateFields } from '../utils/checkDuplicateFields.js';
 import { 
@@ -21,15 +25,12 @@ export const createNewAdmin = async (adminData) => {
   try {
     const { firstName, lastName, username, email, phoneNumber, password, role, permissions, profileImage } = adminData;
 
-    // Check for duplicate fields (email, username, phoneNumber)
     const duplicateErrors = await checkDuplicateFields(Admin, { username, email, phoneNumber });
 
-    // If duplicates are found, throw BusinessLogicError
     if (duplicateErrors.length > 0) {
       throw new BusinessLogicError('Duplicate fields found', duplicateErrors);
     }
 
-    // Create a new admin
     const newAdmin = new Admin({
       firstName,
       lastName,
@@ -42,10 +43,8 @@ export const createNewAdmin = async (adminData) => {
       profileImage,
     });
 
-    // Save the new admin to the database
     await newAdmin.save();
 
-    // Return the newly created admin
     return newAdmin;
 
   } catch (error) {

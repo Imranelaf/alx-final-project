@@ -1,3 +1,7 @@
+/**
+ * This file contains middleware functions to validate the fields for creating an Agent.
+ */
+
 import { body } from 'express-validator';
 import Agent from '../../models/Agent.js';
 import mongoose from 'mongoose';  // This is necessary for ObjectId validation
@@ -7,19 +11,16 @@ import mongoose from 'mongoose';  // This is necessary for ObjectId validation
  * @returns {Array} An array of validation rules to be applied before handling agent creation requests.
  */
 export const validateAgentFields = [
-  // First name validation
   body('firstName')
     .notEmpty().withMessage('First name is required.')
     .isLength({ max: 50 }).withMessage('First name cannot exceed 50 characters.')
     .isAlpha().withMessage('First name must only contain alphabetic characters.'),
 
-  // Last name validation
   body('lastName')
     .notEmpty().withMessage('Last name is required.')
     .isLength({ max: 50 }).withMessage('Last name cannot exceed 50 characters.')
     .isAlpha().withMessage('Last name must only contain alphabetic characters.'),
 
-  // Username validation (must be unique)
   body('username')
     .notEmpty().withMessage('Username is required.')
     .isLength({ min: 4, max: 30 }).withMessage('Username must be between 4 and 30 characters long.')
@@ -31,7 +32,6 @@ export const validateAgentFields = [
       }
     }),
 
-  // Email validation (must be unique)
   body('email')
     .notEmpty().withMessage('Email is required.')
     .isEmail().withMessage('Please provide a valid email address.')
@@ -42,7 +42,6 @@ export const validateAgentFields = [
       }
     }),
 
-  // Phone number validation (must be unique, E.164 format)
   body('phoneNumber')
     .notEmpty().withMessage('Phone number is required.')
     .matches(/^\+?[1-9]\d{1,14}$/).withMessage('Please provide a valid phone number.')
@@ -53,17 +52,14 @@ export const validateAgentFields = [
       }
     }),
 
-  // Agency name validation
   body('agency')
     .notEmpty().withMessage('Agency name is required.')
     .isLength({ max: 100 }).withMessage('Agency name cannot exceed 100 characters.'),
 
-  // Bio validation (optional)
   body('bio')
     .optional()
     .isLength({ max: 1000 }).withMessage('Bio cannot exceed 1000 characters.'),
 
-  // License number validation (must be unique)
   body('licenseNumber')
     .notEmpty().withMessage('License number is required.')
     .custom(async (value) => {
@@ -73,18 +69,15 @@ export const validateAgentFields = [
       }
     }),
 
-  // Profile image URL validation (optional)
   body('profileImage')
     .optional()
     .matches(/^https?:\/\/.+\.(jpg|jpeg|png|webp)$/).withMessage('Please provide a valid image URL.'),
 
-  // Password validation
   body('password')
     .notEmpty().withMessage('Password is required.')
     .isLength({ min: 6 }).withMessage('Password must be at least 6 characters long.')
     .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/).withMessage('Password must include at least one uppercase letter, one lowercase letter, and one number.'),
 
-  // Properties validation (optional)
   body('properties')
     .optional()
     .isArray().withMessage('Properties must be an array of ObjectIds.')
@@ -95,7 +88,6 @@ export const validateAgentFields = [
       return true;
     }),
 
-  // Social media links validation (optional)
   body('socialMediaLinks.facebook')
     .optional()
     .matches(/^https?:\/\/(www\.)?facebook.com\/.+$/).withMessage('Please provide a valid Facebook URL.'),
@@ -108,7 +100,6 @@ export const validateAgentFields = [
     .optional()
     .matches(/^https?:\/\/(www\.)?twitter.com\/.+$/).withMessage('Please provide a valid Twitter URL.'),
 
-  // Availability validation (optional)
   body('availability')
     .optional()
     .isBoolean().withMessage('Availability must be true or false.'),

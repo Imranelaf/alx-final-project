@@ -1,5 +1,6 @@
-
-
+/**
+ * Thie file contains the controller functions for handling admin authentication operations.
+ */
 
 import {generateTokenAndCookieOptions, setTokenCookie } from '../../utils/authHelpers.js';
 import passport from 'passport';
@@ -20,19 +21,14 @@ import { UnauthorizedError, } from '../../utils/customErrors.js';
  */
 export const createAdmin = async (req, res, next) => {
     try {
-      // Call the service layer to create a new admin
       const newAdmin = await createNewAdmin(req.body);
   
-      // Generate token and get cookie options
       const { token, cookieOptions } = generateTokenAndCookieOptions(newAdmin);
   
-      // Set the JWT token in the cookie
       setTokenCookie(res, token, cookieOptions);
   
-      // Exclude sensitive fields (like password) from the response
       const adminResponse = excludeSensitiveInfo(newAdmin, ['password', '__v']);
   
-      // Send success response
       return res.status(201).json({
         success: true,
         message: 'Admin created successfully.',
@@ -40,7 +36,6 @@ export const createAdmin = async (req, res, next) => {
         token
       });
     } catch (error) {
-      // Pass the error to the global error handler
       return next(error);
     }
   };
@@ -54,23 +49,19 @@ export const createAdmin = async (req, res, next) => {
 export const loginAdmin = (req, res, next) => {
   passport.authenticate('admin-local', { session: false }, async (err, admin, info) => {
     if (err) {
-      return next(err);  // Handle server error
+      return next(err);
     }
 
     if (!admin) {
-      // If no admin is found, pass the UnauthorizedError to the error handler
       const error = new UnauthorizedError(info?.message || 'Authentication failed');
       return next(error);
     }
 
     try {
-      // Generate token and get cookie options
       const { token, cookieOptions } = generateTokenAndCookieOptions(admin);
 
-      // Set the JWT token in the cookie
       setTokenCookie(res, token, cookieOptions);
 
-      // Exclude sensitive fields from the response
       const adminResponse = excludeSensitiveInfo(admin, ['password', '__v']);
 
       return res.status(200).json({
@@ -80,7 +71,6 @@ export const loginAdmin = (req, res, next) => {
         token
       });
     } catch (error) {
-      // Pass any errors to the error handler
       return next(error);
     }
   })(req, res, next);

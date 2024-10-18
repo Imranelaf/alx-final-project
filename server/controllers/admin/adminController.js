@@ -1,4 +1,6 @@
-
+/**
+ *  This file contains the controller functions for handling admin user operations.
+ */
 
 import {excludeSensitiveInfo} from '../../utils/excludeSensitiveInfo.js';
 import { 
@@ -36,24 +38,29 @@ export const getAllAdmins = async (req, res, next) => {
   }
 };
 
+/**
+ * @desc    Controller to get a specific admin by ID.
+ * @route   GET /api/admin/:id
+ *  @access  Private (Admin)
+ * @param   {Object} req - Express request object containing the admin ID in the params.
+ * @param   {Object} res - Express response object for sending the admin data.
+ * @param   {Function} next - Express next middleware function for error handling.
+ * @returns {Object} - JSON response with the admin data or error message.
+ */
 export const getAdminById = async (req, res, next) => {
   try {
-    // Extract the admin ID from the request parameters
     const { id } = req.params;
 
-    // Call the service layer to get the admin by ID
     const admin = await getAdminByIdService(id);
 
     const sanitizedAdmin = excludeSensitiveInfo(admin, ['password', '__v']);
 
-    // Respond with the admin data (excluding sensitive info like password)
     return res.status(200).json({
       success: true,
       data: sanitizedAdmin,
     });
 
   } catch (error) {
-    // Pass the error to the global error handler
     return next(error);
   }
 };
@@ -100,9 +107,8 @@ export const updateAdmin = async (req, res, next) => {
     const { id } = req.params;
     const updates = req.body;
     console.log(req.user);
-    const userRole = req.user.role;  // Get the user's role from the request (e.g., 'admin' or 'super-admin')
+    const userRole = req.user.role;
 
-    // Call the service to update the admin and pass the userRole
     const updatedAdmin = await updateAdminService(id, updates, userRole);
     
     const sanitizedUpdatedAdmin = excludeSensitiveInfo(updatedAdmin, ['password', '__v']);
@@ -114,6 +120,6 @@ export const updateAdmin = async (req, res, next) => {
       data: sanitizedUpdatedAdmin,
     });
   } catch (error) {
-    return next(error);  // Pass the error to the global error handler
+    return next(error);
   }
 };

@@ -1,3 +1,7 @@
+/**
+ * This file contains the validation services
+ */
+
 import User from '../models/User.js';
 import { BusinessLogicError } from '../utils/customErrors.js';
 

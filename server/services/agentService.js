@@ -1,3 +1,7 @@
+/**
+ * This file contains the agent services.
+ */
+
 import { checkDuplicateFields } from '../utils/checkDuplicateFields.js';
 import Agent from '../models/Agent.js';
 import {isValidObjectId} from '../utils/mongooseUtils.js';
@@ -29,17 +33,14 @@ export const createNewAgent = async (agentData) => {
       profileImage,    // Optional field
       password,
       socialMediaLinks, // Optional field containing Facebook, LinkedIn, Twitter links
-    } = agentData;  // Only pick the fields needed for agent creation
+    } = agentData;
 
-    // Check for duplicate fields
     const duplicateErrors = await checkDuplicateFields(Agent, { username, email, phoneNumber, licenseNumber });
 
-    // If duplicates are found, throw a BusinessLogicError
     if (duplicateErrors.length > 0) {
       throw new BusinessLogicError('Duplicate fields found', duplicateErrors);
     }
 
-    // Proceed with creating the agent
     const newAgent = new Agent({
       firstName,
       lastName,
@@ -56,10 +57,8 @@ export const createNewAgent = async (agentData) => {
       agentStatus: 'pending'  // Default status is 'pending'
     });
 
-    // Save the new agent to the database
     await newAgent.save();
 
-    // Return the new agent
     return newAgent;
 
   } catch (error) {
@@ -79,10 +78,7 @@ export const createNewAgent = async (agentData) => {
  */
 export const getAgentsByFilterService = async (filters) => {
   try {
-    // Initialize an empty query object
     const query = {};
-
-    // Add filters dynamically based on query parameters
 
     if (filters.firstName) {
       query.firstName = { $regex: filters.firstName, $options: 'i' };  // Case-insensitive match for first name
@@ -128,10 +124,8 @@ export const getAgentsByFilterService = async (filters) => {
       if (filters.reviewsCountMax) query.reviewsCount.$lte = parseInt(filters.reviewsCountMax, 10);
     }
 
-    // Execute the query to fetch agents from the database
     const agents = await Agent.find(query);
 
-    // Return the array of agents
     return agents;
   } catch (error) {
     throw new ServerError('Error fetching agents from the database');
@@ -145,14 +139,12 @@ export const getAgentsByFilterService = async (filters) => {
  */
 export const getAgentByIdService = async (id) => {
   try {
-    // Find the agent by ID
     const agent = await Agent.findById(id);
 
     if (!agent) {
       throw new NotFoundError('Agent not found');
     }
 
-    // Return the agent data
     return agent;
   } catch (error) {
     // Handle specific and unexpected errors
@@ -172,13 +164,11 @@ export const getAgentByIdService = async (id) => {
  */
 export const deleteAgentService = async (id) => {
   try {
-    // Find the agent by ID
     const agent = await Agent.findById(id);
     if (!agent) {
       throw new NotFoundError('Agent not found');
     }
 
-    // Delete the agent
     await agent.deleteOne();
   } catch (error) {
     // Handle specific errors or throw ServerError for unexpected cases
@@ -203,9 +193,8 @@ export const deleteAgentService = async (id) => {
 export const updateAgentService = async (id, updates, userRole) => {
   try {
 
-    // List of fields that cannot be modified
     const restrictedFields = ['role', 'rating', 'reviews', 'joinedAt'];
-    // Remove restricted fields from updates using the utility function
+
     const sanitizedUpdates = removeRestrictedFields(updates, restrictedFields);
 
     // Attempt to find and update the agent
@@ -250,7 +239,6 @@ export const updateAgentStatusService = async (id, agentStatus) => {
       throw new ValidationError('Invalid status provided');
     }
 
-    // Find the agent by ID
     const agent = await Agent.findById(id);
     if (!agent) {
       throw new NotFoundError('Agent not found');
@@ -259,13 +247,12 @@ export const updateAgentStatusService = async (id, agentStatus) => {
     // Update the agent's status
     agent.agentStatus = agentStatus;
 
-    // Save the updated agent
     await agent.save();
 
-    return agent;  // Return the updated agent
+    return agent;
   } catch (error) {
     if (error instanceof ValidationError || error instanceof NotFoundError) {
-      throw error;  // Rethrow known errors
+      throw error; 
     }
 
     // Handle any unexpected server-side errors

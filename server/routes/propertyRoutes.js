@@ -1,3 +1,7 @@
+/**
+ * This file contains the property routes.
+ */
+
 import express from 'express';
 import {
   createProperty,

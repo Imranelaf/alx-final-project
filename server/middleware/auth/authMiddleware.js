@@ -1,3 +1,7 @@
+/**
+ * This file contains the middleware function to authenticate users using a JWT token.
+ */
+
 import jwt from 'jsonwebtoken';
 import { UnauthorizedError, ForbiddenError } from '../../utils/customErrors.js';  // Import your custom error classes
 
@@ -28,9 +32,8 @@ const authenticateJWT = (req, res, next) => {
     // Verify the token using the secret key
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;  // Attach the decoded user info to `req.user`
-    next();  // Continue to the next middleware/route handler
+    next();
   } catch (error) {
-    // If the token is invalid or expired, throw a ForbiddenError
     return next(new ForbiddenError('Invalid token or session expired. Please log in again.'));
   }
 };

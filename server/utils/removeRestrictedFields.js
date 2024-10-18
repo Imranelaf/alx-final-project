@@ -1,4 +1,6 @@
-
+/**
+ * This file contains a utility function to remove restricted fields from an updates object.
+ */
 
 /**
  * Utility function to remove restricted fields from an updates object.

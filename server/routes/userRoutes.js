@@ -59,6 +59,7 @@ router.delete(
   deleteUser
 );
 
+// Add a property to a user (admin or the user themselves)
 router.post(
   '/:userId/add-property',
   authenticateJWT,
@@ -69,6 +70,7 @@ router.post(
   addPropertyToUser,
 );
 
+// Remove a property from a user (admin or the user themselves)
 router.put(
   '/:userId/remove-property',
   authenticateJWT,
@@ -78,6 +80,5 @@ router.put(
   handleValidationErrors,
   removePropertyFromUser
 );
-
 
 export default router;

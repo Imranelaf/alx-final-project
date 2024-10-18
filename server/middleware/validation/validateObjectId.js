@@ -1,3 +1,7 @@
+/**
+ * This file contains a middleware function to validate the object ID.
+ */
+
 import { isValidObjectId } from 'mongoose';
 import { ValidationError } from '../../utils/customErrors.js';
 

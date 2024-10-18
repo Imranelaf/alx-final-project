@@ -1,3 +1,7 @@
+/**
+ * This file contains validation middleware functions for the property routes.
+ */
+
 import { body } from 'express-validator';
 
 export const validatePropertyIdBody = [

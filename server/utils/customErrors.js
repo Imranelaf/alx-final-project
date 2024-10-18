@@ -1,3 +1,7 @@
+/**
+ * This file contains custom error classes to handle different types of errors.
+ */
+
 class CustomError extends Error {
     constructor(message, statusCode, errors = []) {
         super(message);
