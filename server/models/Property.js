@@ -16,6 +16,11 @@ const propertySchema = new mongoose.Schema({
     enum: ['Apartment', 'House', 'Condo', 'Land', 'Villa', 'Office', 'Studio'],
     required: [true, 'Property type is required.']
   },
+  phoneNumber: {
+    type: String,
+    required: [true, 'Phone number is required.'],
+    match: [/^\+?[1-9]\d{1,14}$/, 'Please provide a valid phone number.'], // E.164 format
+  },
   price: {
     type: Number,
     required: [true, 'Price is required.'],

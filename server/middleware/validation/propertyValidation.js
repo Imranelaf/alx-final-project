@@ -9,6 +9,11 @@ export const validatePropertyFields = [
     .notEmpty().withMessage('Description is required.')
     .isLength({ max: 500 }).withMessage('Description cannot exceed 500 characters.'),
 
+  // Phone number validation (must be unique, E.164 format)
+  body('phoneNumber')
+  .notEmpty().withMessage('Phone number is required.')
+  .matches(/^\+?[1-9]\d{1,14}$/).withMessage('Please provide a valid phone number.'),
+
   body('propertyType')
     .notEmpty().withMessage('Property type is required.')
     .isIn(['Apartment', 'House', 'Condo', 'Land', 'Villa', 'Office', 'Studio'])
