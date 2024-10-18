@@ -38,7 +38,7 @@ export default function Create() {
       country: 'Morocco', // Default to "Morocco" if not provided
     },
     images: [], // Placeholder for image URLs after upload
-    phone: '',
+    phoneNumber: '',
     status: 'Available', // Default status
     amenities: [], // Placeholder for amenities
     isFeatured: false, // Track if the listing is featured
@@ -114,6 +114,7 @@ export default function Create() {
     try {
       await axiosWithHeader.post(`${API_URL}/api/properties`, updatedData)
       .then((response)=>{console.log(response)});
+      alert("Lesting created successfully.")
       
 
     } catch (error) {

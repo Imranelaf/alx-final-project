@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+// Create the schema for the Property model
 const propertySchema = new mongoose.Schema({
   title: {
     type: String,
@@ -22,7 +23,7 @@ const propertySchema = new mongoose.Schema({
     min: [0, 'Price must be a positive number.'],
     validate: {
       validator: function (value) {
-        return Number.isInteger(value);
+        return Number.isInteger(value); // Ensure price is an integer
       },
       message: 'Price must be a whole number (integer).'
     }
@@ -33,7 +34,7 @@ const propertySchema = new mongoose.Schema({
     default: 'Available'
   },
   size: {
-    type: Number,
+    type: Number, // Size in square feet/meters
     required: [true, 'Property size is required.'],
     min: [0, 'Size must be a positive number.'],
   },
@@ -54,20 +55,20 @@ const propertySchema = new mongoose.Schema({
   },
   offerType: {
     type: String,
-    enum: ['Sale', 'Rent'],
+    enum: ['Sale', 'Rent'], // Offer type must be either for Sale or Rent
     required: [true, 'Offer type is required.']
   },
   wifi: {
     type: Boolean,
-    default: false,
+    default: false, // Boolean to indicate if Wi-Fi is available
   },
   petFriendly: {
     type: Boolean,
-    default: false,
+    default: false, // Boolean to indicate if the property is pet-friendly
   },
   parking: {
     type: Boolean,
-    default: false,
+    default: false, // Boolean to indicate if parking is available
   },
   yearBuilt: {
     type: Number,
@@ -77,7 +78,7 @@ const propertySchema = new mongoose.Schema({
   availableFrom: {
     type: Date,
     required: [true, 'Available date is required.'],
-    default: Date.now,
+    default: Date.now, // Set default availability to current date
   },
   address: {
     street: {
@@ -101,7 +102,7 @@ const propertySchema = new mongoose.Schema({
     country: {
       type: String,
       required: [true, 'Country is required.'],
-      default: 'Morocco'
+      default: 'USA'
     }
   },
   images: [
@@ -125,20 +126,27 @@ const propertySchema = new mongoose.Schema({
       message: 'All amenities must be valid strings.'
     }
   },
+  agentId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', // Reference to the User (agent/owner) model
+    required: [true, 'An agent is required to manage this property.']
+  },
   isFeatured: {
     type: Boolean,
-    default: false,
+    default: false, // Boolean to mark properties as featured listings
   },
   coordinates: {
     lat: {
       type: Number,
+      required: [true, 'Latitude is required.'],
       min: [-90, 'Latitude must be between -90 and 90 degrees.'],
-      max: [90, 'Latitude must be between -90 and 90 degrees.'],
+      max: [90, 'Latitude must be between -90 and 90 degrees.']
     },
     lng: {
       type: Number,
+      required: [true, 'Longitude is required.'],
       min: [-180, 'Longitude must be between -180 and 180 degrees.'],
-      max: [180, 'Longitude must be between -180 and 180 degrees.'],
+      max: [180, 'Longitude must be between -180 and 180 degrees.']
     }
   },
   createdAt: {
@@ -150,7 +158,7 @@ const propertySchema = new mongoose.Schema({
     default: Date.now
   }
 }, {
-  timestamps: true
+  timestamps: true // Automatically add createdAt and updatedAt fields
 });
 
 // Pre-save middleware to update `updatedAt` before saving

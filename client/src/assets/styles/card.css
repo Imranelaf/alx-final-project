@@ -1,11 +1,10 @@
 /* Container for all listings */
 .listing-container {
     display: grid;
-    
-    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 20px;
     padding: 20px;
     justify-items: center;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 /* Card for each listing */
@@ -89,25 +88,13 @@
 }
 
 /* Responsiveness */
-@media (max-width: 1200px) {
-    .listing-container {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
 @media (max-width: 900px) {
-    .listing-container {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
     .listing-container {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 600px) {
     .listing-container {
         grid-template-columns: repeat(1, 1fr);
     }

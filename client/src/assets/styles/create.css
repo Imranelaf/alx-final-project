@@ -8,6 +8,8 @@
     background-color: #fff;
     font-family: 'Arial', sans-serif;
     transition: all 0.3s ease-in-out;
+    display:grid;
+    gap:16px;
 }
 
 .creating-container{

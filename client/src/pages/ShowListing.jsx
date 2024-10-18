@@ -12,7 +12,6 @@ export default function ShowListing() {
     
     const { id } = useParams();
     const [listing, setListing] = useState(null);
-    const [getDate, setGetDate] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -49,9 +48,9 @@ export default function ShowListing() {
         slidesToScroll: 1,
         lazyLoad: 'ondemand',
     };
-
-    const showContact = () => {
-        alert(`Contact: ${listing.phone || 'N/A'}`)
+    
+    const showContact = (phone) => {
+        alert(`Contact: ${phone}`)
     }
 
     return (
@@ -85,7 +84,7 @@ export default function ShowListing() {
                         <h2 className="property-price">${listing.price}</h2>
                     </div>
                     <div className='datepicker-container'>
-                        <button className='booking-button' onClick={showContact}>
+                        <button className='booking-button' onClick={()=>showContact(listing.phoneNumber)}>
                             Inquire now
                         </button>
 
