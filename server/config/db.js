@@ -1,3 +1,7 @@
+/**
+ * This file is responsible for connecting to the MongoDB database using Mongoose.
+ */
+
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 

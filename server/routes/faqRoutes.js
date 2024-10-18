@@ -1,3 +1,7 @@
+/**
+ * This file contains the FAQ routes.
+ */
+
 import express from 'express';
 import { getAllFaqs, createFaq, updateFaq, deleteFaq } from '../controllers/faq/faqController.js';
 

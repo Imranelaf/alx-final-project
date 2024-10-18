@@ -1,3 +1,7 @@
+/**
+ * This file contains the FAQ model.
+ */
+
 import mongoose from 'mongoose';
 
 const faqSchema = new mongoose.Schema({

@@ -4,20 +4,17 @@
 
 import express from 'express';
 import {
-  createAgent,
-  loginAgent,
-  getAllAgents,
+  getAgentsByFilter,
   getAgentById,
   updateAgentStatus,
   updateAgent,
   deleteAgent,
 } from '../controllers/agent/agentController.js';
 import authenticateJWT from '../middleware/auth/authMiddleware.js';
-import checkEmptyBody from '../middleware/common/checkEmptyBody.js';
-import checkRequiredFields from '../middleware/common/checkRequiredFields.js'; 
-import { checkIsAdmin, checkIsAdminSelfOrAgent} from '../middleware/auth/roleMiddleware.js';  // Role-based access control
-import { validateAgentFields } from '../middleware/validation/agentValidation.js';  // Input validation for agents
+import { checkIsAdmin, checkIsAgentSelfOrAdmin} from '../middleware/auth/roleMiddleware.js';  // Role-based access control
 import { validateUpdateAgentFields } from '../middleware/validation/agentUpdateValidation.js';  // Input validation for agents
+import {validateObjectId} from '../middleware/validation/validateObjectId.js';
+
 
 const router = express.Router();
 
@@ -27,42 +24,46 @@ const router = express.Router();
  * ============================
  */
 
-// Register a new agent (public route)
-router.post(
-  '/', 
-  checkEmptyBody('Request body is empty. Please provide agent data.'),
-  checkRequiredFields({ 
-    body: ['firstName', 'lastName', 'username', 'email', 'phoneNumber', 'agency', 'password', 'licenseNumber'] 
-  }),  
-  validateAgentFields,
-  createAgent
-);
-
-// Agent login route (public)
-router.post(
-  '/login', 
-  loginAgent
-);
-
 // Get all agents (public)
-router.get('/', getAllAgents);
+router.get(
+  '/', 
+  getAgentsByFilter
+);
 
 // Get a specific agent by ID (public)
-router.get('/:id', getAgentById);
+router.get(
+  '/:id',
+  validateObjectId, 
+  getAgentById
+);
 
 // Admin-only route to approve or reject agents
-router.patch('/:id/status', 
-  authenticateJWT, 
+router.patch(
+  '/:id/status', 
+  authenticateJWT,
+  validateObjectId,  
   checkIsAdmin, 
-  checkRequiredFields({ body: ['agentStatus'] }),
   updateAgentStatus
 );
 
 // Update agent information (admin or the agent themselves)
-router.put('/:id', authenticateJWT, checkIsAdminSelfOrAgent, validateUpdateAgentFields, updateAgent);
+router.put(
+  '/:id', 
+  authenticateJWT,
+  validateObjectId, 
+  checkIsAgentSelfOrAdmin, 
+  validateUpdateAgentFields, 
+  updateAgent
+);
 
 // Delete an agent (admin or the agent themselves)
-router.delete('/:id', authenticateJWT, checkIsAdminSelfOrAgent, deleteAgent);
+router.delete(
+  '/:id', 
+  authenticateJWT,
+  validateObjectId, 
+  checkIsAgentSelfOrAdmin, 
+  deleteAgent
+);
 
 
 export default router;

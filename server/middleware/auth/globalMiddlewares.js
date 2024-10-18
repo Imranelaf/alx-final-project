@@ -1,3 +1,7 @@
+/**
+ * THis file contains all the global middlewares that are applied to all routes in the app.
+ */
+
 import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
@@ -5,15 +9,13 @@ import helmet from 'helmet';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 
-// Apply all global middlewares
 const applyGlobalMiddleware = (app) => {
-  // Body parsers
   app.use(express.json()); // Parse JSON requests
   app.use(express.urlencoded({ extended: true })); // Parse URL-encoded data
 
   // CORS middleware
   app.use(cors({
-    origin: process.env.CLIENT_URI, // Your frontend URL
+    origin: process.env.CLIENT_URI,
     credentials: true // Allow credentials (cookies, authorization headers, etc.)
   }));
 

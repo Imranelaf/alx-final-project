@@ -1,3 +1,7 @@
+/**
+ * This file is used to initialize all the routes in the application.
+ */
+
 import authRoutes from './authRoutes.js';
 import userRoutes from './userRoutes.js';
 import propertyRoutes from './propertyRoutes.js';
@@ -18,4 +22,3 @@ const initRoutes = (app) => {
 };
 
 export default initRoutes;
-

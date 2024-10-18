@@ -1,10 +1,9 @@
-/*
-Middleware for authenticating users via JWT, checking tokens in the Authorization header or cookies.
-If valid, attaches user info to the request; otherwise, returns an error.
-*/
+/**
+ * This file contains the middleware function to authenticate users using a JWT token.
+ */
 
 import jwt from 'jsonwebtoken';
-import { formatError } from '../../utils/errorFormatter.js';
+import { UnauthorizedError, ForbiddenError } from '../../utils/customErrors.js';  // Import your custom error classes
 
 /**
  * @desc Authenticates the user using a JWT token.
@@ -12,8 +11,8 @@ import { formatError } from '../../utils/errorFormatter.js';
  * @param {Object} res - The response object.
  * @param {Function} next - The next middleware function.
  * @returns {void} - Calls the next middleware if authentication is successful.
- * @throws {Error} - Returns 401 Unauthorized if the token is missing.
- * @throws {Error} - Returns 403 Forbidden if the token is invalid or expired.
+ * @throws {UnauthorizedError} - Throws a 401 error if the token is missing.
+ * @throws {ForbiddenError} - Throws a 403 error if the token is invalid or expired.
  */
 const authenticateJWT = (req, res, next) => {
   // Check if the token is sent in the Authorization header
@@ -24,19 +23,18 @@ const authenticateJWT = (req, res, next) => {
     token = req.cookies?.token;
   }
 
-  // If no token is found, send a formatted error
+  // If no token is found, throw an UnauthorizedError
   if (!token) {
-    return next(formatError('Unauthorized access. Token is missing, please log in.', [], 401));
+    return next(new UnauthorizedError('Unauthorized access. Token is missing, please log in.'));
   }
 
   try {
     // Verify the token using the secret key
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;  // Attach the decoded user info to `req.user`
-    next(); // Continue to the next middleware/route handler
+    next();
   } catch (error) {
-    // If the token is invalid or expired, return a formatted error
-    return next(formatError('Invalid token or session expired. Please log in again.', [], 403));
+    return next(new ForbiddenError('Invalid token or session expired. Please log in again.'));
   }
 };
 

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { loginUser } from '../services/authServices';  // Import the login function from authServices
 import '../assets/styles/signin.css';
 import Navbar from '../components/navbar';
 
 const SignIn = () => {
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');  // State for password
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -22,7 +25,7 @@ const SignIn = () => {
 
     try {
       // Call loginUser function from authServices
-      const response = await loginUser({ email, password });
+      const response = await loginUser({ email, password }, dispatch);
 
       if (response.data.success) {
         navigate('/signin/success');  // Redirect on success
@@ -96,5 +99,3 @@ const SignIn = () => {
 };
 
 export default SignIn;
-
-// Integrated SignIn

@@ -62,11 +62,10 @@ const adminSchema = new mongoose.Schema({
     default: function () {
       return this.role === 'super-admin'
         ? ['manage_users', 'manage_agents', 'view_reports', 'manage_admins']
-        : ['manage_users', 'manage_agents', 'view_reports'];
+        : ['manage_users', 'view_reports'];  // Default permissions for "admin"
     },
     validate: {
       validator: function (permissionsArray) {
-        // Check that all permissions are strings
         return permissionsArray.every(permission => typeof permission === 'string');
       },
       message: 'Permissions must be valid strings.',
@@ -84,10 +83,10 @@ const adminSchema = new mongoose.Schema({
   },
   joinedAt: {
     type: Date,
-    default: Date.now, // Automatically set when admin is created
+    default: Date.now,
   },
 }, {
-  timestamps: true, // Automatically adds createdAt and updatedAt fields
+  timestamps: true,
 });
 
 // Pre-save middleware to hash the password before saving

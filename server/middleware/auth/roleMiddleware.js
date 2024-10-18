@@ -1,52 +1,43 @@
 /**
- * This file contains middleware functions that check the role of the logged-in user
- * and restrict access to certain routes based on the user's role.
+ * This file contains middleware functions to check the role of the user.
  */
 
-import { formatError } from '../../utils/errorFormatter.js';
+import { 
+  ForbiddenError,
+  NotFoundError 
+} from '../../utils/customErrors.js';
+import Property from '../../models/Property.js';
 
 /**
  * @desc - Check if the user is an admin
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  * @param {Function} next - The next middleware function
- * @returns {Object} - The response object
- * @throws {Error} - Returns 403 Forbidden if the user is not an admin
+ * @returns {void}
+ * @throws {ForbiddenError} - Throws 403 Forbidden if the user is not an admin
  */
 export const checkIsAdmin = (req, res, next) => {
-  // Check if the user is authenticated and has the role 'admin'
-  if (req.user && req.user.role === 'admin' || req.user.role === 'super-admin') {
-    return next(); // Proceed to the next middleware or controller
+  if (req.user && (req.user.role === 'admin' || req.user.role === 'super-admin')) {
+    return next();
   }
 
-  // If the user is not an admin, return a 403 Forbidden error
-  return next({
-    message: 'Access forbidden: Admins only.',
-    statusCode: 403,
-  });
+  return next(new ForbiddenError('Access forbidden: Admins only.'));
 };
 
 /**
- * 
  * @desc - Check if the user is a super admin
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  * @param {Function} next - The next middleware function
- * @returns {Object} - The response object
- * @throws {Error} - Returns 403 Forbidden if the user is not a super admin
+ * @returns {void}
+ * @throws {ForbiddenError} - Throws 403 Forbidden if the user is not a super admin
  */
 export const checkIsSuperAdmin = (req, res, next) => {
-  // Check if the user is authenticated and has the role 'superadmin'
   if (req.user && req.user.role === 'super-admin') {
-    return next(); // Proceed to the next middleware or controller
+    return next();
   }
 
-  // If the user is not a superadmin, return a 403 Forbidden error
-  return next(formatError(
-    'Access denied: You do not have the required permissions to perform this action.',
-    [],  // No additional details to pass
-    403  // Forbidden status
-  ));
+  return next(new ForbiddenError('Access denied: You do not have the required permissions to perform this action.'));
 };
 
 /**
@@ -54,29 +45,23 @@ export const checkIsSuperAdmin = (req, res, next) => {
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  * @param {Function} next - The next middleware function
- * @returns {Object} - The response object
- * @throws {Error} - Returns 403 Forbidden if the user is neither the admin themselves nor a super admin
+ * @returns {void}
+ * @throws {ForbiddenError} - Throws 403 Forbidden if the user is neither the admin themselves nor a super admin
  */
 export const checkIsAdminSelfOrSuperAdmin = (req, res, next) => {
-  const { id } = req.params;  // The ID of the admin being accessed (from URL param)
-  const { role, id: userId } = req.user;  // The role and ID of the logged-in user (from JWT payload)
+  const { id } = req.params;
+  const { role, id: userId } = req.user;
 
   // Allow access if the user is a super-admin
   if (role === 'super-admin') {
     return next();
   }
 
-  // Allow access if the user is modifying their own account
   if (userId === id) {
     return next();
   }
 
-  // If neither, deny access with a formatted error
-  return next(formatError(
-    'Access denied: You do not have the required permissions to perform this action.',
-    [],  // No additional details to pass
-    403  // Forbidden status
-  ));
+  return next(new ForbiddenError('Access denied: You do not have the required permissions to perform this action.'));
 };
 
 /**
@@ -84,22 +69,35 @@ export const checkIsAdminSelfOrSuperAdmin = (req, res, next) => {
  * @param {Object} req - The request object
  * @param {Object} res - The response object
  * @param {Function} next - The next middleware function
- * @returns {void} - Calls the next middleware if the user is authorized
- * @throws {Error} - Returns 403 Forbidden if the user is neither the admin nor the agent
+ * @returns {void}
+ * @throws {ForbiddenError} - Throws 403 Forbidden if the user is neither the admin nor the agent
  */
-/**
- * @desc - Middleware to check if the user is either an admin or the agent themselves
- * @param {Object} req - The request object
- * @param {Object} res - The response object
- * @param {Function} next - The next middleware function
- * @returns {void} - Calls the next middleware if the user is authorized
- * @throws {Error} - Returns 403 Forbidden if the user is neither the admin nor the agent
- */
-export const checkIsAdminSelfOrAgent = (req, res, next) => {
-  const { id } = req.params;  // The agent ID being accessed from the URL
-  const { role, id: userId } = req.user;  // The logged-in user's role and ID from JWT payload
+export const checkIsAgentSelfOrAdmin = (req, res, next) => {
+  const { id } = req.params;
+  const { role, id: userId } = req.user;
 
-  // Allow access if the user is an admin (admin or super-admin)
+  if (role === 'admin' || role === 'super-admin') {
+    return next();
+  }
+
+  if (userId === id) {
+    return next();
+  }
+
+  return next(new ForbiddenError('Access denied: You do not have the required permissions to perform this action.'));
+};
+
+/**
+ * Middleware to check if the user is either an admin or the user themselves.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ * @returns {void} - Calls next if authorized, throws ForbiddenError otherwise.
+ */
+export const checkIsUserSelfOrAdmin = (req, res, next) => {
+  const { id } = req.params;
+  const { role, id: userId } = req.user;
+
   if (role === 'admin' || role === 'super-admin') {
     return next();
   }
@@ -109,10 +107,58 @@ export const checkIsAdminSelfOrAgent = (req, res, next) => {
     return next();
   }
 
-  // If neither condition is met, deny access with a 403 Forbidden error
-  return next(formatError(
-    'Access forbidden: You are not authorized to update this agent.',
-    [],
-    403
-  ));
+  return next(new ForbiddenError('Access denied: You do not have the required permissions to perform this action.'));
+};
+
+export const checkRoleToCreateProperty = (req, res, next) => {
+  const { role } = req.user;
+
+  const allowedRoles = ['user', 'agent', 'admin', 'super-admin'];
+
+  if (req.user && allowedRoles.includes(role)) {
+    return next();
+  }
+
+  return res.status(403).json({ message: 'Access denied: You do not have permission to create a property.' });
+};
+
+/**
+ * Middleware to check if the user is an admin, the property owner (user who created it), or the agent managing the property.
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ * @returns {void} - Calls next if authorized, throws ForbiddenError otherwise.
+ */
+export const checkIsAdminOrOwnerOrAgent = async (req, res, next) => {
+  const { id: propertyId } = req.params;
+  const { role, id: userId } = req.user;
+
+  try {
+    // If the user is an admin or super-admin, allow the update
+    if (role === 'admin' || role === 'super-admin') {
+      return next();
+    }
+
+    const property = await Property.findById(propertyId);
+
+    if (!property) {
+      return next(new NotFoundError(`Property with ID ${propertyId} not found`));
+    }
+ 
+    console.log(property.userId, userId);
+    // Check if `userId` is set on the property and compare with the logged-in user
+    if (property.userId && property.userId.toString() === userId.toString()) {
+      return next();
+    }
+
+    // Check if `agentId` is set on the property and compare with the logged-in user
+    if (property.agentId && property.agentId.toString() === userId.toString()) {
+      return next();
+    }
+
+    // If none of the conditions are met, deny access
+    return next(new ForbiddenError('Access denied: You are not authorized to modify this property.'));
+  } catch (error) {
+    return next(error); // Pass error to the global error handler
+  }
 };

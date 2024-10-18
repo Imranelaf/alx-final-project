@@ -1,0 +1,137 @@
+.profile {
+    width: 80%;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #ddd;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    margin: 2.5rem;
+}
+
+.profile img:hover {
+    transform: scale(1.1);
+}
+
+.setting {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Input fields */
+.setting input {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.setting input:focus {
+    border-color: #7f8c8d;
+}
+
+/* Toggle button for Profile */
+.profile-toggle-btn {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #3498db, #2ecc71);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-toggle-btn:hover {
+    background: linear-gradient(45deg, #2ecc71, #3498db);
+    transform: scale(1.05);
+}
+
+/* Profile Info section */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+.upating-profile{
+    margin-bottom: 4rem;
+    margin-top: 1rem;
+    background: linear-gradient(45deg, #3498db, #2ecc71)!important; 
+}
+
+/* Profile Update Button */
+.profile-info button {
+    width: 100%;
+    padding: 0.75rem;
+    background: linear-gradient(45deg, #1e5c9e, #8e44ad);
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.profile-info button:hover {
+    background: linear-gradient(45deg, #965ead, #1e5c9e);
+}
+
+/* Other Buttons */
+.navlink button, .profile button {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.75rem;
+    background: linear-gradient(45deg, #965ead, #1e5c9e);
+    font-weight: bold;
+    color: white;
+}
+
+.navlink button:hover {
+    background: linear-gradient(45deg, #1e5c9e, #965ead);
+}
+
+@media (max-width: 768px) {
+    .profile img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile-toggle-btn, .profile-info button, .setting input {
+        width: 100%;
+    }
+
+    .profile button, .navlink button {
+        width: 100%;
+    }
+}

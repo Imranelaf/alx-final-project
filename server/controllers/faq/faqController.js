@@ -1,3 +1,7 @@
+/**
+ * This file contains the controllers for the FAQ routes.
+ */
+
 import FAQ from '../../models/Faq.js';
 import { formatError } from '../../utils/errorFormatter.js';
 

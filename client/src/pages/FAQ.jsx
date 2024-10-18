@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../assets/styles/faq.css';
 import Navbar from '../components/navbar';
+import Footer from '../components/Footer';
 
 const FAQ = () => {
   const [faqs, setFaqs] = useState([]);
@@ -65,7 +66,10 @@ const FAQ = () => {
           </div>
         )}
       </div>
+      
     </div>
+    
+    <Footer />
     </>
   );
 };
