@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import '../assets/styles/signupOAuthForm.css';  // OAuth-specific styling
+import { jwtDecode } from "jwt-decode";
 
 const SignUpOAuth = () => {
   const [searchParams] = useSearchParams();
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    const message = searchParams.get('message');
-    if (message) {
-      setErrorMessage(message);
+    const token = searchParams.get('token');
+    
+    
+    if (token) {
+      setErrorMessage("Successfully");
+      const decoded = jwtDecode(token);
+      console.log({decoded});
+      
     }
   }, [searchParams]);
 

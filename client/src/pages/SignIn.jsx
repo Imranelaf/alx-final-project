@@ -4,14 +4,16 @@ import { useDispatch } from 'react-redux';
 import { loginUser } from '../services/authServices';  // Import the login function from authServices
 import '../assets/styles/signin.css';
 import Navbar from '../components/navbar';
+import axiosWithHeader from '../services/axios'
 
 const SignIn = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  
 
   // Handle Google OAuth login redirection
   const redirectToGoogleSignin = () => {
@@ -26,9 +28,13 @@ const SignIn = () => {
     try {
       // Call loginUser function from authServices
       const response = await loginUser({ email, password }, dispatch);
+      localStorage.setItem('token', response.data.token);
+      // Set the token as a default header for future requests
+      axiosWithHeader.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 
       if (response.data.success) {
-        navigate('/signin/success');  // Redirect on success
+        // Navigate to success page after login
+        navigate('/signin/success');
       }
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Something went wrong. Please try again.';
@@ -44,28 +50,28 @@ const SignIn = () => {
       <div className="login-container">
         <h1>Welcome back</h1>
 
-        {/* Sign-in using email and password */}
-        <form onSubmit={handleEmailSignIn}>
-          <input
-            type="email"
-            placeholder="Email address*"
-            required
-            className="input-email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password*"
-            required
-            className="input-password"  // New input for password
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button type="submit" className="continue-button" disabled={loading}>
-            {loading ? 'Signing in...' : 'Continue'}
-          </button>
-        </form>
+       
+          <form onSubmit={handleEmailSignIn}>
+            <input
+              type="email"
+              placeholder="Email address*"
+              required
+              className="input-email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password*"
+              required
+              className="input-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button type="submit" className="continue-button" disabled={loading}>
+              {loading ? 'Signing in...' : 'Continue'}
+            </button>
+          </form>
 
         <p className="signup-link">
           Don't have an account? <a href="/signup">Sign Up</a>

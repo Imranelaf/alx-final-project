@@ -23,7 +23,7 @@ export const registerUser = async (userData, dispatch) => {
     console.log('API response:', response.data.data);
 
     // Dispatch the action after successful registration
-    dispatch(setUser(response));
+    dispatch(setUser(response.data.data));
 
     return response;
   } catch (error) {
@@ -44,7 +44,7 @@ export const registerUser = async (userData, dispatch) => {
 export const loginUser = async (userData, dispatch) => {
   try {
     const response = await axiosInstance.post('/api/auth/signin', userData, dispatch); // Use axiosInstance
-    console.log('Login API response:', response.data.data);
+    console.log('Login API response:', response);
 
     // Assuming your backend sends the token in response
     Cookies.set('propertyHubAuthToken', response.data.token); // Store token in cookies

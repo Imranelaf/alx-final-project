@@ -6,8 +6,12 @@ import { validateField } from '../services/validationHelper';
 import { useNavigate } from 'react-router-dom';
 import ErrorDisplay from './ErrorDisplay'; // Import the ErrorDisplay component
 import '../assets/styles/signupLocalForm.css';
+import { useDispatch } from 'react-redux';
+import axiosWithHeader from '../services/axios'
+
 
 const SignUpForm = () => {
+  const dispatch = useDispatch()
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [username, setUsername] = useState('');
@@ -56,6 +60,7 @@ const SignUpForm = () => {
 
   // Handle form submission
   const handleSignUp = async (e) => {
+    
     e.preventDefault();
     console.log('Sign Up button clicked'); // Debug log
 
@@ -73,10 +78,14 @@ const SignUpForm = () => {
 
     try {
       console.log('Calling registerUser function'); // Debug log
-      const response = await registerUser({ firstName, lastName, username, email, password });
+      const response = await registerUser({ firstName, lastName, username, email, password }, dispatch);
+      
+      localStorage.setItem('token', response.data.token);
+      // Set the token as a default header for future requests
+      axiosWithHeader.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
       console.log('Received response:', response); // Debug log
       
-      if (response.data.message === "User registered successfully!") {
+      if (response.data.message === "User registered successfully.") {
         // Redirect to the success page on successful registration
         navigate('/signup/success'); // Redirect to AuthSuccess page
       } else {
