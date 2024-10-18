@@ -112,7 +112,7 @@ export default function Create() {
 
     // Send the data to the backend with JWT token in headers
     try {
-      await axiosWithHeader.post(`${API_URL}/api/properties`, updatedData)
+      await axiosWithHeader.post(`/api/properties`, updatedData)
       .then((response)=>{console.log(response)});
       alert("Lesting created successfully.")
       
