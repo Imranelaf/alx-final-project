@@ -716,6 +716,7 @@ POST /api/properties
   "description": "A modern apartment located in the heart of the city.",
   "propertyType": "Apartment",
   "price": 250000,
+  "phoneNumber": 212626532403,
   "size": 1200,
   "bedrooms": 3,
   "bathrooms": 2,
