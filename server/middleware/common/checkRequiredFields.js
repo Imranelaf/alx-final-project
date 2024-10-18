@@ -1,3 +1,7 @@
+/**
+ * This file contains a middleware function to check for required fields in different request locations (body, query, params).
+ */
+
 import { formatError } from '../../utils/errorFormatter.js';
 
 /**

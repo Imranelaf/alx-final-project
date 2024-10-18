@@ -1,4 +1,6 @@
-
+/**
+ * This file 
+ */
 
 import passport from 'passport';
 import '../../config/passport.js';
@@ -18,16 +20,12 @@ import { createNewAgent, } from '../../services/agentService.js';
  */
 export const createAgent = async (req, res, next) => {
     try {
-      // Call the service layer to create a new agent
       const newAgent = await createNewAgent(req.body);
   
-      // Generate token and get cookie options
       const { token, cookieOptions } = generateTokenAndCookieOptions(newAgent);
   
-      // Set the JWT token in the cookie
       setTokenCookie(res, token, cookieOptions);
   
-      // Exclude sensitive fields (like password) from the response
       const agentResponse = excludeSensitiveInfo(newAgent, ['password', '__v']);
   
       return res.status(201).json({
@@ -55,27 +53,23 @@ export const createAgent = async (req, res, next) => {
   export const loginAgent = (req, res, next) => {
     passport.authenticate('agent-local', { session: false }, async (err, agent, info) => {
       if (err) {
-        return next(err);  // Pass server error to the global error handler
+        return next(err);
       }
   
       if (!agent) {
-        // Handle authentication failure
         const error = new UnauthorizedError(info?.message || 'Authentication failed');
         return next(error);
       }
   
       try {
-        // Generate JWT token and set it as a cookie
         const { token, cookieOptions } = generateTokenAndCookieOptions(agent);
         
-        // Set the JWT token in the cookie
         setTokenCookie(res, token, cookieOptions);
   
   
         const agentResponse = excludeSensitiveInfo(agent, ['password', '__v']);
   
   
-        // Send the response with agent info (excluding sensitive data)
         return res.status(200).json({
           success: true,
           message: 'Agent logged in successfully!',
@@ -83,7 +77,7 @@ export const createAgent = async (req, res, next) => {
           token
         });
       } catch (error) {
-        next(error);  // Pass any unexpected error to the global error handler
+        next(error);
       }
     })(req, res, next);
   };

@@ -1,4 +1,6 @@
-
+/**
+ * This file contains a utility function to exclude sensitive fields from a Mongoose model object.
+ */
 
 /**
  * @desc Exclude sensitive fields from the Mongoose model object before sending the response.

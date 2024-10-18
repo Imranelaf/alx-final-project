@@ -1,3 +1,7 @@
+/**
+ * This file contains a middleware function to handle validation errors from express-validator.
+ */
+
 import mongoose from 'mongoose';
 
 import { validationResult } from 'express-validator';

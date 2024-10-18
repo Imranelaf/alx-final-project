@@ -1,3 +1,7 @@
+/**
+ * This file contains helper functions for authentication.
+ */
+
 import jwt from 'jsonwebtoken';
 import { ValidationError } from '../utils/customErrors.js';
 

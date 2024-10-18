@@ -31,7 +31,6 @@ export const createProperty = async (req, res, next) => {
   }
 };
 
-
 /**
  * @desc    Controller to handle retrieving a property by ID from the database.
  * @param   {Object} req - Express request object containing the property ID in params.
@@ -41,9 +40,8 @@ export const createProperty = async (req, res, next) => {
  */
 export const getPropertyById = async (req, res, next) => {
   try {
-    const { id } = req.params; // Extract property ID from params
+    const { id } = req.params;
 
-    // Call the service to get the property by ID
     const property = await getPropertyByIdService(id);
 
     return res.status(200).json({
@@ -70,13 +68,12 @@ export const updateProperty = async (req, res, next) => {
     const updates = req.body;
     const userRole = req.user.role;
 
-    // Call the service to update the property
     const updatedProperty = await updatePropertyService(id, updates, userRole);
 
     return res.status(200).json({
       success: true,
       message: 'Property information updated successfully.',
-      data: updatedProperty,  // Send the updated property data
+      data: updatedProperty, 
     });
   } catch (error) {
     return next(error);
@@ -96,7 +93,6 @@ export const deleteProperty = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    // Call the service to delete the property and remove its references from users/agents
     await deletePropertyService(id);
 
     return res.status(200).json({
@@ -104,7 +100,7 @@ export const deleteProperty = async (req, res, next) => {
       message: 'Property deleted and references updated successfully!',
     });
   } catch (error) {
-    return next(error);  // Pass any errors to the global error handler
+    return next(error); 
   }
 };
 
@@ -117,10 +113,8 @@ export const deleteProperty = async (req, res, next) => {
  */
 export const getPropertiesByFilter = async (req, res, next) => {
   try {
-    // Pass query parameters to the service
     const filters = req.query;
 
-    // Fetch properties based on filters (or all if no filters)
     const properties = await getPropertiesByFilterService(filters);
 
     return res.status(200).json({
@@ -194,7 +188,7 @@ export const addPropertyAmenity = async (req, res, next) => {
       data: updatedProperty,
     });
   } catch (error) {
-    next(error);  // Pass error to global error handler
+    next(error);
   }
 };
 
@@ -216,7 +210,7 @@ export const removePropertyAmenity = async (req, res, next) => {
       data: updatedProperty,
     });
   } catch (error) {
-    next(error);  // Pass error to global error handler
+    next(error);
   }
 };
 

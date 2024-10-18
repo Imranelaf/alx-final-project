@@ -2,8 +2,7 @@ import Admin from '../models/Admin.js';
 import Agent from '../models/Agent.js';
 import User from '../models/User.js';
 import generateUniqueUsername from '../utils/generateUniqueUsername.js'; // Default import
-import { ServerError} from '../utils/customErrors.js';
-import { BusinessLogicError, UnauthorizedError } from '../utils/customErrors.js';
+import { BusinessLogicError, UnauthorizedError, ServerError } from '../utils/customErrors.js';
 
 /**
  * Authenticate admin by email and password.
@@ -14,19 +13,16 @@ import { BusinessLogicError, UnauthorizedError } from '../utils/customErrors.js'
  */
 export const authenticateAdmin = async (email, password) => {
   try {
-    // Find the admin by email
     const admin = await Admin.findOne({ email });
     if (!admin) {
       throw new UnauthorizedError('Invalid email or password');
     }
 
-    // Verify the password
     const isPasswordValid = await admin.comparePassword(password);
     if (!isPasswordValid) {
       throw new UnauthorizedError('Invalid email or password');
     }
 
-    // Return the authenticated admin if everything is fine
     return admin;
 
   } catch (error) {
@@ -47,22 +43,17 @@ export const authenticateAdmin = async (email, password) => {
  */
 export const authenticateAgent = async (email, password) => {
   try {
-    // Find the agent by email
     const agent = await Agent.findOne({ email });
 
     if (!agent) {
-      // Throw error instead of returning
       throw new UnauthorizedError('Invalid email or password');
     }
 
-    // Verify the password
     const isPasswordValid = await agent.comparePassword(password);
     if (!isPasswordValid) {
-      // Throw error instead of returning
       throw new UnauthorizedError('Invalid email or password');
     }
 
-    // Return the authenticated agent
     return { agent };
   } catch (error) {
     // Only throw ServerError if the caught error isn't already a known custom error
@@ -89,7 +80,6 @@ export const handleGoogleOAuthSignup = async (userProfile) => {
       return { user: existingUser, isExisting: true };
     }
 
-    // Create a new user in the database with a default role
     const newUser = new User({
       firstName,
       lastName,
@@ -123,11 +113,9 @@ export const handleGoogleOAuthSignin = async (userProfile) => {
     const existingUser = await User.findOne({ $or: [{ googleId }, { email }] });
 
     if (!existingUser) {
-      // Throw an error if the user is not found
       throw new BusinessLogicError('User not found, please sign up');
     }
 
-    // Return the existing user object
     return existingUser;
   } catch (error) {
     console.error('Error during Google OAuth signin service:', error);
@@ -144,21 +132,17 @@ export const handleGoogleOAuthSignin = async (userProfile) => {
  */
 export const authenticateUserService = async (email, password) => {
   try {
-    // Find the user by email
     const user = await User.findOne({ email });
 
-    // If the user doesn't exist, throw UnauthorizedError
     if (!user) {
       throw new UnauthorizedError('Invalid email or password');
     }
 
-    // Check if the password is correct
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
       throw new UnauthorizedError('Invalid email or password');
     }
 
-    // Return the authenticated user
     return user;
   } catch (error) {
     // Catch unexpected server errors
@@ -183,7 +167,5 @@ export const clearTokenCookie = (res) => {
     maxAge: 0,
   };
   
-  // Clear the cookie by setting it with an expired maxAge
   res.cookie('propertyHubAuthToken', '', cookieOptions);
 };
-

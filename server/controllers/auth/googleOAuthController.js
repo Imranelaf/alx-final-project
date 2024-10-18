@@ -1,3 +1,7 @@
+/**
+ * This
+ */
+
 import User from '../../models/User.js';
 import { handleGoogleOAuthSignup } from '../../services/authService.js';
 import {generateTokenAndCookieOptions, setTokenCookie } from '../../utils/authHelpers.js';

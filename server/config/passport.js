@@ -1,7 +1,5 @@
 /**
- * This file configures the passport authentication middleware using JWT strategy 
- * to verify tokens and authenticate admin users. It attaches the admin data 
- * to the request object upon successful authentication.
+ * Passport configuration file
  */
 
 import passport from 'passport';
@@ -11,11 +9,11 @@ import {
   authenticateAdmin, 
   authenticateAgent,
   authenticateUserService
-}  from '../services/authService.js';  // If singular, for example
+}  from '../services/authService.js';
 import { 
   handleGoogleOAuthSignup, 
   handleGoogleOAuthSignin,
-} from '../services/authService.js'; // Import service function
+} from '../services/authService.js';
 
 
 passport.use(
@@ -49,20 +47,16 @@ passport.use(
   )
 );
 
-// Passport strategy for agent-local authentication
 passport.use(
   'agent-local',
   new LocalStrategy(
     { usernameField: 'email', passwordField: 'password' },
     async (email, password, done) => {
       try {
-        // Call the service to handle agent authentication
         const { agent } = await authenticateAgent(email, password);
 
-        // Pass the authenticated agent to the next middleware
         return done(null, agent);
       } catch (error) {
-        // Pass the error to the controller (since service now throws errors)
         return done(null, false, error);
       }
     }
@@ -82,7 +76,6 @@ passport.use(
       const { id: googleId, name: { givenName: firstName = '', familyName: lastName = '' }, emails: [{ value: email = '' } = {}], photos: [{ value: avatar = '' } = {}] } = profile;
 
       try {
-        // Pass profile data to the service layer for sign-up logic
         const { user, isExisting } = await handleGoogleOAuthSignup({ googleId, firstName, lastName, email, avatar });
         return done(null, { user, isExisting }); // Pass both user and isExisting flag
       } catch (error) {
@@ -105,11 +98,10 @@ passport.use(
       const { id: googleId, name: { givenName: firstName = '', familyName: lastName = '' }, emails: [{ value: email = '' } = {}], photos: [{ value: avatar = '' } = {}] } = profile;
 
       try {
-        // Pass profile data to the service layer for sign-in logic
         const user = await handleGoogleOAuthSignin({ googleId, firstName, lastName, email, avatar });
-        return done(null, { user }); // Pass user object to Passport
+        return done(null, { user }); 
       } catch (error) {
-        return done(error, null); // Handle errors
+        return done(error, null);
       }
     }
   )

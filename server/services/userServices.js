@@ -167,13 +167,11 @@ export const updateUserService = async (id, updates, userRole) => {
  */
 export const deleteUserService = async (id) => {
   try {
-    // Find the user by ID
     const user = await User.findById(id);
     if (!user) {
       throw new NotFoundError('User not found');
     }
 
-    // Delete the user
     await user.deleteOne();
   } catch (error) {
     // Handle specific errors or throw ServerError for unexpected cases

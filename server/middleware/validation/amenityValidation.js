@@ -1,3 +1,7 @@
+/**
+ * This file contains validation middleware functions for the amenity routes.
+ */
+
 import { body } from 'express-validator';
 
 export const validateAmenity = [

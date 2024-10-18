@@ -1,4 +1,8 @@
 /**
+ * This file contains a utility function to check for duplicate fields in the database.
+ */
+
+/**
  * @desc Checks for duplicate fields in the database and returns an array of duplicate field errors if found.
  * @param {Model} model - The Mongoose model to search for existing records.
  * @param {Object} fieldsToCheck - The fields to check for duplicates (e.g., username, email, phoneNumber).

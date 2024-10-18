@@ -1,3 +1,6 @@
+/**
+ *  This file contains the controller functions for handling agent user operations.
+ */
 
 import {excludeSensitiveInfo} from '../../utils/excludeSensitiveInfo.js';
 import {
@@ -20,20 +23,17 @@ export const getAgentsByFilter = async (req, res, next) => {
   try {
     const filters = req.query;  // Extract filters from query parameters
 
-    // Fetch the agents (all or filtered) from the service layer
     const agents = await getAgentsByFilterService(filters);
 
-    // Sanitize the data by excluding sensitive fields like passwords
     const sanitizedAgents = agents.map(agent => excludeSensitiveInfo(agent, ['password', '__v']));
 
-    // Respond with the sanitized agent data
     return res.status(200).json({
       success: true,
       data: sanitizedAgents,
     });
 
   } catch (error) {
-    return next(error); // Pass errors to the global error handler
+    return next(error);
   }
 };
 
@@ -49,22 +49,17 @@ export const getAgentsByFilter = async (req, res, next) => {
  */
 export const getAgentById = async (req, res, next) => {
   try {
-    // Extract the agent ID from the request parameters
     const { id } = req.params;
 
-    // Call the service layer to get the agent by ID
     const agent = await getAgentByIdService(id);
 
-    // Sanitize the agent data (remove sensitive fields like password)
     const sanitizedAgent = excludeSensitiveInfo(agent, ['password', '__v']);
 
-    // Respond with the agent data
     return res.status(200).json({
       success: true,
       data: sanitizedAgent,
     });
   } catch (error) {
-    // Pass the error to the global error handler
     return next(error);
   }
 };
@@ -80,19 +75,15 @@ export const getAgentById = async (req, res, next) => {
  */
 export const deleteAgent = async (req, res, next) => {
   try {
-    // Extract agent ID from request parameters
     const { id } = req.params;
 
-    // Call the service to handle agent deletion
     await deleteAgentService(id);
 
-    // Send success response after agent is deleted
     return res.status(200).json({
       success: true,
       message: 'Agent deleted successfully!',
     });
   } catch (error) {
-    // Pass the error to the global error handler
     return next(error);
   }
 };
@@ -110,12 +101,10 @@ export const updateAgent = async (req, res, next) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-    const userRole = req.user.role;  // Get the user's role from the request
+    const userRole = req.user.role;
 
-    // Call the service to update the agent and pass the userRole
     const updatedAgent = await updateAgentService(id, updates, userRole);
 
-    // Exclude sensitive fields like password before returning the response
     const sanitizedUpdatedAgent = excludeSensitiveInfo(updatedAgent, ['password', '__v']);
 
     return res.status(200).json({
@@ -124,7 +113,7 @@ export const updateAgent = async (req, res, next) => {
       data: sanitizedUpdatedAgent,
     });
   } catch (error) {
-    return next(error);  // Pass the error to the global error handler
+    return next(error);
   }
 };
 

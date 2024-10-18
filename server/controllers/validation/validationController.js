@@ -1,4 +1,6 @@
-
+/**
+ * This file contains the controllers for the validation routes.
+ */
 
 import { 
   isUsernameAvailable, 
@@ -15,11 +17,11 @@ export const checkUsername = async (req, res, next) => {
   const { username } = req.params;
 
   try {
-    await isUsernameAvailable(username); // Call the service layer
+    await isUsernameAvailable(username); 
 
     return res.status(200).json({ success: true, message: 'Username is available.' });
   } catch (error) {
-    return next(error); // Forward errors to the global error handler
+    return next(error);
   }
 };
 
@@ -33,10 +35,10 @@ export const checkEmail = async (req, res, next) => {
   const { email } = req.params;
 
   try {
-    await isEmailAvailable(email); // Call the service layer
+    await isEmailAvailable(email);
 
     return res.status(200).json({ success: true, message: 'Email is available.' });
   } catch (error) {
-    return next(error); // Forward errors to the global error handler
+    return next(error);
   }
 };

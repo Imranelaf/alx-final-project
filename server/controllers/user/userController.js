@@ -53,12 +53,10 @@ export const getUsersByFilter = async (req, res, next) => {
  */
 export const getUserById = async (req, res, next) => {
     try {
-      const { id } = req.params; // Extract user ID from params
+      const { id } = req.params;
   
-      // Call the service to get user by ID
       const user = await getUserByIdService(id);
   
-      // Sanitize user data (exclude sensitive fields like password)
       const sanitizedUser = excludeSensitiveInfo(user, ['password', '__v']);
   
       return res.status(200).json({
@@ -66,7 +64,7 @@ export const getUserById = async (req, res, next) => {
         data: sanitizedUser,
       });
     } catch (error) {
-      return next(error); // Pass error to global error handler
+      return next(error);
     }
 };
 
@@ -81,14 +79,12 @@ export const getUserById = async (req, res, next) => {
  */
 export const updateUser = async (req, res, next) => {
     try {
-      const { id } = req.params; // Extract user ID from the request params
-      const updates = req.body;  // Extract the updates from the request body
-      const userRole = req.user.role;  // Get the user's role from the JWT payload
+      const { id } = req.params;
+      const updates = req.body;
+      const userRole = req.user.role;
   
-      // Call the service to update the user
       const updatedUser = await updateUserService(id, updates, userRole);
   
-      // Exclude sensitive fields like password before sending the response
       const sanitizedUpdatedUser = excludeSensitiveInfo(updatedUser, ['password', '__v']);
   
       return res.status(200).json({
@@ -97,7 +93,7 @@ export const updateUser = async (req, res, next) => {
         data: sanitizedUpdatedUser,
       });
     } catch (error) {
-      return next(error);  // Pass the error to the global error handler
+      return next(error); 
     }
 };
 
@@ -112,19 +108,15 @@ export const updateUser = async (req, res, next) => {
  */
 export const deleteUser = async (req, res, next) => {
   try {
-    // Extract user ID from request parameters
     const { id } = req.params;
 
-    // Call the service to handle user deletion
     await deleteUserService(id);
 
-    // Send success response after user is deleted
     return res.status(200).json({
       success: true,
       message: 'User deleted successfully!',
     });
   } catch (error) {
-    // Pass the error to the global error handler
     return next(error);
   }
 };
@@ -139,21 +131,19 @@ export const deleteUser = async (req, res, next) => {
  * @returns {JSON} - Success response with the updated user data.
  */
 export const addPropertyToUser = async (req, res, next) => {
-  const { userId } = req.params; // Extract userId from URL params
-  const { propertyId } = req.body; // Extract propertyId from the body
+  const { userId } = req.params;
+  const { propertyId } = req.body;
 
   try {
-    // Call the service to add the property to the user's properties array
     const updatedUser = await addPropertyToUserService(userId, propertyId);
 
-    // Return success response with the updated user data
     return res.status(200).json({
       success: true,
       message: 'Property added to user successfully.',
       data: updatedUser,
     });
   } catch (error) {
-    return next(error); // Pass any errors to the global error handler
+    return next(error);
   }
 };
 
@@ -179,4 +169,3 @@ export const removePropertyFromUser = async (req, res, next) => {
     next(error);
   }
 };
-

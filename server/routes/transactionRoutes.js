@@ -1,3 +1,7 @@
+/**
+ * This file contains the transaction routes.
+ */
+
 import express from 'express';
 const router = express.Router();
 

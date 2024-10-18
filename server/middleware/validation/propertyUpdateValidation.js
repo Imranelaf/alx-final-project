@@ -1,3 +1,7 @@
+/**
+ * This file contains validation middleware functions for the property routes.
+ */
+
 import { body } from 'express-validator';
 /**
  * @desc Middleware array that validates the fields for Property updates.
@@ -12,6 +16,17 @@ export const validateUpdatePropertyFields = [
   body('description')
     .optional()
     .isLength({ max: 500 }).withMessage('Description cannot exceed 500 characters.'),
+
+  // Phone number validation (must be unique, E.164 format)
+  body('phoneNumber')
+  .optional()
+  .matches(/^\+?[1-9]\d{1,14}$/).withMessage('Please provide a valid phone number.')
+  .custom(async (value, { req }) => {
+    const agent = await Agent.findOne({ phoneNumber: value, _id: { $ne: req.params.id } });
+    if (agent) {
+      return Promise.reject('Phone number already exists.');
+    }
+  }),
 
   body('propertyType')
     .optional()

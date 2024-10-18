@@ -1,3 +1,7 @@
+/**
+ * This file contains a utility function to generate a unique username based on the user's name and email.
+ */
+
 import User from '../models/User.js';
 
 async function generateUniqueUsername(firstName, lastName, email) {

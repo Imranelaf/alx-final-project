@@ -1,3 +1,7 @@
+/**
+ * This file contains validation middleware functions for the image URL routes.
+ */
+
 import { body } from 'express-validator';
 
 export const validateImageUrl = [

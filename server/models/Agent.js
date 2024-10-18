@@ -1,7 +1,5 @@
-/*
+/**
  * This file defines the schema for the Agent model in a property management application.
- * It includes fields for agent information, password management, and agent status, 
- * with validation and pre-save hooks for password hashing.
  */
 
 import mongoose from 'mongoose';
@@ -110,15 +108,15 @@ const agentSchema = new mongoose.Schema({
       type: String,
       match: [/^https?:\/\/(www\.)?twitter.com\/.+$/, 'Please provide a valid Twitter URL.'],
     },
-    default: {}, // Default empty object for social media links
+    default: {},
   },
   availability: {
     type: Boolean,
-    default: true, // Agents are available by default unless explicitly set to unavailable
+    default: true,
   },
   agentStatus: {
     type: String,
-    enum: ['pending', 'active', 'rejected'], // Agent registration status
+    enum: ['pending', 'active', 'rejected'],
     default: 'pending', // New agents start with 'pending' status until approved by an admin
   },
   joinedAt: {

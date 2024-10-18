@@ -1,3 +1,7 @@
+/**
+ * This file contains validation middleware functions for the user update routes.
+ */
+
 import { body } from 'express-validator';
 import mongoose from 'mongoose';
 import User from '../../models/User.js';
