@@ -357,4 +357,3 @@ export const removePropertyAmenityService = async (propertyId, amenity) => {
     throw new ServerError('Error removing amenity from property', 500, error);
   }
 };
-
