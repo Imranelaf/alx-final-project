@@ -21,7 +21,6 @@ export default function Create() {
     propertyType: '',
     price: '', // Will be converted to a number
     size: '',  // Will be converted to a number
-    yearBuilt: '',
     bedrooms: '',
     bathrooms: '',
     rooms: '',
@@ -33,14 +32,11 @@ export default function Create() {
     address: {
       street: '',
       city: '',
-      state: '',
-      zipCode: '',
       country: 'Morocco', // Default to "Morocco" if not provided
     },
     images: [], // Placeholder for image URLs after upload
     phoneNumber: '',
     status: 'Available', // Default status
-    amenities: [], // Placeholder for amenities
     isFeatured: false, // Track if the listing is featured
   });
 

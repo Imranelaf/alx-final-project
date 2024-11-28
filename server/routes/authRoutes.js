@@ -23,21 +23,7 @@ import {
 } from '../controllers/auth/userAuthController.js';
 import { validateUserFields } from '../middleware/validation/userValidation.js';
 
-import authenticateJWT from '../middleware/auth/authMiddleware.js';
-
-import {
-  createAdmin,
-  loginAdmin,
-} from '../controllers/auth/adminAuthController.js';
-import { validateAdminFields } from '../middleware/validation/adminValidation.js';
-import {checkIsSuperAdmin} from '../middleware/auth/roleMiddleware.js';
-
-import {
-  createAgent,
-  loginAgent,
-} from '../controllers/auth/agentAuthController.js';
 import { handleValidationErrors } from '../middleware/common/handleValidationErrors.js';
-import { validateAgentFields } from '../middleware/validation/agentValidation.js';  // Input validation for agents
 
 
 
@@ -111,57 +97,6 @@ router.post(
   logoutUser
 );
 
-/* 
-// Forgot Password (Send reset password link)
-router.post('/forgot-password', forgotPassword);
 
-// Reset Password (Handle reset with token)
-router.post('/reset-password', resetPassword);
-
-// Verify if the JWT token is still valid
-router.get('/verify-token', authenticateJWT, verifyToken);
-*/
-
-/**
- * ============================
- * Admin Authentication Routes
- * ============================
- */
-
-// Create a new admin (super admin only)
-router.post(
-  '/admins/signup',
-  authenticateJWT, 
-  checkIsSuperAdmin,
-  validateAdminFields,
-  handleValidationErrors,  
-  createAdmin
-);
-
-// Admin Login
-router.post(
-  '/admins/login',
-   loginAdmin
-);
-
-/**
- * ============================
- * Agent Authentication Routes
- * ============================
- */
-
-// Register a new agent (public route)
-router.post(
-  '/agents/signup',
-  validateAgentFields,
-  handleValidationErrors,  
-  createAgent
-);
-
-// Agent login route (public)
-router.post(
-  '/agents/login',
-  loginAgent
-);
 
 export default router;

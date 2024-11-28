@@ -5,8 +5,7 @@ import {
   getPropertiesByFilterService,
   addPropertyImageService, 
   removePropertyImageService,
-  addPropertyAmenityService, 
-  removePropertyAmenityService 
+
  } from '../../services/propertyService.js';
 import { updatePropertyService } from '../../services/propertyService.js';
 
@@ -163,50 +162,6 @@ export const removePropertyImage = async (req, res, next) => {
     return res.status(200).json({
       success: true,
       message: 'Image removed successfully.',
-      data: updatedProperty,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
- * @desc    Controller to add an amenity to a property
- * @route   PUT /api/properties/:id/amenities
- * @access  Private (Admin, Owner, or Agent)
- */
-export const addPropertyAmenity = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const { amenity } = req.body;
-
-    const updatedProperty = await addPropertyAmenityService(id, amenity);
-
-    return res.status(200).json({
-      success: true,
-      message: 'Amenity added successfully.',
-      data: updatedProperty,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-/**
- * @desc    Controller to remove an amenity from a property
- * @route   PUT /api/properties/:id/amenities/remove
- * @access  Private (Admin, Owner, or Agent)
- */
-export const removePropertyAmenity = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const { amenity } = req.body;
-
-    const updatedProperty = await removePropertyAmenityService(id, amenity);
-
-    return res.status(200).json({
-      success: true,
-      message: 'Amenity removed successfully.',
       data: updatedProperty,
     });
   } catch (error) {

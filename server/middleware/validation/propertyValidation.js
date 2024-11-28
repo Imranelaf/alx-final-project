@@ -14,13 +14,12 @@ export const validatePropertyFields = [
     .isLength({ max: 500 }).withMessage('Description cannot exceed 500 characters.'),
 
   body('phoneNumber')
-  .notEmpty().withMessage('Phone number is required.')
-  .matches(/^\+?[1-9]\d{1,14}$/).withMessage('Please provide a valid phone number.'),
+  .notEmpty().withMessage('Phone number is required.'),
 
   body('propertyType')
     .notEmpty().withMessage('Property type is required.')
-    .isIn(['Apartment', 'House', 'Condo', 'Land', 'Villa', 'Office', 'Studio'])
-    .withMessage('Property type must be one of: Apartment, House, Condo, Land, Villa, Office, Studio.'),
+    .isIn(['Apartment', 'House', 'Villa', 'Office', 'Studio'])
+    .withMessage('Property type must be one of: Apartment, House, Villa, Office or Studio.'),
 
   body('price')
     .notEmpty().withMessage('Price is required.')
@@ -30,10 +29,6 @@ export const validatePropertyFields = [
     .optional()
     .isIn(['Available', 'Sold', 'Rented', 'Pending'])
     .withMessage('Status must be one of: Available, Sold, Rented, Pending.'),
-
-  body('size')
-    .notEmpty().withMessage('Property size is required.')
-    .isFloat({ min: 0 }).withMessage('Size must be a positive number.'),
 
   body('bedrooms')
     .notEmpty().withMessage('Number of bedrooms is required.')
@@ -52,11 +47,6 @@ export const validatePropertyFields = [
     .isIn(['Sale', 'Rent'])
     .withMessage('Offer type must be either Sale or Rent.'),
 
-  body('yearBuilt')
-    .optional()
-    .isInt({ min: 1800, max: new Date().getFullYear() })
-    .withMessage(`Year built must be between 1800 and ${new Date().getFullYear()}.`),
-
   body('availableFrom')
     .optional()
     .isISO8601().withMessage('Available date must be a valid ISO 8601 date.'),
@@ -68,13 +58,6 @@ export const validatePropertyFields = [
   body('address.city')
     .notEmpty().withMessage('City is required.'),
 
-  body('address.state')
-    .notEmpty().withMessage('State is required.'),
-
-  body('address.zipCode')
-    .notEmpty().withMessage('Zip code is required.')
-    .matches(/^\d{5}(-\d{4})?$/).withMessage('Please provide a valid zip code.'),
-
   body('address.country')
     .optional().default('Morocco')
     .isString().withMessage('Country must be a valid string.'),
@@ -84,22 +67,4 @@ export const validatePropertyFields = [
     .isURL().withMessage('Each image must be a valid URL (jpg, jpeg, png, or webp).')
     .matches(/\.(jpg|jpeg|png|webp)$/).withMessage('Image must be a valid format: jpg, jpeg, png, or webp.'),
 
-  body('amenities')
-    .optional()
-    .isArray().withMessage('Amenities must be an array of strings.')
-    .custom((amenities) => {
-      return amenities.every(amenity => typeof amenity === 'string');
-    }).withMessage('All amenities must be valid strings.'),
-
-  body('isFeatured')
-    .optional()
-    .isBoolean().withMessage('isFeatured must be a boolean value.'),
-
-  body('coordinates.lat')
-    .optional()
-    .isFloat({ min: -90, max: 90 }).withMessage('Latitude must be between -90 and 90 degrees.'),
-
-  body('coordinates.lng')
-    .optional()
-    .isFloat({ min: -180, max: 180 }).withMessage('Longitude must be between -180 and 180 degrees.')
 ];

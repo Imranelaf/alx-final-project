@@ -40,28 +40,14 @@ export default function TextFieldsAndCheckbox({ data, handleChange }) {
         onChange={handleChange}
         required
       />
-      <input
-        type="text"
-        placeholder="State"
-        name="address.state"
-        value={data.address.state}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="text"
-        placeholder="Zip Code"
-        name="address.zipCode"
-        value={data.address.zipCode}
-        onChange={handleChange}
-        required
-      />
 
       {/* Phone Number */}
       <input
         type="text"
         placeholder="Phone"
-        name="phone"
+        name="phoneNumber"
+        min={10}
+        max={13}
         value={data.phone}
         onChange={handleChange}
         required
@@ -79,31 +65,17 @@ export default function TextFieldsAndCheckbox({ data, handleChange }) {
         <option value="">Select Property Type</option>
         <option value="Apartment">Apartment</option>
         <option value="House">House</option>
-        <option value="Condo">Condo</option>
-        <option value="Land">Land</option>
         <option value="Villa">Villa</option>
         <option value="Office">Office</option>
         <option value="Studio">Studio</option>
       </select>
 
       {/* Size */}
-      <label htmlFor="size">Size (sq. ft / m²)</label>
+      <label htmlFor="size">Size (sq. ft / m²) "Optional"</label>
       <input
         type="number"
         name="size"
         value={data.size}
-        onChange={handleChange}
-        required
-      />
-
-      {/* Year Built */}
-      <label htmlFor="yearBuilt">Year Built</label>
-      <input
-        type="number"
-        name="yearBuilt"
-        min="1800"
-        max={new Date().getFullYear()}
-        value={data.yearBuilt}
         onChange={handleChange}
         required
       />

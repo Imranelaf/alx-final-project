@@ -3,7 +3,7 @@
  */
 
 import { body } from 'express-validator';
-import {accountStatusEnum } from '../../models/User.js'; // Importing enums for validation
+
 
 export const validateUserFields = [
   body('firstName')

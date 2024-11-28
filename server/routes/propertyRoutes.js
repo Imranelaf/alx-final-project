@@ -11,8 +11,6 @@ import {
   getPropertiesByFilter,
   addPropertyImage,
   removePropertyImage,
-  addPropertyAmenity,
-  removePropertyAmenity,
 } from '../controllers/property/propertiesController.js';
 import { validateObjectId } from '../middleware/validation/validateObjectId.js';
 import authenticateJWT from '../middleware/auth/authMiddleware.js';
@@ -20,7 +18,6 @@ import { validatePropertyFields } from '../middleware/validation/propertyValidat
 import { validateUpdatePropertyFields } from '../middleware/validation/propertyUpdateValidation.js';
 import { validateFilterQuery } from '../middleware/validation/propertyQueryValidation.js';
 import { validateImageUrl } from '../middleware/validation/validateImageUrl.js';
-import { validateAmenity } from '../middleware/validation/amenityValidation.js';
 
 import { 
   checkRoleToCreateProperty,
@@ -100,28 +97,6 @@ router.put(
   validateImageUrl, 
   handleValidationErrors, 
   removePropertyImage
-);
-
-// Add an amenity to a property
-router.put(
-  '/:id/amenities',
-  authenticateJWT,
-  validateObjectId,
-  checkIsAdminOrOwnerOrAgent,
-  validateAmenity,
-  handleValidationErrors,
-  addPropertyAmenity
-);
-
-// Remove an amenity from a property
-router.put(
-  '/:id/amenities/remove',
-  authenticateJWT,
-  validateObjectId,
-  checkIsAdminOrOwnerOrAgent,
-  validateAmenity,
-  handleValidationErrors,
-  removePropertyAmenity
 );
 
 export default router;

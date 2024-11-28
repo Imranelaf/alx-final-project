@@ -23,7 +23,8 @@ export const handleValidationErrors = (req, res, next) => {
     // Pass the formatted errors to the global error handler using custom ValidationError
     return next(new ValidationError('Validation failed due to invalid inputs.', formattedErrors));
   }
-
+  console.log('there is no errors');
+  
   // Proceed if no validation errors
   next();
 };

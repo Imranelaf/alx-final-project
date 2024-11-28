@@ -32,6 +32,8 @@ const authenticateJWT = (req, res, next) => {
     // Verify the token using the secret key
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;  // Attach the decoded user info to `req.user`
+    console.log('auth middleware pass successfully');
+    
     next();
   } catch (error) {
     return next(new ForbiddenError('Invalid token or session expired. Please log in again.'));

@@ -4,7 +4,6 @@
 
 import Property from '../models/Property.js';
 import User from '../models/User.js';
-import Agent from '../models/Agent.js';
 
 import { 
     BusinessLogicError, 
@@ -126,10 +125,6 @@ export const deletePropertyService = async (id) => {
       { $pull: { properties: id } }  // Remove the property from their properties array
     );
 
-    await Agent.updateMany(
-      { properties: id },  // Match agents with this property
-      { $pull: { properties: id } }  // Remove the property from their properties array
-    );
 
   } catch (error) {
     if (error instanceof NotFoundError || error instanceof ValidationError) {
