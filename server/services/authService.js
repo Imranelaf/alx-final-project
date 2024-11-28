@@ -1,70 +1,8 @@
-import Admin from '../models/Admin.js';
-import Agent from '../models/Agent.js';
 import User from '../models/User.js';
 import generateUniqueUsername from '../utils/generateUniqueUsername.js'; // Default import
 import { BusinessLogicError, UnauthorizedError, ServerError } from '../utils/customErrors.js';
 
-/**
- * Authenticate admin by email and password.
- * @param {string} email - Admin email.
- * @param {string} password - Admin password.
- * @throws {UnauthorizedError | ServerError} - Throws specific errors if authentication fails.
- * @returns {Object} - Authenticated admin.
- */
-export const authenticateAdmin = async (email, password) => {
-  try {
-    const admin = await Admin.findOne({ email });
-    if (!admin) {
-      throw new UnauthorizedError('Invalid email or password');
-    }
 
-    const isPasswordValid = await admin.comparePassword(password);
-    if (!isPasswordValid) {
-      throw new UnauthorizedError('Invalid email or password');
-    }
-
-    return admin;
-
-  } catch (error) {
-    // Rethrow known errors or throw a generic server error
-    if (error instanceof UnauthorizedError) {
-      throw error;
-    } else {
-      throw new ServerError('Error during authentication');
-    }
-  }
-};
-
-/**
- * Business logic to authenticate an agent.
- * @param {String} email - The agent's email address.
- * @param {String} password - The agent's password.
- * @returns {Object} - Returns the authenticated agent or throws an error.
- */
-export const authenticateAgent = async (email, password) => {
-  try {
-    const agent = await Agent.findOne({ email });
-
-    if (!agent) {
-      throw new UnauthorizedError('Invalid email or password');
-    }
-
-    const isPasswordValid = await agent.comparePassword(password);
-    if (!isPasswordValid) {
-      throw new UnauthorizedError('Invalid email or password');
-    }
-
-    return { agent };
-  } catch (error) {
-    // Only throw ServerError if the caught error isn't already a known custom error
-    if (error instanceof UnauthorizedError) {
-      throw error;  // Pass the specific UnauthorizedError
-    }
-    
-    // For other unexpected errors, throw a ServerError
-    throw new ServerError('Error during agent authentication');
-  }
-};
 
 export const handleGoogleOAuthSignup = async (userProfile) => {
   const { googleId, firstName, lastName, email, avatar } = userProfile;

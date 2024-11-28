@@ -37,10 +37,6 @@ export const validateUserFields = [
   .optional()
   .isIn(['user']).withMessage('Role must be: user'),
 
-  body('accountStatus')
-    .optional()
-    .isIn(accountStatusEnum).withMessage(`Account status must be one of: ${accountStatusEnum.join(', ')}`),
-
   body('isEmailVerified')
     .optional()
     .isBoolean().withMessage('Email verification status must be a boolean value (true or false).'),

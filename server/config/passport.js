@@ -6,8 +6,6 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { 
-  authenticateAdmin, 
-  authenticateAgent,
   authenticateUserService
 }  from '../services/authService.js';
 import { 
@@ -26,38 +24,6 @@ passport.use(
         return done(null, user);
       } catch (error) {
         return done(error, false);
-      }
-    }
-  )
-);
-
-
-passport.use(
-  'admin-local',
-  new LocalStrategy(
-    { usernameField: 'email', passwordField: 'password' },
-    async (email, password, done) => {
-      try {
-        const admin = await authenticateAdmin(email, password);
-        return done(null, admin);  // Pass the authenticated admin to the next middleware
-      } catch (error) {
-        return done(null, false, { message: error.message });  // Pass the error to the controller
-      }
-    }
-  )
-);
-
-passport.use(
-  'agent-local',
-  new LocalStrategy(
-    { usernameField: 'email', passwordField: 'password' },
-    async (email, password, done) => {
-      try {
-        const { agent } = await authenticateAgent(email, password);
-
-        return done(null, agent);
-      } catch (error) {
-        return done(null, false, error);
       }
     }
   )

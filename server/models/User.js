@@ -5,8 +5,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-export const accountStatusEnum = ['active', 'pending', 'suspended', 'deactivated'];
-
 // Create the schema of the database
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -24,10 +22,7 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: [true, "Please enter an email"],
-        unique: true,
-        lowercase: true,
-        match: [/\S+@\S+\.\S+/, 'Please enter a valid email']
+        required: true
     },
     avatar: {
         type: String,
@@ -35,13 +30,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        minlength: [6, 'Minimum length is 6 characters'],
-        validate: {
-            validator: function(value) {
-                return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$/.test(value);
-            },
-            message: 'Password must include at least one uppercase letter, one lowercase letter, and one number.'
-        }
+       required:true
     },
     googleId: {
         type: String,
@@ -49,12 +38,12 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['user'],
+        enum: ['user', 'admin', 'super-admin'],
         default: 'user',
     },
     accountStatus: {
         type: String,
-        enum: accountStatusEnum,
+        enum: ['active', 'pending', 'suspended', 'deactivated'],
         default: 'active',
     },
     isEmailVerified: {
