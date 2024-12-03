@@ -12,19 +12,20 @@ export default function Create() {
 
 
   const API_URL = import.meta.env.VITE_API_URL;
-  const { currentUser } = useSelector((state) => state.user); // Access the logged-in user
-
+  const { currentUser } = useSelector((state) => state.user); 
+  
   const [images, setImages] = useState([]);
   const [data, setData] = useState({
+    userId: currentUser._id,
     title: '',
     description: '',
     propertyType: '',
-    price: '', // Will be converted to a number
-    size: '',  // Will be converted to a number
+    price: '', 
+    size: '',  
     bedrooms: '',
     bathrooms: '',
     rooms: '',
-    offerType: '', // Either "Rent" or "Sale"
+    offerType: '',
     wifi: false,
     petFriendly: false,
     parking: false,
@@ -37,7 +38,7 @@ export default function Create() {
     images: [], // Placeholder for image URLs after upload
     phoneNumber: '',
     status: 'Available', // Default status
-    isFeatured: false, // Track if the listing is featured
+    isFeatured: false,
   });
 
   // Handle file input change for image upload

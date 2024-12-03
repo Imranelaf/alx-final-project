@@ -6,6 +6,10 @@ import mongoose from 'mongoose';
 
 // Create the schema for the Property model
 const propertySchema = new mongoose.Schema({
+  userId: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true

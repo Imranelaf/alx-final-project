@@ -28,20 +28,8 @@ export default function Navbar() {
 
   return (
     <header className="navbar">
-      {/* Hamburger & FAQ Icon */}
-      <div className="hamburger-menu">
-        {toggle.isMobileMenuOpen ? (
-          <FaTimes onClick={() => handleToggle('mobile')} className="icon" />
-        ) : (
-          <>
-            <FaBars onClick={() => handleToggle('mobile')} className="icon" />
-            <FaQuestionCircle onClick={() => navigate('/faq')} className="icon faq-icon" /> {/* FAQ Icon */}
-          </>
-        )}
-      </div>
-
-      {/* Center Logo */}
-      <div className="logo">
+       {/* Center Logo */}
+       <div className="logo">
         <NavLink to="/">
           <img 
             src="https://i.ibb.co/mv6JJbL/Property-Hub-Logo-White.png" 
@@ -49,6 +37,18 @@ export default function Navbar() {
             className="logo-img"
           />
         </NavLink>
+      </div>
+
+      
+      {/* Hamburger & FAQ Icon */}
+      <div className="hamburger-menu">
+        {toggle.isMobileMenuOpen ? (
+          <FaTimes onClick={() => handleToggle('mobile')} className="icon" />
+        ) : (
+          <>
+            <FaQuestionCircle onClick={() => navigate('/faq')} className="icon faq-icon" /> {/* FAQ Icon */}
+          </>
+        )}
       </div>
 
       {/* Right-side Icons */}
@@ -67,15 +67,6 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* Mobile Menu - Buy, Rent, Sell, Agents */}
-      {toggle.isMobileMenuOpen && (
-        <div className="mobile-menu">
-          <NavLink to="/buy" className="menu-link" onClick={() => handleToggle('mobile')}>Buy</NavLink>
-          <NavLink to="/rent" className="menu-link" onClick={() => handleToggle('mobile')}>Rent</NavLink>
-          <NavLink to="/sell" className="menu-link" onClick={() => handleToggle('mobile')}>Sell</NavLink>
-          <NavLink to="/agents" className="menu-link" onClick={() => handleToggle('mobile')}>Agents</NavLink>
-        </div>
-      )}
 
       {/* Profile Menu - Sign In & Sign Up */}
       {toggle.isProfileMenuOpen && (
