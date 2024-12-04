@@ -93,6 +93,7 @@ const propertySchema = new mongoose.Schema({
   images: [
     {
       type: String,
+      default: 'https://cdn.pixabay.com/photo/2018/05/31/15/06/see-no-evil-3444212_1280.jpg'
     }
   ],
  
