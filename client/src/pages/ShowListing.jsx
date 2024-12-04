@@ -98,13 +98,13 @@ export default function ShowListing() {
                         </p>
 
                         <div className="property-features">
-                            <p><FaParking /> {listing.parking ? 'Parking Available' : 'No Parking'}</p>
-                            <p><FaWifi /> {listing.wifi ? 'Wi-Fi Available' : 'No Wi-Fi'}</p>
-                            <p><FaPaw /> {listing.petFriendly ? 'Pet-Friendly' : 'No Pets'}</p>
+                            <p className='icons-f'><FaParking /> {listing.parking ? <>Parking &#10004;</> :<>No Parking &#10007;</>}</p>
+                            <p><FaWifi /> {listing.wifi ? <>Wi-Fi &#10004;</>: <>No Wi-Fi &#10007;</>}</p>
+                            <p><FaPaw /> {listing.petFriendly ? <>Pet Friendly &#10004;</> :  <>No Pet &#10007;</>}</p>
                             <p><FaBed /> {listing.bedrooms} Bedrooms</p>
                             <p><FaBath /> {listing.bathrooms} Bathrooms</p>
-                            <p>Year Built: {listing.yearBuilt}</p>
-                            <p>Size: {listing.size} sqft</p>
+                            <p>Size: {listing.size ||'Size unknown'} sqft</p>
+                            
                         </div>
                         <h2 className="property-price">${listing.price}</h2>
                     </div>

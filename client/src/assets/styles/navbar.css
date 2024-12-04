@@ -142,6 +142,26 @@
     background-color: var(--primary-color);
 }
 
+
+/*Dashboard */
+
+.dashboard-btn{
+    height: fit-content;
+    width: fit-content;
+    padding: .30rem;
+    color: var(--primary-color);
+    font-weight: bolder;
+    background-color: var(--font-color);
+    border-style: none;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid transparent;
+}
+
+.dashboard-btn:hover{
+    border: 1px solid black;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .logo {
