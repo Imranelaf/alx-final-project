@@ -12,6 +12,7 @@ const AuthFailure = lazy(() => import("./pages/AuthStatus").then(module => ({ de
 const Profile = lazy(() => import("./pages/Profile"));
 const Create = lazy(() => import("./pages/Create"));
 const ShowListing = lazy(() => import("./pages/ShowListing"));
+const Dashboard = lazy(()=>import("./pages/Dashboard"))
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/signin/failure" element={<AuthFailure type="SignIn" />} /> 
           <Route path="/profile" element={<Profile />} /> 
           <Route path="/create" element={<Create />} /> 
+          <Route path="/dashboard" element={<Dashboard />} /> 
           <Route path="/listing/:id" element={<ShowListing />} />
         </Routes>
       </Suspense>

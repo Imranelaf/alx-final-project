@@ -35,7 +35,7 @@ export default function Create() {
       city: '',
       country: 'Morocco', // Default to "Morocco" if not provided
     },
-    images: [], // Placeholder for image URLs after upload
+    images: ["https://cdn.pixabay.com/photo/2018/05/31/15/06/see-no-evil-3444212_1280.jpg"] , // Placeholder for image URLs after upload
     phoneNumber: '',
     status: 'Available', // Default status
     isFeatured: false,

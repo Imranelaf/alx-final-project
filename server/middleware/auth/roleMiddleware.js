@@ -98,7 +98,7 @@ export const checkIsUserSelfOrAdmin = (req, res, next) => {
   const { id } = req.params;
   const { role, id: userId } = req.user;
 
-  if (role === 'admin' || role === 'super-admin') {
+  if (role === 'super-admin') {
     return next();
   }
 
@@ -113,7 +113,7 @@ export const checkIsUserSelfOrAdmin = (req, res, next) => {
 export const checkRoleToCreateProperty = (req, res, next) => {
   const { role } = req.user;
 
-  const allowedRoles = ['user', 'admin', 'super-admin'];
+  const allowedRoles = ['user', 'super-admin'];
 
   if (req.user && allowedRoles.includes(role)) {
     console.log('role middleware passed successfully');

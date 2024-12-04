@@ -47,7 +47,7 @@ export default function Navbar() {
         ) : (
           <>
             <FaQuestionCircle onClick={() => navigate('/faq')} className="icon faq-icon" /> {/* FAQ Icon */}
-              <button className='dashboard-btn'>Dashoard</button>
+              <NavLink className='dashboard-btn' to="/dashboard">Dashoard</NavLink>
           </>
         )}
       </div>

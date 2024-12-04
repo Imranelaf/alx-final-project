@@ -156,10 +156,7 @@
     cursor: pointer;
     border-radius: 5px;
     border: 1px solid transparent;
-}
-
-.dashboard-btn:hover{
-    border: 1px solid black;
+    text-decoration: none;
 }
 
 /* Responsive Design */

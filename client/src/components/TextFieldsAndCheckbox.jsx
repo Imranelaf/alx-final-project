@@ -77,7 +77,7 @@ export default function TextFieldsAndCheckbox({ data, handleChange }) {
         name="size"
         value={data.size}
         onChange={handleChange}
-        required
+        defaultValue={0}
       />
 
       {/* Rooms */}
