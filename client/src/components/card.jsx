@@ -12,7 +12,7 @@ export default function ListingCard() {
 
         const fetchListings = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/properties`);
+                const response = await axios.get(`/api/properties`);;
                 if (isMounted) {
                     setListings(response.data.data);
                 }
